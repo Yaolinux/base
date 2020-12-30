@@ -25,17 +25,18 @@ dialog.devel tar curl wget zlib.devel meson ninja)
 PKGMK_GROUPS=(devel doc man)
 
 name=cards
-version=2.4.114
-release=4
+version=2.4.124
 
 # patchname="$name-$version-consolidate-$release.patch"
 
-source=(https://github.com/NuTyX/cards/archive/cards-$version.tar.gz)
+source=(http://download.tuxfamily.org/nutyx/files/cards-$version.tar.gz)
 
 [ -z "$patchname" ] || source+=" $patchname"
 
 build () {
-cd $name-$name-$version
+cd $name-$version
+
+CFLAGS+=' -std=c++14'
 
 [ -z "$patchname" ] || patch -Np1 -i ../$patchname
 
