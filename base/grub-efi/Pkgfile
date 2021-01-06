@@ -4,7 +4,7 @@ packager="Yaolinux Team"
 
 name=grub-efi
 version=2.04
-release=4
+release=5
 
 makedepends=(efibootmgr efivar freetype)
 run=(efivar)
