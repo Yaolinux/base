@@ -13,7 +13,7 @@ PKGMK_GROUPS=(devel doc)
 name=kernel-lts
 alias=(linux-lts)
 
-version=4.19.152
+version=4.19.165
 _version=${version%.*}
 
 run=(yaolinux)
