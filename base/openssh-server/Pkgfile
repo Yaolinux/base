@@ -7,11 +7,11 @@ packager="Yaolinux Team"
 makedepends=(openssh)
 
 name=openssh-server
-version=8.3p1
-release=2
-yaolinux_version=1.0-RC2
+version=8.4p1
 
-source=(http://downloads.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+yaolinux_version=1.0-RC3
+
+source=(http://download.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
 
 
 build() {
