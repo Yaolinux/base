@@ -259,8 +259,7 @@ LoadModules() {
  xhci-pci xhci-hcd ehci-hcd nls_iso8859_1 \
  uhci-hcd uas sr_mod usb-storage loop failover \
  squashfs isofs vfat fat nls_cp437 net_failover \
- serio libps2 atkbd i8042 \
- virtio virtio_blk virtio_pci virtio_net virtio_ring
+ serio libps2 atkbd i8042
  do
   if [ "$verbose" == "yes" ]; then
     modprobe -v $i
@@ -301,7 +300,7 @@ for param in $cmdline ; do
   case $param in
     init=*       ) init=${param#init=}               ;;
     root=*       ) root=${param#root=}               ;;
-    croot=*      ) croot=${param#croot=}; root=$croot;;                    
+    croot=*      ) croot=${param#croot=}; root=$croot;;
     rootdelay=*  ) rootdelay=${param#rootdelay=}     ;;
     overlayroot=*) overlayroot=${param#overlayroot=} ;;
     rootfstype=* ) rootfstype=${param#rootfstype=}   ;;
