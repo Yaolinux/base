@@ -4,14 +4,14 @@ packager="Yaolinux Team"
 makedepends=(git)
 
 name=linux-firmware
-version=20200918
+version=20201218
 
 build() {
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git \
 $name-$version
 
 cd $name-$version
-git checkout 7a30af16115959cf5a817ae51429e72c0084fc0c
+git checkout $version
 
 find . -name '*.c' \
 -or -name '*.h' \
