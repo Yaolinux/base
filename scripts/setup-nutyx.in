@@ -1647,7 +1647,28 @@ setup_install() {
 		FORMAT="no"
 		[ ! -z $EFI_SYS_PART ] && FORMAT=`print_file_system $EFI_SYS_PART`
 		if [ "$FORMAT" == "vfat" ];then
-			setup_efibootmgr "/media/cdrom" "$MF"
+			dialog --title " $(gettext "Choose your favorite Boot Manager") " \
+				--menu "$(gettext "Grub, Efibootmgr or nothing"): $result" 20 60 3 \
+			        "Grub" "$(gettext "Advanced Linux Kernel boot manager")" \
+			        "Efibootmgr" "$(gettext "Classic boot tool")" \
+				"Nothing" "$(gettext "To use the one used on other distro")" 2>$TMP/boot_choice
+		        retval=$?
+		        boot_choice=`cat $TMP/boot_choice`
+		        case $retval in
+		                0|2)
+				        case $boot_choice in
+						Grub)
+				                        setup_grub;;
+						Efibootmgr)
+							setup_efibootmgr "/media/cdrom" "$MF";;
+						Nothing)
+							continue;;
+					esac
+				;;
+				1|2544)
+				break
+				;;
+			esac
 		else
 			dialog --title "   Oups !!!  " \
 			--msgbox "    $(gettext "This installation won't boot again ...")" 6 60
@@ -1731,7 +1752,7 @@ setup_grub() {
 		[ "$FORMAT" == "no" ] && return
 	fi
 	# We saved the current MBR if no yet saved
-	dd if=$DISK of=$TMP/MBR bs=512 count=1 2>/dev/null
+#	dd if=$DISK of=$TMP/MBR bs=512 count=1 2>/dev/null
 	# Copy all the necessary files
 	mkdir $TMP/boot_partition
 	mount $PARTITION $TMP/boot_partition
@@ -1742,15 +1763,15 @@ setup_grub() {
 	fi
 	GRUB_CONFIG_DIR="$TMP/boot_partition/${GRUB_DESTINATION_DIR}grub"
 	mkdir $GRUB_CONFIG_DIR 2> /dev/null
-	if [ -f $GRUB_CONFIG_DIR/MBR.original ]; then
-		dialog --title " !!! Oups !!!! " \
-		--msgbox " $(gettext "You already have a copy of the original MBR, I will not make a backup of it") " \
-		6 50
-	else
-		cp $TMP/MBR $GRUB_CONFIG_DIR/MBR.original
-		dialog --title " $(gettext "Good to know") " \
-		--msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to restore it if need") " 10 60
-	fi
+#	if [ -f $GRUB_CONFIG_DIR/MBR.original ]; then
+#		dialog --title " !!! Oups !!!! " \
+#		--msgbox " $(gettext "You already have a copy of the original MBR, I will not make a backup of it") " \
+#		6 50
+#	else
+#		cp $TMP/MBR $GRUB_CONFIG_DIR/MBR.original
+#		dialog --title " $(gettext "Good to know") " \
+#		--msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to restore it if need") " 10 60
+#	fi
 	if [ ! -f $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE ]; then
 		cat > $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE << "EOF"
 # Begin grub.cfg
