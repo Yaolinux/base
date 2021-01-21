@@ -1658,7 +1658,7 @@ setup_install() {
 		                0|2)
 				        case $boot_choice in
 						Grub)
-				                        setup_grub "$MF";;
+				                        setup_grub_efi "$MF";;
 						Efibootmgr)
 							setup_efibootmgr "/media/cdrom" "$MF";;
 						Nothing)
