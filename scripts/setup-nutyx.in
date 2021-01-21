@@ -1723,17 +1723,7 @@ $(gettext "an simplify VI editor will allow you to modify it").\n\n \
 }
 
 setup_grub_efi() {
-local SPNR OPTIONS
-        mount $PARTITION ${1}
-        OPTIONS=`cat /proc/cmdline|sed "s@BOOT_IMAGE=/boot/kernel\ @@"`
-        SPNR=`echo $PARTITION|sed "s@^/dev/[a-z]*@@"`
-        mount -t efivarfs efivarfs /sys/firmware/efi/efivars
-        mkdir -p ${1}/boot/efi
-        mount "$EFI_SYS_PART" ${1}/boot/efi
-        mkdir -p ${1}/boot/efi/EFI/BOOT/$SPNR
-        rm ${1}/boot/efi/EFI/BOOT/$SPNR/* 2>/dev/null
-
-local GRUB_CONFIG_FILE GRUB_CONFIG_DIR GRUB_DESTINATION_DIR GRUB_LOG_FILE
+        local GRUB_CONFIG_FILE GRUB_CONFIG_DIR GRUB_DESTINATION_DIR GRUB_LOG_FILE
         GRUB_CONFIG_FILE="grub.cfg"
         GRUB_CONFIG_DIR=""
         GRUB_DESTINATION_DIR=""
@@ -1762,7 +1752,10 @@ local GRUB_CONFIG_FILE GRUB_CONFIG_DIR GRUB_DESTINATION_DIR GRUB_LOG_FILE
                 setup_format
                 [ "$FORMAT" == "no" ] && return
         fi
-	mkdir $TMP/boot_partition
+        # We saved the current MBR if no yet saved
+#       dd if=$DISK of=$TMP/MBR bs=512 count=1 2>/dev/null
+        # Copy all the necessary files
+        mkdir $TMP/boot_partition
         mount $PARTITION $TMP/boot_partition
         echo "$PARTITION" > $TMP/boot_part
         if [ -d $TMP/boot_partition/boot ]; then
@@ -1771,6 +1764,16 @@ local GRUB_CONFIG_FILE GRUB_CONFIG_DIR GRUB_DESTINATION_DIR GRUB_LOG_FILE
         fi
         GRUB_CONFIG_DIR="$TMP/boot_partition/${GRUB_DESTINATION_DIR}grub"
         mkdir $GRUB_CONFIG_DIR 2> /dev/null
+
+	local SPNR OPTIONS
+        OPTIONS=`cat /proc/cmdline|sed "s@BOOT_IMAGE=/boot/kernel\ @@"`
+        SPNR=`echo $PARTITION|sed "s@^/dev/[a-z]*@@"`
+        mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+        mkdir -p $TMP/boot_partition/boot/efi
+        mount "$EFI_SYS_PART" $TMP/boot_partition/boot/efi
+        mkdir -p $TMP/boot_partition/boot/efi/EFI
+        rm -f $TMP/boot_partition/boot/efi/EFI/BOOT/$SPNR/* 2>/dev/null
+
 #       if [ -f $GRUB_CONFIG_DIR/MBR.original ]; then
 #               dialog --title " !!! Oups !!!! " \
 #               --msgbox " $(gettext "You already have a copy of the original MBR, I will not make a backup of it") " \
@@ -1778,7 +1781,7 @@ local GRUB_CONFIG_FILE GRUB_CONFIG_DIR GRUB_DESTINATION_DIR GRUB_LOG_FILE
 #       else
 #               cp $TMP/MBR $GRUB_CONFIG_DIR/MBR.original
 #               dialog --title " $(gettext "Good to know") " \
-#               --msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to >
+#               --msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to restore it if need") " 10 60
 #       fi
         if [ ! -f $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE ]; then
                 cat > $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE << "EOF"
@@ -1810,11 +1813,11 @@ fi
 
 EOF
         fi
-# Writing of NEW MBR
+        # Writing of NEW MBR
         BOOT_FS="`print_file_system $PARTITION`"
-        LANG=C /sbin/grub-install --recheck --force --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} ${DISK} > ${GRUB_LOG_FILE} 2>&1
+        LANG=C /sbin/grub-install --recheck --force --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} --target=x86_64-efi ${DISK} > ${GRUB_LOG_FILE} 2>&1
         if ! (grep finished ${GRUB_LOG_FILE} > /dev/null); then
-                echo "/sbin/grub-install --recheck --force --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} [`echo $DISK`]" >> ${GRUB>
+                echo "/sbin/grub-install --recheck --force --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} --target=x86_64-efi [`echo $DISK`]" >> ${GRUB_LOG_FILE}
                 mount >> ${GRUB_LOG_FILE}
                 echo "DISK=${DISK}" >> ${GRUB_LOG_FILE}
                 echo "GRUB_DESTINATION_DIR=${GRUB_DESTINATION_DIR}" >> ${GRUB_LOG_FILE}
@@ -1825,9 +1828,10 @@ EOF
                 echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
                 env >> ${GRUB_LOG_FILE}
                 # Restore MBR
-                #dd if=$TMP/MBR of=$DISK bs=512 count=1 > 2/dev/null
+                dd if=$TMP/MBR of=$DISK bs=512 count=1 > 2/dev/null
                 dialog --title " $(gettext "Something went wrong probably the file system is not supported") " \
                 --msgbox "`cat ${GRUB_LOG_FILE}`" 30 70
+		umount $TMP/boot_partition/boot/efi
                 umount $TMP/boot_partition
                 umount /mnt/hd 2>/dev/null
                 error "Sorry, I cannot install GRUB" # die now
@@ -1840,11 +1844,11 @@ EOF
                 BOOT_FS="`print_file_system $PARTITION`"
                 YaoLinuX_FS="`print_file_system $YaoLinuX_PART`"
                 echo "menuentry \"YaoLinuX LTS ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${YaoLinuX_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FI>
+                echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${YaoLinuX_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"YaoLinuX LTS Verbose ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_>
+                echo "menuentry \"YaoLinuX LTS Verbose ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${YaoLinuX_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
@@ -1863,7 +1867,7 @@ EOF
                 #
                 # YaoLinuX is not yet installed
                 #
-		cat >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}  << "EOF"
+                cat >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}  << "EOF"
 #################################################################
 #                                                               #
 #               Example of a menuentry:                         #
@@ -1922,6 +1926,7 @@ EOF
                 fi
                 MBR_ok
         fi
+	umount "$EFI_SYS_PART"
         umount $PARTITION
 }
 
