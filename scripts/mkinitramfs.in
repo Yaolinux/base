@@ -83,7 +83,7 @@ if [ -n "$KERNEL_VERSION" ] && [ ! -d "/lib/modules/$1" ] ; then
   exit 1
 fi
 
-libsystemdexecfiles='systemd systemd-sulogin-shell systemd-shutdown'
+libsystemdexecfiles='systemd systemd-sulogin-shell systemd-shutdown systemd-udevd'
 usrbinfiles="cut groups"
 binfiles="udevadm sh cat clear date grep cp dd hostname killall ls mkdir mknod more mount mountpoint chmod"
 binfiles="$binfiles umount stty sed sleep ln rm uname systemd-tmpfiles"
@@ -144,6 +144,7 @@ fi
 #
 # Add cryptsetup if present
 if [ -x /sbin/cryptsetup ]; then
+	[[ -f /etc/crypttab ]] && cp /etc/crypttab $WDIR/etc/crypttab
 	if [ -z $BUSYBOX ]; then
 		sbinfiles="$sbinfiles cryptsetup"
 	else
@@ -322,10 +323,10 @@ usbcore usb-common usb-storage loop sr_mod \
 cdrom squashfs isofs overlay mmc_core \
 rtsx_pci rtsx_pci_sdmmc rtsx_pci_ms mmc_block \
 ssb lpc_ich shpcp sdhci-acpi sdhci-pltfm \
-sdhci sdhci-pci failover net_failover \
+sdhci sdhci-pci \
 serio i8042 libps2 atkbd)
 
-if [ "${2}" == "-nf" ] ||  [ "${2}" == "--no-firmwares" ];then
+if [ "${2}" != "-nf" ] ||  [ "${2}" != "--no-firmwares" ];then
                 for i in /sys/module/*; do mods+=($(basename $i)); done
 fi
 
@@ -333,7 +334,7 @@ sorted_mods=($(echo ${mods[@]} | tr ' ' '\n' | sort -u))
 
 for i in ${sorted_mods[@]}
 do
-	find /lib/modules/ -type f -name $i* 2> /dev/null | \
+	find /lib/modules/$KERNEL_VERSION/ -type f -name $i* 2> /dev/null | \
 	cpio --make-directories -p --quiet $WDIR 2> /dev/null
 done
 
@@ -352,7 +353,7 @@ fi
 cp /lib/modules/$KERNEL_VERSION/modules.{builtin,order,symbols} \
 $WDIR/lib/modules/$KERNEL_VERSION
 
-depmod -b $WDIR $KERNEL_VERSION
+depmod -a -b $WDIR $KERNEL_VERSION
 
 rm -f /boot/$INITRAMFS_FILE
 
