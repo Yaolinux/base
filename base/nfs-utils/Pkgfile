@@ -3,13 +3,13 @@ url="http://nfs.sourceforge.net"
 packager="Yaolinux Team"
 
 name=nfs-utils
-version=2.5.1
-yaolinux_version=1.0-RC2
+version=2.5.2
+yaolinux_version=1.0-RC3
 
-source=(http://downloads.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz
-	http://downloads.sourceforge.net/nfs/$name-$version.tar.bz2)
+source=(http://downloads.sourceforge.net/nfs/$name-$version.tar.bz2
+        http://downloads.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
 
-makedepends=(libtirpc rpcbind libcap sqlite lvm2 rpcsvc-proto)
+makedepends=(libtirpc rpcbind libcap sqlite lvm2 rpcsvc-proto systemd libevent keyutils)
 run=(rpcbind)
 
 build() {
@@ -20,8 +20,8 @@ cd $name-$version
 ./configure --prefix=/usr     \
 --sysconfdir=/etc \
 --sbindir=/sbin   \
---disable-nfsv4   \
---disable-gss 
+--disable-gss \
+--with-systemd
 
 make
 
