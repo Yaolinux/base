@@ -1,9 +1,13 @@
+makedepends=(libinih)
+
 description="XFS filesystem administration and debugging tools"
 url="http://oss.sgi.com/projects/xfs/"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=xfsprogs
-version=5.8.0
+version=5.10.0
 
 source=(https://www.kernel.org/pub/linux/utils/fs/xfs/$name/$name-$version.tar.xz)
 
@@ -19,8 +23,4 @@ make DIST_ROOT=$PKG PKG_DOC_DIR=/usr/share/doc/$name-$version install-dev
 rm -rfv $PKG/lib/libhandle.{a,la,so}
 
 ln -sfv ../../lib/libhandle.so.1 $PKG/usr/lib/libhandle.so
-
-sed -i "s@libdir='/lib@libdir='/usr/lib@g" $PKG/usr/lib/libhandle.la
-
-rm $PKG/usr/lib/libhandle.la
 }
