@@ -13,7 +13,7 @@ PKGMK_GROUPS=(devel doc)
 name=kernel-lts
 alias=(linux-lts)
 
-version=4.19.165
+version=4.19.170
 _version=${version%.*}
 
 run=(yaolinux)
@@ -101,10 +101,15 @@ echo "    mv boot/kernel-$version-YaoLinuX-lts boot/\$LK 2>/dev/null
 else
   echo \"This is a bios installation\"
   if [ -L boot/initrd-lts ]; then
-    mkinitramfs $version-YaoLinuX-lts
-    ln -sf initrd-$version-YaoLinuX-lts boot/initrd-lts
+	if [[ -x usr/bin/dracut ]]; then
+		dracut --kver ${KERNEL_VERSION} 2>&1 > /dev/null
+		ln -sf initramfs-${KERNEL_VERSION} boot/initrd-lts
+	else
+		mkinitramfs ${KERNEL_VERSION}
+		ln -sf initrd-${KERNEL_VERSION} boot/initrd-lts
+	fi
   fi
-  ln -sf kernel-$version-YaoLinuX-lts boot/kernel-lts
+  ln -sf kernel-${KERNEL_VERSION} boot/kernel-lts
 fi" >> $PKGMK_ROOT/$name.post-install
 
 }
