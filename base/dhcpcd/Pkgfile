@@ -5,13 +5,13 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=dhcpcd
-version=9.2.0
-yaolinux_version=1.0-RC2
+version=9.4.0
+yaolinux_version=1.0-RC3
 
 makedepends=(systemd)
 
 source=(https://roy.marples.name/downloads/$name/$name-$version.tar.xz
-        http://downloads.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+        http://download.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
 
 build() {
 cd $name-$version
