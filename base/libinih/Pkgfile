@@ -1,0 +1,24 @@
+description="A simple .INI file parser written in C"
+url="https://github.com/benhoyt/inih"
+
+packager="Yaolinux Team"
+maintainer="Rems"
+
+name=libinih
+version=52
+
+source=(https://github.com/benhoyt/inih/archive/r$version.tar.gz)
+
+build() {
+
+mkdir -p build && cd build
+
+meson --prefix=/usr \
+      -Ddefault_library=shared \
+      -Ddistro_install=true \
+      -Dwith_INIReader=true \
+      ../inih-r"${version}"
+
+ninja
+DESTDIR=$PKG ninja install
+}
