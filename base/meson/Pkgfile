@@ -5,7 +5,7 @@ packager="Yaolinux Team"
 makedepends=(ninja libffi)
 
 name=meson
-version=0.55.3
+version=0.56.2
 
 source=(https://github.com/mesonbuild/$name/releases/download/$version/$name-$version.tar.gz)
 
