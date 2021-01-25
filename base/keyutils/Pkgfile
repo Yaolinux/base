@@ -3,14 +3,13 @@ url=" https://rhn.redhat.com/errata/RHEA-2006-0090.html"
 packager="Yaolinux Team"
 
 name=keyutils
-version=1.6.1
+version=1.6.3
 
-source=( http://people.redhat.com/~dhowells/$name/$name-$version.tar.bz2 )
+source=(https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/keyutils-$version.tar.gz)
 
 build() {
 	unset MAKEFLAGS
         cd $name-$version
-	sed -i "s/-O2/${CFLAGS}/" Makefile
         make
         make DESTDIR=$PKG install
 }
