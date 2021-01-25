@@ -6,7 +6,7 @@ makedepends=(perl perl-encode-locale perl-file-listing perl-html-parser perl-htt
 run=(perl)
 
 name=perl-libwww
-version=6.49
+version=6.52
 
 source=(https://cpan.metacpan.org/authors/id/O/OA/OALDERS/libwww-perl-$version.tar.gz)
 
