@@ -6,7 +6,7 @@ url="http://btrfs.wiki.kernel.org/"
 packager="Yaolinux Team"
 
 name=btrfs-progs
-version=5.7
+version=5.10
 
 source=(https://www.kernel.org/pub/linux/kernel/people/kdave/$name/$name-v$version.tar.xz)
 
