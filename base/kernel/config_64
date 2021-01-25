@@ -6794,7 +6794,7 @@ CONFIG_DRM_VBOXVIDEO=m
 CONFIG_DRM_LEGACY=y
 # CONFIG_DRM_TDFX is not set
 # CONFIG_DRM_R128 is not set
-# CONFIG_DRM_MGA is not set
+CONFIG_DRM_MGA=m
 # CONFIG_DRM_SIS is not set
 # CONFIG_DRM_VIA is not set
 # CONFIG_DRM_SAVAGE is not set
@@ -6843,7 +6843,7 @@ CONFIG_FB_EFI=y
 # CONFIG_FB_I740 is not set
 # CONFIG_FB_LE80578 is not set
 # CONFIG_FB_INTEL is not set
-# CONFIG_FB_MATROX is not set
+CONFIG_FB_MATROX=n
 # CONFIG_FB_RADEON is not set
 # CONFIG_FB_ATY128 is not set
 # CONFIG_FB_ATY is not set
