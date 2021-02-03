@@ -512,9 +512,22 @@ Name=${NETWORK_CARD}
 		fi
 	fi
 fi
-if [ ! -f /etc/hostname ]; then
-	echo "yaolinux" > /etc/hostname
-fi
+dialog  --title " $(gettext "Name of your machine") " \
+        --inputbox " $(gettext "Enter a name") : " 8 40 "yaolinux" 2> $TMP/NAME
+
+        if [ "`cat $TMP/NAME`" == "" ]; then
+                interrupt
+        else
+                HOSTNAME=$(tail -n 1 $TMP/NAME)
+                echo $HOSTNAME > /etc/hostname
+                echo "# Begin /etc/hosts
+
+127.0.0.1 localhost.localdomain localhost
+127.0.1.1 $HOSTNAME
+# End /etc/hosts
+" > /etc/hosts
+        fi
+[ ! -f /etc/hostname ] && echo "yaolinux" > /etc/hostname
 SETUP_CONFIG_NETWORK="no"
 }
 setup_language()

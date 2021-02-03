@@ -620,25 +620,6 @@ set bell-style none
 # End /etc/inputrc 
 EOF
 }
-generate_hosts() {
-local FILE
-FILE="hosts"
-[ -f ${FOLDER}/etc/$FILE ] && return
-[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
-if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
-  cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
-  ${FOLDER}/etc/$FILE
-  return
-fi
-cat > ${FOLDER}/etc/$FILE << "EOF"
-# Begin /etc/hosts
-
-127.0.0.1 localhost.localdomain localhost
-127.0.0.1 yaolinux
-
-# End /etc/hosts
-EOF
-}
 generate_shells() {
 local FILE
 FILE="shells"
@@ -1445,7 +1426,6 @@ install_configuration_files() {
 	generate_group
 	generate_bash_profile
 	generate_bashrc
-	generate_hosts
 	generate_inputrc
 	generate_shells
 	generate_dircolors_sh
@@ -1453,7 +1433,6 @@ install_configuration_files() {
 	generate_readline_sh
 	generate_umask_sh
 	generate_profile
-	generate_hosts
 	generate_inputrc
 	generate_modules
 	generate_createfiles
