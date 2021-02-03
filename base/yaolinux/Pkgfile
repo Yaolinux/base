@@ -11,7 +11,7 @@ PKGMK_KEEP_SOURCES="no"
 
 name=yaolinux
 version=1.0-RC3
-release=8
+release=9
 
 patchname=""
 
