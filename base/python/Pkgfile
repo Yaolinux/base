@@ -8,7 +8,7 @@ packager="Yaolinux Team"
 makedepends=(sqlite libffi)
 
 name=python
-version=3.8.5
+version=3.8.7
 
 alias=(python3 Python)
 source=(http://www.python.org/ftp/python/$version/Python-$version.tar.xz
