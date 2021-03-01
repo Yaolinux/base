@@ -3,12 +3,15 @@ PKGMK_IGNORE_UNPACK="yes"
 
 description="Next generation of the python high-level scripting language"
 url="http://www.python.org"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 makedepends=(sqlite libffi)
 
 name=python
-version=3.8.7
+version=3.8.8
+release=2
 
 alias=(python3 Python)
 source=(http://www.python.org/ftp/python/$version/Python-$version.tar.xz
