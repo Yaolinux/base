@@ -2,10 +2,8 @@ description="Meson is an open source build system meant to be both extremely fas
 url="http://mesonbuild.com/"
 packager="Yaolinux Team"
 
-makedepends=(ninja libffi)
-
 name=meson
-version=0.56.2
+version=0.57.1
 
 source=(https://github.com/mesonbuild/$name/releases/download/$version/$name-$version.tar.gz)
 
