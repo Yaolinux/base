@@ -3,7 +3,7 @@ url="http://www.gnu.org/software/gdbm/gdbm.html"
 maintainer="rems"
 packager="Yaolinux Team"
 name=gdbm
-version=1.18.1
+version=1.19
 
 source=(http://ftp.gnu.org/gnu/gdbm/gdbm-$version.tar.gz)
 
