@@ -4,7 +4,7 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=findutils
-version=4.7.0
+version=4.8.0
 
 source=(https://ftp.gnu.org/pub/gnu/findutils/${name}-${version}.tar.xz)
 
