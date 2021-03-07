@@ -25,9 +25,10 @@ dialog.devel tar curl wget zlib.devel meson ninja)
 PKGMK_GROUPS=(devel doc man)
 
 name=cards
-version=2.4.114
+version=2.4.127
+release=4
 
-# patchname="$name-$version-consolidate-$release.patch"
+patchname="$name-$version-consolidate-$release.patch"
 
 source=(http://download.tuxfamily.org/nutyx/files/cards-$version.tar.gz)
 
