@@ -5,9 +5,9 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=libarchive
-version=3.4.3
+version=3.5.1
 
-source=(https://github.com/${name}/${name}/releases/download/v${version}/${name}-${version}.tar.xz)
+source=(https://github.com/${name}/${name}/releases/download/${version}/${name}-${version}.tar.xz)
 
 build() {
 cd $name-$version
