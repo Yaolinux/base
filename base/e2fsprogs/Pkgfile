@@ -7,7 +7,7 @@ packager="Yaolinux Team"
 PKGMK_GROUPS=(devel man doc)
 
 name=e2fsprogs
-version=1.45.6
+version=1.46.2
 
 makedepends=(util-linux)
 
