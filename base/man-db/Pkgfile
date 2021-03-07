@@ -4,7 +4,7 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=man-db
-version=2.9.3
+version=2.9.4
 
 source=(https://savannah.nongnu.org/download/man-db/$name-$version.tar.xz)
 
