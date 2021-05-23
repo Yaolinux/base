@@ -53,8 +53,8 @@ export LFS=/mnt/lfs
 ## Now, create the directories
 ```
 mkdir -vp $LFS/{sources,tools}
-ln -svf $LFS/tools
-ln -svf $LFS/sources
+ln -svf $LFS/tools /
+ln -svf $LFS/sources /
 ```
 
 ## Create the LFS user
