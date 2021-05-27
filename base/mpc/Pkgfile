@@ -4,7 +4,7 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=mpc
-version=1.1.0
+version=1.2.1
 
 source=(https://ftp.gnu.org/gnu/mpc/mpc-$version.tar.gz )
 
