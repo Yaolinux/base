@@ -11,7 +11,7 @@ version=1.46.2
 
 makedepends=(util-linux)
 
-source=(https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v$version/e2fsprogs-$version.tar.xz)
+source=(https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v$version/e2fsprogs-$version.tar.gz)
 
 build(){
 cd $name-$version
