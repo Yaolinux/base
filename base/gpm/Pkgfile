@@ -4,16 +4,16 @@ packager="Yaolinux Team"
 name=gpm
 version=1.20.7
 
-yaolinux_version=1.0-RC2
+yaolinux_version=1.0-RC3
 
 source=(http://download.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz
-	gpm-1.20.7-consolidated-1.patch
-	http://www.nico.schottelius.org/software/$name/archives/$name-$version.tar.bz2)
+        http://anduin.linuxfromscratch.org/BLFS/$name/$name-$version.tar.bz2
+        http://www.linuxfromscratch.org/patches/blfs/10.1/$name-$version-consolidated-1.patch)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../gpm-1.20.7-consolidated-1.patch
+	patch -Np1 -i ../$name-$version-consolidated-1.patch
 	sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/{display-buttons,display-coords,get-versions}.c
 
 	./autogen.sh
