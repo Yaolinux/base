@@ -3,7 +3,7 @@ url="http://www.kernel.org/pub/linux/libs/security/linux-privs/"
 packager="Yaolinux Team"
 
 name=libcap
-version=2.43
+version=2.49
 
 source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-$version.tar.xz)
 
