@@ -3,9 +3,9 @@ url="http://sourceforge.net/projects/bridge/"
 packager="Yaolinux Team"
  
 name=bridge-utils
-version=1.7
+version=1.7.1
 
-source=(https://kernel.org/pub/linux/kernel/people/shemminger/${name}//${name}-${version}.tar.xz)
+source=(https://www.kernel.org/pub/linux/utils/net/$name/$name-$version.tar.xz)
 
 build() {
 cd $name-$version
@@ -15,7 +15,6 @@ autoconf
 ./configure --prefix=/usr
 
 make
-
 make DESTDIR=$PKG install
 
 mv $PKG/usr/sbin $PKG/sbin
