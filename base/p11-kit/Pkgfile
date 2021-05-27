@@ -7,13 +7,13 @@ packager="Yaolinux Team"
 makedepends=(libtasn1 libffi systemd)
 
 name=p11-kit
-version=0.23.21
+version=0.23.22
 
 source=(https://github.com/p11-glue/p11-kit/releases/download/$version/p11-kit-$version.tar.xz)
 
 build() {
 cd $name-$version
-sed '20,$ d' -i trust/trust-extract-compat.in
+sed '20,$ d' -i trust/trust-extract-compat
 cat >> trust/trust-extract-compat.in << "EOF"
 # Copy existing anchor modifications to /etc/ssl/local
 /usr/libexec/make-ca/copy-trust-modifications
