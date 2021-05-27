@@ -5,7 +5,7 @@ packager="Yaolinux Team"
 makedepends=(libpng)
 
 name=freetype
-version=2.10.2
+version=2.10.4
 
 source=(https://downloads.sourceforge.net/freetype/$name-$version.tar.xz)
 
