@@ -3,7 +3,7 @@ url="http://nfs.sourceforge.net"
 packager="Yaolinux Team"
 
 name=nfs-utils
-version=2.5.2
+version=2.5.3
 yaolinux_version=1.0-RC3
 
 source=(http://downloads.sourceforge.net/nfs/$name-$version.tar.bz2
