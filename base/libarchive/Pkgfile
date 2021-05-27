@@ -14,8 +14,6 @@ cd $name-$version
 
 ./configure --prefix=/usr \
             --mandir=/usr/share/man \
-            --without-lz4 \
-            --without-zstd \
             --infodir=/usr/share/info 
 
 make
