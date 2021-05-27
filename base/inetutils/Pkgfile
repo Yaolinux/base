@@ -4,10 +4,10 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=inetutils
-version=1.9.4
+version=2.0
 
 source=(http://ftp.gnu.org/gnu/inetutils/inetutils-$version.tar.xz
-        https://dev.getsol.us/file/data/gt2l3pxsh7augavhrn63/PHID-FILE-sjreuxfg44lsfdlq4y5b/0001-ifconfig-Force-use-of-proc-net-dev.patch)
+        http://dania.on86.net/sources/development/0001-ifconfig-Force-use-of-proc-net-dev.patch)
 
 build()
 {
