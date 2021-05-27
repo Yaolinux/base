@@ -7,9 +7,8 @@ PKGMK_GROUPS=(man)
 makedepends=(libtirpc systemd)
 
 name=rpcbind
-version=1.2.5
-release=2
-yaolinux_version=1.0-RC2
+version=1.2.6
+yaolinux_version=1.0-RC3
 
 source=(http://downloads.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz
 	http://downloads.sourceforge.net/rpcbind/rpcbind-$version.tar.bz2
