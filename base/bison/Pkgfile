@@ -4,7 +4,7 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=bison
-version=3.7.2
+version=3.7.6
 
 source=(https://ftp.gnu.org/gnu/bison/${name}-${version}.tar.xz)
 
