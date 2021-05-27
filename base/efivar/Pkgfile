@@ -5,16 +5,17 @@ url="https://github.com/rhinstaller/efivar"
 packager="Yaolinux Team"
 
 name=efivar
-version=37.1
+version=37
+_commit=cff88dd96b9d43e2c5875a24ba6180b196890ded
+release=4
 
-source=(http://rems.6admin.net/sources/development/efivar-$version.tar.xz
-        http://rems.6admin.net/sources/development/efivar-$version.patch) 
+source=(efivar-${version}.patch
+			  https://github.com/rhboot/efivar/archive/${_commit}.tar.gz)
 
 build() {
 
 unset MAKEFLAGS
-
-cd $name-$version
+cd $name-${_commit}
 
 patch -Np1 -i ../efivar-$version.patch
 
