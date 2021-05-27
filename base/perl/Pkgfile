@@ -3,7 +3,7 @@ url="http://www.perl.org/"
 packager="Yaolinux Team"
 
 name=perl
-version=5.32.0
+version=5.32.1
 
 source=(https://www.cpan.org/src/5.0/perl-${version}.tar.xz)
 
