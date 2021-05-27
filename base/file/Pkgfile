@@ -4,7 +4,7 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=file
-version=5.39
+version=5.40
 
 source=(https://astron.com/pub/$name/$name-$version.tar.gz)
 
