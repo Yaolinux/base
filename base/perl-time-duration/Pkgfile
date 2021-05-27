@@ -8,10 +8,8 @@ run=( perl )
 
 name=perl-time-duration
 version=1.20
-release=1
 
-source=(
-http://www.cpan.org/authors/id/N/NE/NEILB/Time-Duration-$version.tar.gz)
+source=(https://search.cpan.org/CPAN/authors/id/N/NE/NEILB/Time-Duration-$version.tar.gz)
 
 build() {
     cd Time-Duration-$version
