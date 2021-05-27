@@ -4,7 +4,7 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=psmisc
-version=23.3
+version=23.4
 
 source=(https://downloads.sourceforge.net/psmisc/${name}-${version}.tar.xz)
 
