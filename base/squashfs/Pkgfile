@@ -11,8 +11,8 @@ version=4.4
 
 PKGMK_KEEP_SOURCE="no"
 
-source=(http://rems.6admin.net/sources/development/$name-$version.tar.gz
-        squashfs-tools-$version-fno-common.patch)
+source=(http://dania.on86.net/sources/development/$name-$version.tar.gz
+        http://dania.on86.net/sources/development/squashfs-tools-4.4-fno-common.patch)
 
 build() {
 cd squashfs-tools-$version/squashfs-tools
