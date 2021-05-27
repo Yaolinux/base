@@ -4,17 +4,20 @@ packager="Yaolinux Team"
 maintainer="rems"
 
 name=systemd
-version=246
+version=248
 
 PKGMK_KEEP_SOURCES="no"
 PKGMK_IGNORE_RUNTIMEDEPS="yes"
 
-source=(https://github.com/systemd/systemd/archive/v$version/$name-$version.tar.gz)
+source=(https://github.com/systemd/systemd/archive/v$version/$name-$version.tar.gz
+        https://www.linuxfromscratch.org/patches/lfs/development/$name-$version-upstream_fixes-1.patch)
 
 build () {
 cd $name-$version
 
-# sed '179,$ d' -i src/resolve/meson.build
+patch -Np1 -i ../systemd-$version-upstream_fixes-1.patch
+
+#sed '181,$ d' -i src/resolve/meson.build
 
 sed -i 's/GROUP="render", //' rules.d/50-udev-default.rules.in
 
@@ -53,6 +56,7 @@ meson --prefix=/usr                \
       -Drpmmacrosdir=no            \
       -Dhomed=false                \
       -Duserdb=false               \
+      -Dpamconfdir=/etc/pam.d      \
       ../$name-$version
 
 LANG="en_US.utf8" ninja
