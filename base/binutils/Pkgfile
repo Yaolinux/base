@@ -4,11 +4,11 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=binutils
-version=2.35
+version=2.36.1
 
 source=(http://ftp.gnu.org/gnu/binutils/binutils-$version.tar.xz)
-build()
-{
+
+build() {
 cd binutils-$version
 
 mkdir -v build
@@ -28,9 +28,12 @@ make tooldir=/usr
 # make  LDFLAGS="" -k check || true
 
 make tooldir=/usr DESTDIR=$PKG install
+
+#suppression de bibliothèques statiques inutiles
+rm -fv $PKG/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 }
-devel()
-{
+
+devel() {
 cd $PKG
 bsdtar -r -f \
 $PKGMK_PACKAGE_DIR/${name}.${group}${PKGMK_BUILDVER}`uname -m`.$PKGMK_PACKAGE_EXT \
