@@ -6,7 +6,7 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=kbd
-version=2.3.0
+version=2.4.0
 
 source=(http://ftp.altlinux.com/pub/people/legion/kbd/kbd-$version.tar.xz \
 	http://www.linuxfromscratch.org/patches/downloads/$name/$name-$version-backspace-1.patch)
