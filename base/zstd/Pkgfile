@@ -8,7 +8,7 @@ makedepends=(zlib xz lz4)
 
 name=zstd
 version=1.4.9
-release=2
+release=3
 
 source=(https://github.com/facebook/zstd/releases/download/v$version/zstd-$version.tar.gz)
 
