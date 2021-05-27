@@ -5,7 +5,7 @@ packager="Yaolinux Team"
 maintainer="Rems"
 
 name=libinih
-version=52
+version=53
 
 source=(https://github.com/benhoyt/inih/archive/r$version.tar.gz)
 
