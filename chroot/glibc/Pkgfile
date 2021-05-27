@@ -1,4 +1,4 @@
-version=2.32
+version=2.33
 source=(http://ftp.gnu.org/gnu/glibc/glibc-$version.tar.xz)
 
 build()
