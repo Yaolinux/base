@@ -4,7 +4,7 @@ paintainer="Torb,Granlund and many more"
 packager="Yaolinux Team"
 
 name=gmp
-version=6.2.0
+version=6.2.1
 
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 
