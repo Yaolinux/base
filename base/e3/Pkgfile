@@ -8,7 +8,9 @@ makedepends=(nasm)
 name=e3
 version=2.82
 
-source=(http://sites.google.com/site/e3editor/Home/$name-$version.tgz)
+#source=(https://sites.google.com/site/e3editor/Home/$name-$version.tgz)
+source=(http://mirror.math.princeton.edu/pub/slitaz/sources/packages-cooking/e/e3-2.82.tgz)
+
 build() {
 cd $name-$version
 sed 's/DEFAULT_MODE WS/DEFAULT_MODE VI/' -i e3.h
