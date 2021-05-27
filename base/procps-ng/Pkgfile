@@ -3,7 +3,7 @@ url="http://procps.sourceforge.net/"
 packager="Yaolinux Team"
 
 name=procps-ng
-version=3.3.16
+version=3.3.17
 
 makedepends=(systemd)
 
@@ -11,7 +11,7 @@ source=(https://downloads.sourceforge.net/project/$name/Production/${name}-${ver
 
 build()
 {
-cd $name-$version
+cd procps-$version
 
 ./configure --prefix=/usr \
             --exec-prefix= \
