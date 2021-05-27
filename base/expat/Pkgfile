@@ -5,14 +5,12 @@ packager="Yaolinux Team"
 maintainer="rems"
 
 name=expat
-version=2.2.9
+version=2.3.0
 
 source=(http://prdownloads.sourceforge.net/$name/$name-$version.tar.xz)
 
 build() {
 cd $name-$version
-
-sed -i 's|usr/bin/env |bin/|' run.sh.in
 
 ./configure --prefix=/usr \
             --docdir=/usr/share/doc/expat-$version
