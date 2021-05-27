@@ -2,9 +2,9 @@ url="http://savannah.nongnu.org/projects/acl"
 description="Commands for Manipulating POSIX Access Control Lists."
 packager="Yaolinux Team"
 name=acl
-version=2.2.53
+version=2.3.1
 
-source=( http://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
+source=( http://download.savannah.gnu.org/releases/$name/$name-$version.tar.xz)
 
 build() {
 cd acl-*
