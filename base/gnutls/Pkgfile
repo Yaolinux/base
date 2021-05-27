@@ -4,7 +4,7 @@ maintainer="rems"
 packager="Yaolinux Team"
 
 name=gnutls
-version=3.6.15
+version=3.7.1
 
 makedepends=(nettle libtasn1 p11-kit)
 
