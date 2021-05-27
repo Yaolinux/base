@@ -5,7 +5,7 @@ packager="Yaolinux Team"
 maintainer="rems"
 
 name=libelf
-version=0.181
+version=0.183
 
 source=(https://sourceware.org/elfutils/ftp/${version}/elfutils-${version}.tar.bz2)
 
