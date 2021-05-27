@@ -8,7 +8,7 @@ PKGMK_GROUPS=(devel man doc)
 
 name=xz
 version=5.2.5
-release=3
+release=4
 
 source=(${url}$name-$version.tar.xz)
 build()
