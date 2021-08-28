@@ -97,7 +97,7 @@ export LFS LC_ALL LFS_TARGET PATH" > /home/lfs/.bashrc
 
 ## You are in the LFS user, now continue the installation with
 ```
-git clone https://github.com/rems28/base-systemd.git development
+git clone https://github.com/yaolinux/base-sysd.git development
 ```
 ```
 cd development
