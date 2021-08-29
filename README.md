@@ -3,7 +3,7 @@ Yaolinux
 
 ## Yaolinux, some ISOs are available here
 
-`http://download.yaolinux.org/Isos/`
+`http://yaolinux.mesfichiers.eu/Isos/`
 
 ## Yaolinux, please following these commands to install the base
 
