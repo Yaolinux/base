@@ -1,7 +1,8 @@
 description="The GNU patch tool"
 url="http://www.gnu.org/software/patch/patch.html"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=patch
 version=2.7.6
@@ -14,6 +15,5 @@ cd patch-$version
 ./configure --prefix=/usr
 
 make
-
 make prefix=$PKG/usr install
 }

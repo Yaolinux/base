@@ -1,5 +1,6 @@
 description="Certificate Authority certificates, the Public Key Infrastructure."
 url="http://mxr.mozilla.org/mozilla/source/security/nss/lib/ckfw/builtins/certdata.txt?raw=1"
+
 packager="Yaolinux Team"
 
 makedepends=(p11-kit)
@@ -14,7 +15,6 @@ source=(https://github.com/djlucas/make-ca/releases/download/v$version/make-ca-$
         http://www.cacert.org/certs/class3.crt)
 
 build() {
-
 cd make-ca-$version
 
 make all
@@ -33,6 +33,7 @@ $OPENSSL x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" 
    -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
    > $PKG/etc/ssl/local/CAcert_Class_3_root.pem
 cp certdata.txt $PKG/etc/ssl
+
 cd make-ca-$version
 make DESTDIR=$PKG install
 

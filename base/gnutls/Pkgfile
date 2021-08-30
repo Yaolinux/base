@@ -1,18 +1,19 @@
 description="Provide a secure layer over a reliable transport layer."
 url="https://www.gnupg.org"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
+
+makedepends=(libtasn1 nettle p11-kit)
 
 name=gnutls
-version=3.7.1
-
-makedepends=(nettle libtasn1 p11-kit)
+version=3.7.2
 
 source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v${version:0:3}/${name}-${version}.tar.xz)
 
-build()
-{
+build() {
 cd $name-$version
+
 ./configure --prefix=/usr \
             --docdir=/usr/share/doc/$name-$version \
             --disable-guile \
@@ -22,7 +23,6 @@ cd $name-$version
             --with-included-unistring
 
 make
-
 make DESTDIR=$PKG install
 make -C doc/reference DESTDIR=$PKG install-data-local
 }

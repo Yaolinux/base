@@ -1,9 +1,9 @@
-version=11.1.0
+version=11.2.0
 source=(http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz)
 
-build()
-{
+build() {
 cd  gcc-$version
+
 mkdir -pv build
 cd build
 
@@ -15,6 +15,7 @@ cd build
     --disable-libstdcxx-threads     \
     --disable-libstdcxx-pch         \
     --with-gxx-include-dir=/tools/$LFS_TARGET/include/c++/$version
+
 make
 make install
 }

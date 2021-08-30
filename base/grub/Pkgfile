@@ -1,27 +1,35 @@
 description="The GRUB package contains the GRand Unified Bootloader."
 url="http://www.gnu.org/software/grub/"
+
 packager="Yaolinux Team"
 
 name=grub
-version=2.06~rc1
+version=2.04
+release=3
 
-source=(https://alpha.gnu.org/gnu/grub/grub-2.06~rc1.tar.xz
+source=(http://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
 	grub.cfg)
 
 PKGMK_GROUPS=(man locale)
 
 build() {
-	cd grub-$version
-	./configure --prefix=/usr \
-		--sysconfdir=/etc       \
-		--sbindir=/sbin        \
-		--disable-grub-emu-usb  \
-		--disable-efiemu \
-		--infodir=/usr/share/info \
-		--disable-werror
-	make
-	make DESTDIR=$PKG install
-        install -d $PKG/boot/grub
-	install -Dm644 ../grub.cfg \
-	$PKG/boot/grub/grub.cfg.exemple
+cd grub-$version
+
+sed "s/gold-version/& -R .note.gnu.property/" \
+    -i Makefile.in grub-core/Makefile.in
+
+./configure --prefix=/usr \
+	    --sysconfdir=/etc \
+	    --sbindir=/sbin \
+	    --disable-grub-emu-usb \
+	    --disable-efiemu \
+	    --infodir=/usr/share/info \
+	    --disable-werror
+
+make
+make DESTDIR=$PKG install
+
+install -d $PKG/boot/grub
+install -Dm644 ../grub.cfg \
+$PKG/boot/grub/grub.cfg.exemple
 }

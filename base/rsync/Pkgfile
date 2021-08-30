@@ -1,10 +1,10 @@
-makedepends=(lz4 zstd)
-
 description="Synchronizing files over a network by sending just the differences in the files."
 url="http://samba.anu.edu.au/rsync/"
 
 packager="Yaolinux Team"
 maintainer="rems"
+
+makedepends=(lz4 zstd)
 
 name=rsync
 version=3.2.3
@@ -14,7 +14,6 @@ source=(https://rsync.samba.org/ftp/$name/$name-$version.tar.gz
 	rsync.driver )
 
 build() {
-
 cd $name-$version
 
 ./configure --prefix=/usr \
@@ -25,11 +24,9 @@ cd $name-$version
             --disable-lz4
 
 make
-
 make DESTDIR=$PKG install
 
 # drivers
-
 mkdir -p $PKG/var/lib/pkg/drivers
 install -m 755 ..//rsync.driver \
 $PKG/var/lib/pkg/drivers/rsync

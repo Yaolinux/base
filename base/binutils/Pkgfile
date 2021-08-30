@@ -1,33 +1,40 @@
 description="Linker, assembler, and other tools for handling object files."
 url="http://sources.redhat.com/binutils/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=binutils
-version=2.36.1
+version=2.37
 
-source=(http://ftp.gnu.org/gnu/binutils/binutils-$version.tar.xz)
+source=(http://ftp.gnu.org/gnu/binutils/binutils-$version.tar.xz
+        https://www.linuxfromscratch.org/patches/lfs/development/binutils-$version-upstream_fix-1.patch)
 
 build() {
 cd binutils-$version
+
+patch -Np1 -i ../binutils-$version-upstream_fix-1.patch
+
+sed -i '63d' etc/texi2pod.pl
+find -name \*.1 -delete
 
 mkdir -v build
 cd build
 
 ../configure --prefix=/usr \
---enable-gold \
---enable-ld=default \
---enable-plugins \
---enable-shared \
---disable-werror \
---enable-64-bit-bfd \
---with-system-zlib
+             --enable-gold \
+             --enable-ld=default \
+             --enable-plugins \
+             --enable-shared \
+             --disable-werror \
+             --enable-64-bit-bfd \
+             --with-system-zlib
 
 make tooldir=/usr
 
 # make  LDFLAGS="" -k check || true
 
-make tooldir=/usr DESTDIR=$PKG install
+make tooldir=/usr DESTDIR=$PKG install -j1
 
 #suppression de bibliothèques statiques inutiles
 rm -fv $PKG/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a

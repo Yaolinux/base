@@ -1,7 +1,8 @@
 description="The GNU generic library support script."
 url="http://www.gnu.org/software/libtool/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=libtool
 version=2.4.6
@@ -11,10 +12,11 @@ source=(http://ftp.gnu.org/gnu/libtool/libtool-$version.tar.xz)
 
 PKGMK_GROUPS=()
 
-build()
-{
+build() {
 cd libtool-*
+
 ./configure --prefix=/usr
+
 make
 make DESTDIR=$PKG install
 }

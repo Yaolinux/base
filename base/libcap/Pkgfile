@@ -1,26 +1,28 @@
 description="POSIX 1003.1e capabilities library"
 url="http://www.kernel.org/pub/linux/libs/security/linux-privs/"
+
 packager="Yaolinux Team"
 
 name=libcap
-version=2.49
+version=2.53
 
 source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-$version.tar.xz)
 
 build() {
-
 cd $name-$version
 
 sed -i '/install.*STALIBNAME/d' libcap/Makefile
+
 make
-
-make RAISE_SETFCAP=no lib=lib prefix=$PKG/usr install
-
-chmod -v 755 $PKG/usr/lib/libcap.so.$version
+make DESTDIR=$PKG prefix=/usr lib=lib install
 
 mkdir -pv $PKG/lib
-mv -v $PKG/usr/lib/libcap.so.* $PKG/lib
-ln -sfv ../../lib/$(readlink $PKG/usr/lib/libcap.so) $PKG/usr/lib/libcap.so
+
+for libname in cap psx; do
+    mv -v $PKG/usr/lib/lib${libname}.so.* $PKG/lib
+    ln -sfv ../../lib/lib${libname}.so.2 $PKG/usr/lib/lib${libname}.so
+    chmod -v 755 $PKG/lib/lib${libname}.so.2.49
+done
 
 make -C pam_cap
 

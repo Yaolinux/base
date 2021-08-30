@@ -1,7 +1,8 @@
 description="The Man-DB package contains programs for finding and viewing man pages."
 url="http://savannah.nongnu.org/projects/man-db"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=man-db
 version=2.9.4

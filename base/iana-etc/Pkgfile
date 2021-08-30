@@ -1,20 +1,18 @@
 description="The Iana-Etc package provides data for network services and protocols."
 url="http://www.sethwklein.net/iana-etc"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=iana-etc
-version=20210407
+version=20210611
 
 source=(https://github.com/Mic92/iana-etc/releases/download/$version/$name-$version.tar.gz)
 
-build()
-{
+build() {
 cd iana-etc-$version
 
 mkdir -pv $PKG/etc
 
 cp services protocols $PKG/etc
-
 }
-

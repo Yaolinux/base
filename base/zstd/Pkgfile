@@ -4,11 +4,10 @@ url="https://www.zstd.net/"
 packager="Yaolinux Team"
 maintainer="rems"
 
-makedepends=(zlib xz lz4)
+makedepends=(lz4 xz zlib)
 
 name=zstd
-version=1.4.9
-release=3
+version=1.5.0
 
 source=(https://github.com/facebook/zstd/releases/download/v$version/zstd-$version.tar.gz)
 
@@ -28,5 +27,4 @@ mkdir $PKG/lib
 
 mv -v $PKG/usr/lib/libzstd.so.* $PKG/lib
 ln -sfv ../../lib/$(readlink $PKG/usr/lib/libzstd.so) $PKG/usr/lib/libzstd.so
-
 }

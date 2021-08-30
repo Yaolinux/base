@@ -1,10 +1,11 @@
-makedepends=(perl)
-
 description="Database independent interface for Perl"
 url="https://metacpan.org/pod/DBI"
+
 packager="Yaolinux Team"
 
+makedepends=(perl)
 run=( perl )
+
 name=perl-dbi
 version=1.643
 
@@ -12,9 +13,12 @@ source=(http://www.cpan.org/authors/id/T/TI/TIMB/DBI-$version.tar.gz)
 
 build() {
 cd DBI-$version
+
 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
+
 find $PKG \
         -name '*.bs' -or \
         -name .packlist -or \

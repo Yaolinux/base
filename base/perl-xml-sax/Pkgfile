@@ -1,5 +1,6 @@
 description="Simple API for XML"
 url="http://search.cpan.org/dist/XML-SAX/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl-xml-namespacesupport perl-xml-sax-base)
@@ -11,13 +12,16 @@ version=1.02
 source=(http://www.cpan.org/authors/id/G/GR/GRANTM/XML-SAX-$version.tar.gz)
 
 build() {
-    cd XML-SAX-$version
-    yes | PERL_MM_USE_DEFAULT=1 perl Makefile.PL
-    make test
-    PERLLIB=blib/lib make install INSTALLDIRS=vendor DESTDIR=$PKG
+cd XML-SAX-$version
 
-    # Remove perllocal.pod and .packlist if present in the package
-    for i in perllocal.pod .packlist; do
-        find $PKG -name "$i" -exec rm -rf {} \;
-    done
+yes | PERL_MM_USE_DEFAULT=1 perl Makefile.PL
+
+make test
+
+PERLLIB=blib/lib make install INSTALLDIRS=vendor DESTDIR=$PKG
+
+# Remove perllocal.pod and .packlist if present in the package
+for i in perllocal.pod .packlist; do
+    find $PKG -name "$i" -exec rm -rf {} \;
+done
 }

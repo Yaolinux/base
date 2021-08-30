@@ -1,7 +1,5 @@
-makedepends=(yaolinux)
-
-url="http://www.kernel.org"
 description="The current stable kernel version"
+url="http://www.kernel.org"
 
 packager="Yaolinux Team"
 maintainer="rems"
@@ -10,15 +8,16 @@ PKGMK_IGNORE_UNPACK="yes"
 PKGMK_NO_STRIP="yes"
 PKGMK_GROUPS=(devel doc)
 
+makedepends=(yaolinux)
+
 name=kernel
 alias=(linux)
 
-version=5.12.2
+version=5.10.60
 _version=${version:0:4}
 
 # Linux patch version
 [ "${_version}" != "${version}" ] && patchname="patch-$version.xz"
-
 
 ## Download all the sources
 #
@@ -30,7 +29,7 @@ source=($url/pub/linux/kernel/v5.x/linux-${_version}.tar.xz config_64)
 ## Time to build everything
 #
 
-build(){
+build() {
 
 bsdtar -p -o -C $SRC -xf linux-${_version}.tar.xz
 
@@ -117,8 +116,8 @@ else
   fi
   ln -sf kernel-${KERNEL_VERSION} boot/kernel
 fi" >> $PKGMK_ROOT/$name.post-install
-
 }
+
 devel() {
 
 cd $PKG

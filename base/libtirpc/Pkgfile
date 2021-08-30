@@ -1,17 +1,16 @@
 description="Transport Independent RPC library (SunRPC replacement)"
 url="http://downloads.sourceforge.net/project/libtirpc"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=libtirpc
-version=1.3.1
+version=1.3.2
 
 source=(http://downloads.sourceforge.net/libtirpc/libtirpc-$version.tar.bz2)
 
-build()
-{
+build() {
 cd libtirpc-$version
-
 
 ./configure --prefix=/usr     \
             --sysconfdir=/etc \
@@ -20,6 +19,7 @@ cd libtirpc-$version
 
 make
 make pkgconfigdir=/usr/lib/pkgconfig DESTDIR=$PKG install
+
 chown -R root:root $PKG
 mkdir -p $PKG/lib
 mv -v $PKG/usr/lib/libtirpc.so.* $PKG/lib

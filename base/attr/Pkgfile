@@ -1,7 +1,8 @@
 description="Utilities to administer the extended attributes on filesystem objects"
 url="http://savannah.nongnu.org/projects/attr"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=attr
 version=2.5.1
@@ -9,7 +10,6 @@ version=2.5.1
 PKGMK_GROUPS=(devel man doc)
 
 source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
-
 
 build() {
 cd attr-$version
@@ -20,7 +20,6 @@ cd attr-$version
             --docdir=/usr/share/doc/attr-$version
 
 make
-
 make  DESTDIR=$PKG install
 
 mkdir $PKG/lib
@@ -28,7 +27,7 @@ mv -v $PKG/usr/lib/libattr.so.* $PKG/lib
 ln -sfv ../../lib/$(readlink $PKG/usr/lib/libattr.so) $PKG/usr/lib/libattr.so
 }
 
-devel () {
+devel() {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/${name}.devel${PKGMK_BUILDVER}`uname -m`.$PKGMK_PACKAGE_EXT \

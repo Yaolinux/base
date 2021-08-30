@@ -1,12 +1,12 @@
-version=2.36.1
+version=2.37
 source=(http://ftp.gnu.org/gnu/binutils/binutils-$version.tar.xz)
 
-build()
-{
+build() {
 cd binutils-$version
 
 mkdir -v build
 cd build
+
 ../configure \
     --prefix=/tools            \
     --with-sysroot=$LFS        \
@@ -14,6 +14,7 @@ cd build
     --target=$LFS_TARGET       \
     --disable-nls              \
     --disable-werror
+
 make
 case $(uname -m) in
  x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;

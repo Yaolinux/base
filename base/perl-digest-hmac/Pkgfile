@@ -1,10 +1,10 @@
-makedepends=(perl perl-digest-sha1)
-
 description="Keyed-Hashing for Message Authentication"
 url="http://search.cpan.org/"
+
 packager="Yaolinux Team"
 
-run=( perl )
+makedepends=(perl perl-digest-sha1)
+run=(perl)
 
 name=perl-digest-hmac
 version=1.04
@@ -13,9 +13,12 @@ source=(https://www.cpan.org/authors/id/A/AR/ARODLAND/Digest-HMAC-$version.tar.g
 
 build() {
 cd Digest-HMAC-$version
+
 PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
+
 find $PKG \
         -name '*.bs' -or \
         -name .packlist -or \

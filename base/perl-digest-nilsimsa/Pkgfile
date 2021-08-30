@@ -1,22 +1,24 @@
-makedepends=(perl)
-
 description="Perl version of Nilsimsa code"
 url="http://search.cpan.org/"
+
 packager="Yaolinux Team"
 
-run=( perl )
+makedepends=(perl)
+run=(perl)
 
 name=perl-digest-nilsimsa
 version=0.06
-release=1
 
 source=(http://www.cpan.org/authors/id/V/VI/VIPUL/Digest-Nilsimsa-$version.tar.gz)
 
 build() {
 cd Digest-Nilsimsa-$version
+
 PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
+
 find $PKG \
         -name '*.bs' -or \
         -name .packlist -or \

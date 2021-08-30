@@ -1,16 +1,18 @@
 description="Give certain users (or groups) the ability to run some commands as root."
 url="http://www.sudo.ws"
+
 packager="Yaolinux Team"
 
 makedepends=(pam)
 
 name=sudo
-version=1.9.5p2
+version=1.9.7p2
 
 source=($url/sudo/dist/$name-$version.tar.gz)
 
 build() {
 cd $name-$version
+
 ./configure --prefix=/usr \
             --libexecdir=/usr/lib \
             --docdir=/usr/share/doc/sudo-$version \
@@ -41,8 +43,8 @@ session   include     system-session
 
 # End /etc/pam.d/sudo
 EOF
+
 chmod 644 $PKG/etc/pam.d/sudo
 echo "%wheel ALL=(ALL) ALL
 %wheel ALL =(ALL) NOPASSWD: /usr/bin/flcards" >> $PKG/etc/sudoers
-
 }

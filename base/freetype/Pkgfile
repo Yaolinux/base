@@ -1,5 +1,6 @@
 description="TrueType font rendering library"
 url="http://www.freetype.org"
+
 packager="Yaolinux Team"
 
 makedepends=(libpng)
@@ -8,7 +9,6 @@ name=freetype
 version=2.10.4
 
 source=(https://downloads.sourceforge.net/freetype/$name-$version.tar.xz)
-
 
 build() {
 cd $name-$version
@@ -20,6 +20,7 @@ sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" \
 ./configure --prefix=/usr \
             --enable-freetype-config \
             --disable-static
+
 make
 make DESTDIR=$PKG install
 

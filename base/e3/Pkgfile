@@ -1,18 +1,19 @@
 description="Tiny editor without dependencies, written in assembly."
 url="http://sites.google.com/site/e3editor/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 makedepends=(nasm)
 
 name=e3
 version=2.82
 
-#source=(https://sites.google.com/site/e3editor/Home/$name-$version.tgz)
-source=(http://mirror.math.princeton.edu/pub/slitaz/sources/packages-cooking/e/e3-2.82.tgz)
+source=(http://mirror.math.princeton.edu/pub/slitaz/sources/packages-cooking/e/$name-$version.tgz)
 
 build() {
 cd $name-$version
+
 sed 's/DEFAULT_MODE WS/DEFAULT_MODE VI/' -i e3.h
 sed -i 's:$(BINDIR)/e3 :e3 :' Makefile
   make clean

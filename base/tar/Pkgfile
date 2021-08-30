@@ -1,15 +1,15 @@
 description="The Tar package contains an archiving program."
 url="http://www.gnu.org/software/tar/tar.html"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=tar
 version=1.34
 
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 
-build()
-{
+build() {
 cd $name-$version
 
 FORCE_UNSAFE_CONFIGURE=1 \
@@ -17,7 +17,6 @@ FORCE_UNSAFE_CONFIGURE=1 \
             --bindir=/bin
 
 make
-
 make DESTDIR=$PKG install
 
 mkdir $PKG/usr/share/doc

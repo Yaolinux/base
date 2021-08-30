@@ -1,18 +1,18 @@
 description="Free general-purpose data compression software with high compression ratio."
 url="http://tukaani.org/xz/"
 
-maintainer="rems"
 packager="Yaolinux Team"
+maintainer="rems"
 
 PKGMK_GROUPS=(devel man doc)
 
 name=xz
 version=5.2.5
-release=4
+release=5
 
 source=(${url}$name-$version.tar.xz)
-build()
-{
+
+build() {
 cd xz-$version
 
 ./configure --prefix=/usr \
@@ -20,7 +20,6 @@ cd xz-$version
             --docdir=/usr/share/doc/xz-$version
 
 make
-
 make DESTDIR=$PKG install
 
 mkdir -pv $PKG/{,usr/}lib
@@ -28,8 +27,8 @@ mv -v $PKG/usr/lib/liblzma.so.* \
       $PKG/lib
 ln -svf ../../lib/$(readlink $PKG/usr/lib/liblzma.so) $PKG/usr/lib/liblzma.so
 }
-devel()
-{
+
+devel() {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/$name.devel${PKGMK_BUILDVER}any.$PKGMK_PACKAGE_EXT \

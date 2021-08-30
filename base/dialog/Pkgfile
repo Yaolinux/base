@@ -1,13 +1,13 @@
-[ "$PKGMK_ARCH" == "x86_64" ] && PKGMK_GROUPS=(devel man)
+description="To create nice user interfaces to shell scripts or other scripting languages."
+url="http://hightek.org/dialog/"
 
 packager="Yaolinux Team"
 maintainer="rems"
 
-url="http://hightek.org/dialog/"
-description="To create nice user interfaces to shell scripts or other scripting languages."
+[ "$PKGMK_ARCH" == "x86_64" ] && PKGMK_GROUPS=(devel man)
 
 name=dialog
-version=1.3-20210509
+version=1.3-20210621
 
 source=(https://invisible-mirror.net/archives/$name/$name-${version}.tgz)
 
@@ -21,7 +21,6 @@ cd $name-$version
             --mandir=/usr/share/man
 
 make
-
 make DESTDIR=$PKG install-full
 }
 

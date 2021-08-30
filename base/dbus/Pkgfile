@@ -1,8 +1,10 @@
-makedepends=(systemd expat)
 description="Bus message system"
 url="http://dbus.freedesktop.org/releases/dbus"
+
 packager="Yaolinux Team"
 maintainer="rems"
+
+makedepends=(expat systemd)
 
 name=dbus
 version=1.12.20
@@ -10,8 +12,9 @@ release=3
 
 source=(http://dbus.freedesktop.org/releases/dbus/dbus-$version.tar.gz)
 
-build () {
+build() {
 cd $name-$version
+
 ./configure --prefix=/usr                        \
             --sysconfdir=/etc                    \
             --localstatedir=/var                 \
@@ -27,7 +30,6 @@ cd $name-$version
             --enable-systemd
 
 make
-
 make DESTDIR=$PKG install
 
 rm $PKG/usr/bin/dbus-launch

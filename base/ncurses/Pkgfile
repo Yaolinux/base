@@ -1,7 +1,8 @@
 description="Libraries for terminal-independent handling of character screens."
 url="http://www.gnu.org/software/ncurses/ncurses.html"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=ncurses
 version=6.2
@@ -27,7 +28,6 @@ sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in
             --with-install-prefix=$PKG
 
 make
-
 make install
 
 mkdir -p $PKG/lib
@@ -37,6 +37,7 @@ for lib in ncurses form panel menu ; do \
         echo "INPUT(-l${lib}w)" >$PKG/lib/lib${lib}.so ; \
         ln -sfv lib${lib}w.a $PKG/lib/lib${lib}.a ; \
 done
+
 ln -sfv libncurses++w.a $PKG/lib/libncurses++.a
 rm -vf $PKG/usr/lib/libcursesw.so
 echo "INPUT(-lncursesw)" >$PKG/lib/libcursesw.so
@@ -50,8 +51,8 @@ cp -R doc/* $PKG/usr/share/doc/$name-$version
 make distclean
 
 ./configure --prefix=/usr --with-shared --without-normal \
---without-debug --without-cxx-binding \
---with-abi-version=5
+            --without-debug --without-cxx-binding \
+            --with-abi-version=5
 
 make sources libs
 mkdir -p $PKG/usr/lib

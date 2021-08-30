@@ -1,13 +1,16 @@
 description="The Vim package contains a powerful text editor."
 url="http://www.vim.org/"
+
 packager="Yaolinux Team"
 
 name=vim
-version=8.2.2813
+version=8.2.3340
 
 source=(https://github.com/vim/vim/archive/v$version/vim-$version.tar.gz)
+
 build() {
 cd $name-$version
+
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 
 ./configure --prefix=/usr \

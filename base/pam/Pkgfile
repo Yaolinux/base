@@ -1,5 +1,6 @@
 description="Pluggable Authentication Modules to choose how applications authenticate users."
 url="http://www.kernel.org/pub/libs/pam"
+
 packager="Yaolinux Team"
 
 name=pam
@@ -20,7 +21,6 @@ cd Linux-PAM-$version
             --libdir=/usr/lib
 
 make
-
 make DESTDIR=$PKG install
 
 chmod -v 4755 $PKG/sbin/unix_chkpwd

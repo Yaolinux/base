@@ -1,7 +1,8 @@
 description="Utility for non-interactive download of files using HTTP, HTTPS and FTP."
 url="http://www.gnu.org/software/wget/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 makedepends=(gnutls)
 
@@ -13,6 +14,7 @@ source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
 
 build() {
 cd $name-$version
+
 ./configure --prefix=/usr \
             --sysconfdir=/etc \
             --disable-debug \
@@ -20,6 +22,5 @@ cd $name-$version
             --infodir=/usr/share/info
 
 make
-
 make DESTDIR=$PKG install
 }

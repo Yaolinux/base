@@ -1,13 +1,15 @@
-url="http://savannah.nongnu.org/projects/acl"
 description="Commands for Manipulating POSIX Access Control Lists."
+url="http://savannah.nongnu.org/projects/acl"
+
 packager="Yaolinux Team"
+
 name=acl
 version=2.3.1
 
-source=( http://download.savannah.gnu.org/releases/$name/$name-$version.tar.xz)
+source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.xz)
 
 build() {
-cd acl-*
+cd $name-$version
 
 ./configure --prefix=/usr \
             --libexecdir=/usr/lib \
@@ -21,7 +23,8 @@ mv -v $PKG/usr/lib/libacl.so.* $PKG/lib
 ln -sfv ../../lib/$(readlink $PKG/usr/lib/libacl.so) \
         $PKG/usr/lib/libacl.so
 }
-devel () {
+
+devel() {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/${name}.devel${PKGMK_BUILDVER}`uname -m`.$PKGMK_PACKAGE_EXT \

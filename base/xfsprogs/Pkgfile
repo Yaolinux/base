@@ -1,13 +1,13 @@
-makedepends=(libinih)
-
 description="XFS filesystem administration and debugging tools"
 url="http://oss.sgi.com/projects/xfs/"
 
 packager="Yaolinux Team"
 maintainer="rems"
 
+makedepends=(libinih)
+
 name=xfsprogs
-version=5.11.0
+version=5.13.0
 
 source=(https://www.kernel.org/pub/linux/utils/fs/xfs/$name/$name-$version.tar.xz)
 

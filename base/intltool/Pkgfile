@@ -1,5 +1,6 @@
 description="Base system of NuTyX, contains all folders and startup scripts."
 url="https://github.com/nutyx"
+
 packager="Yaolinux Team"
 maintainer="rems"
 
@@ -12,12 +13,16 @@ release=2
 
 source=(http://launchpad.net/$name/trunk/$version/+download/$name-$version.tar.gz)
 
-build () {
+build() {
 cd $name-$version
+
 sed -i 's:\\\${:\\\$\\{:' intltool-update.in
+
 ./configure --prefix=/usr
+
 make
 make DESTDIR=$PKG install
+
 mkdir -pv $PKG/usr/share/doc/intltool-$version
 install -v -Dm644 doc/I18N-HOWTO $PKG/usr/share/doc/intltool-$version/I18N-HOWTO
 }

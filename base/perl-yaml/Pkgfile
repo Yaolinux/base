@@ -1,5 +1,6 @@
 description="Perl/CPAN Module YAML : YAML Aint Markup Language"
 url="http://search.cpan.org/dist/YAML/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl)
@@ -12,8 +13,11 @@ source=(https://cpan.metacpan.org/authors/id/T/TI/TINITA/YAML-$version.tar.gz)
 
 build() {
 cd YAML-$version
+
 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
+
 find $PKG -name .packlist -o -name perllocal.pod -delete
 }

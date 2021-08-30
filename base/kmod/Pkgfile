@@ -1,17 +1,18 @@
 description="The Kmod package contains libraries and utilities for loading kernel modules."
 url="http://www.kernel.org/pub/linux/kernel/people/rusty/modules"
+
 packager="Yaolinux Team"
 
 PKGMK_GROUPS=(devel doc man)
 
 name=kmod
-version=28
+version=29
 
 source=(https://www.kernel.org/pub/linux/utils/kernel/$name/$name-$version.tar.xz)
 
-build()
-{
+build() {
 cd $name-$version
+
 ./configure --prefix=/usr \
             --bindir=/bin \
             --sysconfdir=/etc \
@@ -20,7 +21,6 @@ cd $name-$version
             --with-zlib
 
 make
-
 make DESTDIR=$PKG install
 
 mkdir $PKG/sbin
@@ -30,8 +30,8 @@ done
 
 ln -sv kmod $PKG/bin/lsmod
 }
-devel()
-{
+
+devel() {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/$name.devel${PKGMK_BUILDVER}any.$PKGMK_PACKAGE_EXT \

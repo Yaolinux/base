@@ -1,10 +1,11 @@
 description="Init system to control boot, execution and halt of a linux system"
 url="http://www.freedesktop.org/wiki/Software/systemd/"
+
 packager="Yaolinux Team"
 maintainer="rems"
 
 name=systemd
-version=248
+version=249
 
 PKGMK_KEEP_SOURCES="no"
 PKGMK_IGNORE_RUNTIMEDEPS="yes"
@@ -17,9 +18,8 @@ cd $name-$version
 
 patch -Np1 -i ../systemd-$version-upstream_fixes-1.patch
 
-#sed '181,$ d' -i src/resolve/meson.build
-
-sed -i 's/GROUP="render", //' rules.d/50-udev-default.rules.in
+sed -i -e 's/GROUP="render"/GROUP="video"/' \
+       -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 
 [ -d /tools ] && \
 for file in /tools/lib/lib{blkid,mount,uuid}.so*; do
@@ -116,5 +116,6 @@ BUG_REPORT_URL="https://bugs.yaolinux.org"
 
 # End /etc/os-release
 EOF
+
 if [ -d /tools ]; then rm -fv /usr/lib/lib{blkid,uuid,mount}.so*; fi
 }

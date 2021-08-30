@@ -1,8 +1,9 @@
 description="Interface to OpenSSL RSA methods"
 url="http://search.cpan.org/"
+
 packager="Yaolinux Team"
 
-makedepends=(perl-crypt-openssl-random perl-crypt-openssl-bignum)
+makedepends=(perl-crypt-openssl-bignum perl-crypt-openssl-random)
 run=(perl)
 
 name=perl-crypt-openssl-rsa
@@ -14,6 +15,7 @@ build() {
 cd Crypt-OpenSSL-RSA-$version
 
 PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make pure_install doc_install  DESTDIR=$PKG
 

@@ -1,5 +1,6 @@
 description="Perl/CPAN Module Parse::Yapp : Generates OO LALR parser modules"
 url="http://search.cpan.org/dist/Parse-Yapp"
+
 packager="Yaolinux Team"
 
 makedepends=(perl)
@@ -12,12 +13,11 @@ source=(https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-$version.
 
 build() {
 cd Parse-Yapp-$version
-PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
-make
-}
 
-package() {
-cd Parse-Yapp-$version
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+
+make
 make install DESTDIR=$PKG
+
 find $PKG -name .packlist -delete
 }

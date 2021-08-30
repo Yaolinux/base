@@ -1,13 +1,14 @@
 description="The Bash package contains the Bourne-Again SHell."
-maintainer="rems"
+url="https://ftp.gnu.org/gnu/bash/"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=bash
-version=5.1
+version=5.1.8
 
 source=(http://ftp.gnu.org/gnu/bash/bash-$version.tar.gz)
        
-
 build() {
 cd bash-$version
 

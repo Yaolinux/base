@@ -1,21 +1,25 @@
 description="Perl symbol table access and dumping"
 url="http://search.cpan.org/dist/Devel-Symdump"
+
 packager="Yaolinux Team"
 
 makedepends=(perl)
 run=(perl)
+
 name=perl-devel-symdump
 version=2.18
 
 source=(http://www.cpan.org/authors/id/A/AN/ANDK/Devel-Symdump-$version.tar.gz)
 
 build() {
-    cd Devel-Symdump-$version
-    perl Makefile.PL
-    make OPTIMIZE="$CFLAGS" || exit 1
-    make install INSTALLDIRS=vendor DESTDIR=$PKG || exit 1
+cd Devel-Symdump-$version
+    
+perl Makefile.PL
 
-    # Remove perllocal.pod and .packlist if present in the package
-    find $PKG -name .packlist -or \
-         -name '*.bs' -delete
+make OPTIMIZE="$CFLAGS" || exit 1
+make install INSTALLDIRS=vendor DESTDIR=$PKG || exit 1
+
+# Remove perllocal.pod and .packlist if present in the package
+find $PKG -name .packlist -or \
+     -name '*.bs' -delete
 }

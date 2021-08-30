@@ -5,13 +5,14 @@ packager="Yaolinux Team"
 maintainer="rems"
 
 name=openssl
-version=1.1.1k
+version=1.1.1l
 
 source=(https://www.openssl.org/source/${name}-${version}.tar.gz)
 
 PKGMK_GROUPS=(devel man doc)
 
 build() {
+
 unset MAKEFLAGS
 
 cd $name-$version
@@ -32,10 +33,9 @@ make DESTDIR=$PKG MANSUFFIX=ssl install
 
 mv -v $PKG/usr/share/doc/openssl{,-$version}
 cp -vfr doc/*     $PKG/usr/share/doc/openssl-$version
-
 }
-devel()
-{
+
+devel() {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/${name}.devel${PKGMK_BUILDVER}any.$PKGMK_PACKAGE_EXT \

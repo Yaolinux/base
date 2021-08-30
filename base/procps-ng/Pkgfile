@@ -1,5 +1,6 @@
 description="Utilities for monitoring your system and its processes."
 url="http://procps.sourceforge.net/"
+
 packager="Yaolinux Team"
 
 name=procps-ng
@@ -9,8 +10,7 @@ makedepends=(systemd)
 
 source=(https://downloads.sourceforge.net/project/$name/Production/${name}-${version}.tar.xz)
 
-build()
-{
+build() {
 cd procps-$version
 
 ./configure --prefix=/usr \
@@ -22,7 +22,6 @@ cd procps-$version
             --with-systemd
 
 make
-
 make DESTDIR=$PKG install
 
 mkdir $PKG/lib

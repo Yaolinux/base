@@ -1,10 +1,10 @@
-makedepends=(zlib lzo xz lz4 zstd)
-
 description="Squashfs is a compressed read-only filesystem for Linux."
 url="http://squashfs.sourceforge.net/"
 
-maintainer="rems"
 packager="Yaolinux Team"
+maintainer="rems"
+
+makedepends=(lz4 lzo xz zlib zstd)
 
 name=squashfs
 version=4.4

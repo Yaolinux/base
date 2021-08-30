@@ -1,16 +1,19 @@
 description="unit testing framework for C"
 url="http://check.sourceforge.net/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=check
 version=0.15.2
 
 source=(https://github.com/libcheck/$name/releases/download/$version/$name-$version.tar.gz)
 
-build () {
+build() {
 cd $name-$version
+
 ./configure --prefix=/usr --disable-static
+
 make
 make DESTDIR=$PKG install
 }

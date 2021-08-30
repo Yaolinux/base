@@ -1,16 +1,16 @@
 description="The Inetutils package contains programs for basic networking."
 url="http://www.gnu.org/software/inetutils/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=inetutils
-version=2.0
+version=2.1
 
 source=(http://ftp.gnu.org/gnu/inetutils/inetutils-$version.tar.xz
         http://dania.on86.net/sources/development/0001-ifconfig-Force-use-of-proc-net-dev.patch)
 
-build()
-{
+build() {
 cd  inetutils-$version
 
 patch -Np1 -i ../0001-ifconfig-Force-use-of-proc-net-dev.patch

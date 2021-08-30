@@ -1,13 +1,14 @@
-makedepends=(perl)
-
 description="A Post-Processor for SGMLS and NSGMLS"
 url="http://search.cpan.org/dist/SGMLSpm"
+
 packager="Yaolinux Team"
+
+makedepends=(perl)
+run=(perl)
 
 name=perl-sgmls
 _cpanname=SGMLSpm
 version=1.1
-release=1
 
 source=(http://search.cpan.org/CPAN/authors/id/R/RA/RAAB/SGMLSpm-$version.tar.gz)
 
@@ -26,13 +27,11 @@ PERL_MB_OPT="--installdirs vendor --destdir '$PKG'" \
 MODULEBUILDRC=/dev/null
 }
 
-
 build() {
 prepareEnvironment
 /usr/bin/perl Makefile.PL
 make
 }
-
 
 package() {
 prepareEnvironment

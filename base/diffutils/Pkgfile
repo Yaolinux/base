@@ -1,9 +1,10 @@
 description="Programs that show the differences between files or directories."
 url="http://www.gnu.org/software/diffutils/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=diffutils
-version=3.7
+version=3.8
 
 source=(http://ftp.gnu.org/gnu/$name/diffutils-$version.tar.xz)

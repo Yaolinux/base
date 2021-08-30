@@ -1,7 +1,8 @@
 description="For producing shell scripts that can automatically configure source code."
 url="http://www.gnu.org/software/autoconf/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=autoconf
 version=2.71
