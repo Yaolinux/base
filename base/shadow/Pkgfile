@@ -13,6 +13,7 @@ build() {
 cd shadow-$version
 
 sed -i 's/groups$(EXEEXT) //' src/Makefile.in
+sed -i 's/bin_PROGRAMS   = groups login/bin_PROGRAMS   = login/' src/Makefile.am
 
 find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \;
 find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
@@ -26,17 +27,17 @@ sed -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' \
 sed -i.orig '/$(LIBTCB)/i $(LIBPAM) \\' libsubid/Makefile.am
 sed -i "224s/rounds/min_rounds/"        libmisc/salt.c       
 
-sed -i 's/1000/999/' etc/useradd
+autoreconf -fiv
 
-touch /usr/bin/passwd
 ./configure --sysconfdir=/etc \
             --with-group-name-max-length=32
 
 make
-make DESTDIR=$PKG install
+make -C man DESTDIR=$PKG install-man
+make exec_prefix=/usr DESTDIR=$PKG install
 
-sed -i 's/yes/no/' $PKG/etc/default/useradd
-sed -i 's/GROUP/# GROUP/' $PKG/etc/default/useradd
+# sed -i 's/yes/no/' $PKG/etc/default/useradd
+# sed -i 's/GROUP/# GROUP/' $PKG/etc/default/useradd
 mv -v $PKG/usr/bin/passwd $PKG/bin
 #
 # Following sed comment appropriate lines in etc/login.defs, and stop login
@@ -171,6 +172,4 @@ fi
 if [ -f $PKG/etc/limits ]; then
  mv -v $PKG/etc/limits{,.NOUSE}
 fi
-rm $PKG/usr/share/man/man8/nologin.8
-rm $PKG/sbin/nologin
 }
