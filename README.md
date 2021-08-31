@@ -99,6 +99,10 @@ export LFS LC_ALL LFS_TARGET PATH" > /home/lfs/.bashrc
 ```
 git clone https://github.com/yaolinux/base-sysd.git development
 ```
+### in case of development branch, you have to specify it
+```
+git clone -b development https://github.com/yaolinux/base-sysd.git development
+```
 ```
 cd development
 scripts/runmebeforepass1
