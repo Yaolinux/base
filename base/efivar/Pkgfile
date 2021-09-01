@@ -18,7 +18,7 @@ build() {
 unset MAKEFLAGS
 cd $name-${_commit}
 
-patch -Np1 -i ../efivar-$version.patch
+patch -Np1 -i ../efivar-37.1.patch
 
 # -Werror, not even once
 #  sed -e 's/-Werror//g' -i gcc.specs
