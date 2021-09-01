@@ -20,6 +20,7 @@ acl
 pam
 libcap
 sed
+shadow
 psmisc
 iana-etc
 bison
@@ -38,7 +39,6 @@ autoconf
 automake
 kmod
 gettext
-shadow
 libelf
 libffi
 openssl
