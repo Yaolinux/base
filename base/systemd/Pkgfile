@@ -1,3 +1,5 @@
+makedepends=(python-jinja2)
+
 description="Init system to control boot, execution and halt of a linux system"
 url="http://www.freedesktop.org/wiki/Software/systemd/"
 
