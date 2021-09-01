@@ -63,6 +63,8 @@ patch
 man-db
 tar
 texinfo
+python-markupsafe
+python-jinja2
 systemd
 dbus
 procps-ng
