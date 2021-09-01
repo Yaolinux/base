@@ -20,7 +20,6 @@ acl
 pam
 libcap
 sed
-shadow
 psmisc
 iana-etc
 bison
