@@ -39,6 +39,7 @@ autoconf
 automake
 kmod
 gettext
+shadow
 libelf
 libffi
 openssl
