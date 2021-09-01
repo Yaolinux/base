@@ -38,7 +38,7 @@ make exec_prefix=/usr DESTDIR=$PKG install
 
 # sed -i 's/yes/no/' $PKG/etc/default/useradd
 # sed -i 's/GROUP/# GROUP/' $PKG/etc/default/useradd
-mv -v $PKG/usr/bin/passwd $PKG/bin
+# mv -v $PKG/usr/bin/passwd $PKG/bin
 #
 # Following sed comment appropriate lines in etc/login.defs, and stop login
 # from performing these functions. First backup the etc/login.defs
