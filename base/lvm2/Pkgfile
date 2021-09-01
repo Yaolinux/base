@@ -3,7 +3,7 @@ url="http://sourceware.org/lvm2/"
 
 packager="Yaolinux Team"
 
-makedepends=(slibaio systemd)
+makedepends=(libaio systemd)
 
 name=lvm2
 version=2.03.13
