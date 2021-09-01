@@ -172,4 +172,6 @@ fi
 if [ -f $PKG/etc/limits ]; then
  mv -v $PKG/etc/limits{,.NOUSE}
 fi
+# File conflict with coreutils, even the sed is properly done in the beginning
+rm $PKG/usr/share/man/man1/groups.1.gz
 }
