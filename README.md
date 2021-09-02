@@ -93,6 +93,8 @@ LC_ALL=POSIX
 LFS_TARGET=$(uname -m)-lfs-linux-gnu
 PATH=/home/lfs/bin:/tools/bin:/bin:/usr/bin
 export LFS LC_ALL LFS_TARGET PATH" > /home/lfs/.bashrc
+
+source ~/.bashrc
 ```
 
 ## You are in the LFS user, now continue the installation with
