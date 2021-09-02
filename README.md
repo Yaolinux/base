@@ -25,7 +25,7 @@ mv -v install-nutyx /usr/bin/install-nutyx
 userdel lfs
 rm -r /home/lfs
 rm -r /mnt/lfs
-`groupdel lfs
+groupdel lfs
 ```
 
 ## After that or if you didn't make an installation process, you have to run these following commands
