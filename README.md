@@ -214,7 +214,11 @@ install-nutyx -ec
 ## continue with
 ```
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/root/bin
+```
+```
 cd /root/development/base
+```
+```
 pass
 ```
 
