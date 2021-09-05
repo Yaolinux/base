@@ -1,5 +1,6 @@
 description="HTTP cookie jars"
 url="http://search.cpan.org/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl perl-http-date perl-http-message)
@@ -12,9 +13,12 @@ source=(https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Cookies-$version.
 
 build() {
 cd HTTP-Cookies-$version
+
 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
+
 find $PKG \
          -name '*.bs' -or \
          -name '.packlist' -or \

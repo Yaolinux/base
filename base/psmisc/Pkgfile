@@ -1,7 +1,8 @@
 description="Set of some small useful utilities that use the proc filesystem."
 url="http://psmisc.sourceforge.net/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=psmisc
 version=23.4
@@ -14,7 +15,6 @@ cd psmisc-$version
 ./configure --prefix=/usr
 
 make
-
 make DESTDIR=$PKG install
 
 mkdir -p  $PKG/bin

@@ -5,7 +5,7 @@ packager="Yaolinux Team"
 maintainer="rems"
 
 name=libelf
-version=0.183
+version=0.185
 
 source=(https://sourceware.org/elfutils/ftp/${version}/elfutils-${version}.tar.bz2)
 
@@ -18,7 +18,6 @@ cd elfutils-$version
             --disable-static
 
 make
-
 make -C libelf DESTDIR=$PKG install
 
 mkdir -pv $PKG/usr/lib/pkgconfig

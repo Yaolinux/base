@@ -1,14 +1,15 @@
-maintainer="rems"
 description="A tool for generating text-scanning programs"
-packager="Yaolinux Team"
-
 url="http://flex.sourceforge.net"
+
+packager="Yaolinux Team"
+maintainer="rems"
+
 name=flex
 version=2.6.4
 
 source=(https://github.com/westes/flex/releases/download/v${version}/flex-$version.tar.gz)
-build()
-{
+
+build() {
 cd flex-$version
 
 sed -i "/math.h/a #include <malloc.h>" src/flexdef.h
@@ -24,5 +25,4 @@ make -k check||true
 make DESTDIR=$PKG install
 
 ln -sv flex $PKG/usr/bin/lex
-
 }

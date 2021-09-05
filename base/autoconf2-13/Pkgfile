@@ -1,5 +1,6 @@
 description="A GNU tool for automatically configuring source code (Legacy 2.1x version)"
 url="http://www.gnu.org/software/autoconf/"
+
 packager="Yaolinux Team"
 
 name=autoconf2-13
@@ -9,18 +10,19 @@ source=(http://ftpmirror.gnu.org/autoconf/autoconf-$version.tar.gz
         http://www.linuxfromscratch.org/patches/blfs/svn/autoconf-$version-consolidated_fixes-1.patch) 
 
 build() {
-  cd $SRC/autoconf-$version
+cd autoconf-$version
 
-  patch -Np1 -i ../autoconf-$version-consolidated_fixes-1.patch
+patch -Np1 -i ../autoconf-$version-consolidated_fixes-1.patch
 
-  mv -v autoconf.texi autoconf213.texi                     
-  rm -v autoconf.info    
+mv -v autoconf.texi autoconf213.texi                     
+rm -v autoconf.info    
 
-  ./configure --prefix=/usr \
-              --program-suffix=2.13
-  make
-  make DESTDIR=$PKG install
+./configure --prefix=/usr \
+            --program-suffix=2.13
 
- install -v -m644 autoconf213.info $PKG/usr/share/info
- install-info --info-dir=$PKG/usr/share/info autoconf213.info
+make
+make DESTDIR=$PKG install
+
+install -v -m644 autoconf213.info $PKG/usr/share/info
+install-info --info-dir=$PKG/usr/share/info autoconf213.info
 }

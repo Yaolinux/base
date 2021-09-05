@@ -1,7 +1,6 @@
-makedepends=()
-
 description="The Linux-native asynchronous I/O facility (aio) library"
 url="http://lse.sourceforge.net/io/aio.html"
+
 packager="Yaolinux Team"
 
 name=libaio

@@ -1,7 +1,8 @@
 description="Portable lossless data compression library."
 url="http://www.oberhumer.com/opensource/lzo"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=lzo
 version=2.10
@@ -10,11 +11,14 @@ release=2
 source=(  http://www.oberhumer.com/opensource/$name/download/$name-$version.tar.gz)
 
 build() {
- cd $name-$version
- ./configure --prefix=/usr \
- --enable-shared \
- --docdir=/usr/share/doc/lzo-$version
- make
- make DESTDIR=$PKG install
- rm $PKG/usr/lib/liblzo2.la
+cd $name-$version
+
+./configure --prefix=/usr \
+            --enable-shared \
+            --docdir=/usr/share/doc/lzo-$version
+
+make
+make DESTDIR=$PKG install
+
+rm $PKG/usr/lib/liblzo2.la
 }

@@ -1,10 +1,11 @@
 description="The M4 package contains a macro processor"
 url="http://www.seindal.dk/rene/gnu/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=m4
-version=1.4.18
+version=1.4.19
 
 source=(http://ftp.gnu.org/gnu/m4/m4-$version.tar.xz)
 

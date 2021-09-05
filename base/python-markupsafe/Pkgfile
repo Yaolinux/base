@@ -1,0 +1,18 @@
+description="MarkupSafe is a Python module that implements a XML/HTML/XHTML Markup safe string."
+url="https://pypi.python.org/pypi/MarkupSafe"
+
+packager="Yaolinux Team"
+maintainer="rems"
+
+name=python-markupsafe
+version=2.0.1
+
+source=(https://github.com/pallets/markupsafe/archive/markupsafe-$version.tar.gz)
+
+build() {
+cd markupsafe-$version
+
+python3 setup.py build
+
+python3 setup.py install --root=$PKG --optimize=1
+}

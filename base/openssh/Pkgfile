@@ -1,18 +1,20 @@
 description="Free version of the SSH connectivity tools"
 url="http://www.openssh.org/"
 
-maintainer="rems"
 packager="Yaolinux Team"
+maintainer="rems"
 
 makedepends=(libedit)
 
 name=openssh
-version=8.6p1
+version=8.7p1
 
 source=(http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz)
 
 build() {
+
 unset MAKEFLAGS
+
 cd $name-$version
 
 install -v -m700 -d $PKG/var/lib/sshd

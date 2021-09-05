@@ -1,15 +1,15 @@
 description="GNU compiler collection, which includes the C, C++, fortran and objc compilers."
 url="http://gcc.gnu.org"
+
 packager="Yaolinux Team"
 maintainer="rems"
 
 name=gcc
-version=11.1.0
+version=11.2.0
 
 source=(http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz)
 
-build()
-{
+build() {
 cd gcc-$version
 
 case $(uname -m) in
@@ -41,7 +41,6 @@ LDFLAGS="-Wl,-rpath-link,/usr/lib:/lib" \
     --enable-default-pie
 
 make
-
 make DESTDIR=$PKG install
 
 rm -rvf $PKG/usr/lib/gcc/$(gcc -dumpmachine)/$version/include-fixed/bits/
@@ -64,10 +63,9 @@ $PKG/usr/share/gdb/auto-load/usr/lib
 
 ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/$version/liblto_plugin.so \
         $PKG/usr/lib/bfd-plugins/
-
 }
-devel()
-{
+
+devel() {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/$name.devel${PKGMK_BUILDVER}`uname -m`.$PKGMK_PACKAGE_EXT \

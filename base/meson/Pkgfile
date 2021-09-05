@@ -1,19 +1,19 @@
 description="Meson is an open source build system meant to be both extremely fast, as user friendly as possible"
 url="http://mesonbuild.com/"
+
 packager="Yaolinux Team"
 
 name=meson
-version=0.58.0
+version=0.59.1
 
 source=(https://github.com/mesonbuild/$name/releases/download/$version/$name-$version.tar.gz)
 
 build() {
-  cd $name-$version
+cd $name-$version
  
- DFLAGS="${LDFLAGS/,--as-needed/}"
-  export LC_CTYPE=en_US.UTF-8
+DFLAGS="${LDFLAGS/,--as-needed/}"
+export LC_CTYPE=en_US.UTF-8
   
-  python3 setup.py build
-  
-  python3 setup.py install --root=$PKG --optimize=1 --skip-build
+python3 setup.py build  
+python3 setup.py install --root=$PKG --optimize=1 --skip-build
 }

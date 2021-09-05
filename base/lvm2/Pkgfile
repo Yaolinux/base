@@ -1,11 +1,12 @@
 description="Allows spanning of file systems across multiple physical disks and partitions."
 url="http://sourceware.org/lvm2/"
+
 packager="Yaolinux Team"
 
-makedepends=(systemd libaio)
+makedepends=(libaio systemd)
 
 name=lvm2
-version=2.03.11
+version=2.03.13
 
 source=(https://sourceware.org/ftp/lvm2/LVM2.$version.tgz)
 
@@ -19,7 +20,6 @@ cd LVM2.$version
             --enable-udev_sync
 
 make
-
 make -C tools DESTDIR=$PKG install_tools_dynamic
 make -C udev DESTDIR=$PKG install
 make -C libdm DESTDIR=$PKG install

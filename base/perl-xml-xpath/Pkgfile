@@ -12,10 +12,10 @@ makedepends=(perl-path-tiny perl-xml-parser)
 source=(https://cpan.metacpan.org/authors/id/M/MA/MANWAR/XML-XPath-$version.tar.gz)
 
 build() {
-  cd XML-XPath-$version
+cd XML-XPath-$version
 
-  perl Makefile.PL INSTALLDIRS=vendor
+perl Makefile.PL INSTALLDIRS=vendor
 
-  make
-  make DESTDIR=$PKG install
+make
+make DESTDIR=$PKG install
 }

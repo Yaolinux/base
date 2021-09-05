@@ -25,7 +25,7 @@ mv -v install-nutyx /usr/bin/install-nutyx
 userdel lfs
 rm -r /home/lfs
 rm -r /mnt/lfs
-`groupdel lfs
+groupdel lfs
 ```
 
 ## After that or if you didn't make an installation process, you have to run these following commands
@@ -93,11 +93,17 @@ LC_ALL=POSIX
 LFS_TARGET=$(uname -m)-lfs-linux-gnu
 PATH=/home/lfs/bin:/tools/bin:/bin:/usr/bin
 export LFS LC_ALL LFS_TARGET PATH" > /home/lfs/.bashrc
+
+source ~/.bashrc
 ```
 
 ## You are in the LFS user, now continue the installation with
 ```
 git clone https://github.com/yaolinux/base-sysd.git development
+```
+### in case of development branch, you have to specify it
+```
+git clone -b development https://github.com/yaolinux/base-sysd.git development
 ```
 ```
 cd development
@@ -208,7 +214,11 @@ install-nutyx -ec
 ## continue with
 ```
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/root/bin
+```
+```
 cd /root/development/base
+```
+```
 pass
 ```
 

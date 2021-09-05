@@ -1,0 +1,21 @@
+makedepends=(python-markupsafe)
+
+description="A simple pythonic template language written in python 2&3"
+url="http://jinja.pocoo.org/"
+
+packager="Yaolinux Team"
+maintainer="rems"
+
+name=python-jinja2
+version=3.0.1
+
+source=(https://pypi.org/packages/source/J/Jinja2/Jinja2-$version.tar.gz)
+
+build() {
+
+cd Jinja2-$version
+
+python3 setup.py build
+
+python3 setup.py install --root="$PKG" --optimize=1
+}

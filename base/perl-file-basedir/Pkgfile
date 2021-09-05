@@ -1,23 +1,26 @@
 description="Use the Freedesktop.org base directory specification"
 url="http://search.cpan.org/dist/File-BaseDir/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl-ipc-system-simple perl-module-build)
 run=(perl  perl-ipc-system-simple)
 
 name=perl-file-basedir
-version=0.08
+version=0.09
 
-source=(http://search.cpan.org/CPAN/authors/id/K/KI/KIMRYAN/File-BaseDir-$version.tar.gz)
+source=(https://search.cpan.org/CPAN/authors/id/P/PL/PLICEASE/File-BaseDir-$version.tar.gz)
 
 build() {
-    cd File-BaseDir-$version
-    perl Makefile.PL INSTALLDIRS=vendor
-    make
-    make DESTDIR=$PKG install
+cd File-BaseDir-$version
 
-    # Remove perllocal.pod and .packlist if present in the package
-    for i in perllocal.pod .packlist; do
-        find $PKG -name "$i" -exec rm -rf {} \;
-    done
+perl Makefile.PL INSTALLDIRS=vendor
+
+make
+make DESTDIR=$PKG install
+
+# Remove perllocal.pod and .packlist if present in the package
+for i in perllocal.pod .packlist; do
+    find $PKG -name "$i" -exec rm -rf {} \;
+done
 }

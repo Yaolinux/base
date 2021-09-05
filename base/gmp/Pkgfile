@@ -1,16 +1,17 @@
 description="A free library for arbitrary precision arithmetic."
 url="http://gmplib.org/"
-paintainer="Torb,Granlund and many more"
+
 packager="Yaolinux Team"
+paintainer="Torb,Granlund and many more"
 
 name=gmp
 version=6.2.1
 
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 
-build()
-{
+build() {
 cd gmp-$version
+
 case `uname -m` in
  i?86)
 	ABI=32 ./configure \
@@ -33,6 +34,7 @@ case `uname -m` in
         --enable-cxx \
         --docdir=/usr/share/doc/$name-$version
 esac
+
 make
 make html
 
@@ -41,5 +43,4 @@ make html
 
 make DESTDIR=$PKG install
 make DESTDIR=$PKG install-html
-
 }

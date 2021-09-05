@@ -1,30 +1,27 @@
-makedepends=(perl-devel-symdump)
-
 description="Checks if the documentation of a module is comprehensive"
 url="http://search.cpan.org/dist/Pod-Coverage"
+
 packager="Yaolinux Team"
 
-run=( perl )
+makedepends=(perl-devel-symdump)
+run=(perl)
 
 name=perl-pod-coverage
 version=0.23
 release=2
 
-source=(
-http://www.cpan.org/authors/id/R/RC/RCLAMP/Pod-Coverage-$version.tar.gz)
+source=(http://www.cpan.org/authors/id/R/RC/RCLAMP/Pod-Coverage-$version.tar.gz)
 
 build() {
-    cd Pod-Coverage-$version
-    perl Makefile.PL
-    make OPTIMIZE="$CFLAGS" || exit 1
-    make install INSTALLDIRS=vendor DESTDIR=$PKG || exit 1
+cd Pod-Coverage-$version
 
-    # Remove perllocal.pod and .packlist if present in the package
-    for i in perllocal.pod .packlist; do
-        find $PKG -name "$i" -exec rm -rf {} \;
-    done
+perl Makefile.PL
+
+make OPTIMIZE="$CFLAGS" || exit 1
+make install INSTALLDIRS=vendor DESTDIR=$PKG || exit 1
+
+# Remove perllocal.pod and .packlist if present in the package
+for i in perllocal.pod .packlist; do
+    find $PKG -name "$i" -exec rm -rf {} \;
+done
 }
-
-
-
-# NuTyX Pkgfile (http://nutyx.org)

@@ -1,8 +1,7 @@
 version=6.2
 source=(ftp://invisible-island.net/ncurses/ncurses-$version.tar.gz)
 
-build()
-{
+build() {
 cd ncurses-$version
 
 sed -i s/mawk// configure
@@ -11,8 +10,8 @@ sed -i s/mawk// configure
  --without-debug --without-ada --enable-widec  \
  --enable-overwrite
 	
-make
-	
+make	
 make install
+
 ln -s libncursesw.so /tools/lib/libncurses.so
 }

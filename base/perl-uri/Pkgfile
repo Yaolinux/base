@@ -1,5 +1,6 @@
 description="Uniform Resource Identifiers Perl (absolute and relative)"
 url="http://search.cpan.org/dist/URI/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl)
@@ -12,9 +13,12 @@ source=(https://www.cpan.org/authors/id/O/OA/OALDERS/URI-$version.tar.gz)
 
 build() {
 cd URI-$version
-	perl Makefile.PL
-	make
-	make DESTDIR=$PKG install
+
+perl Makefile.PL
+
+make
+make DESTDIR=$PKG install
+
 find $PKG \
          -name '*.bs' -or \
          -name '.packlist' -or \

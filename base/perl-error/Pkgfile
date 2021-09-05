@@ -1,10 +1,10 @@
-makedepends=(perl)
-
 description="Perl/CPAN Error module - Error/exception handling in an OO-ish way"
 url="http://search.cpan.org/dist/Error"
+
 packager="Yaolinux Team"
 
-run=( perl )
+makedepends=(perl)
+run=(perl)
 
 name=perl-error
 version=0.17029
@@ -13,9 +13,12 @@ source=(http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/Error-$version.tar.g
 
 build() {
 cd Error-$version
+
 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
+
 find $PKG \
          -name '*.bs' -or \
          -name '.packlist' -or \

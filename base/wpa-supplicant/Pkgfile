@@ -1,5 +1,6 @@
 description="A utility providing key negotiation for WPA wireless networks"
 url="http://hostap.epitest.fi/wpa_supplicant"
+
 packager="Yaolinux Team"
 maintainer="rems"
 
@@ -11,8 +12,8 @@ version=2.9
 source=(https://w1.fi/releases/wpa_supplicant-$version.tar.gz)
 
 build() {
-
 cd wpa_supplicant-$version
+
 cat > wpa_supplicant/.config << "EOF"
 CONFIG_BACKEND=file
 CONFIG_CTRL_IFACE=y
@@ -62,5 +63,4 @@ install -v -m644 dbus/fi.w1.wpa_supplicant1.service \
 install -v -d -m755 $PKG/etc/dbus-1/system.d
 install -v -m644 dbus/dbus-wpa_supplicant.conf \
                  $PKG/etc/dbus-1/system.d/wpa_supplicant.conf
-
 }

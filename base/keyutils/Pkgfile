@@ -1,5 +1,6 @@
 description="Keyutils is a set of utilities for managing the key retention facility in the kernel."
 url=" https://rhn.redhat.com/errata/RHEA-2006-0090.html"
+
 packager="Yaolinux Team"
 
 name=keyutils
@@ -8,8 +9,11 @@ version=1.6.3
 source=(https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/keyutils-$version.tar.gz)
 
 build() {
-	unset MAKEFLAGS
-        cd $name-$version
-        make
-        make DESTDIR=$PKG install
+	
+unset MAKEFLAGS
+
+cd $name-$version
+
+make
+make DESTDIR=$PKG install
 }

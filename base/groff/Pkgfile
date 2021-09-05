@@ -1,15 +1,15 @@
 description="The Groff package contains programs for processing and formatting text."
 url="http://www.gnu.org/software/groff/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=groff
 version=1.22.4
 
 source=(http://ftp.gnu.org/gnu/groff/groff-$version.tar.gz)
 
-build()
-{
+build() {
 cd groff-$version
 
 PAGE="A4" ./configure --prefix=/usr

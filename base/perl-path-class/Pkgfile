@@ -1,5 +1,6 @@
 description="Cross-platform path specification manipulation"
 url="http://search.cpan.org/dist/Path-Class/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl)
@@ -18,9 +19,12 @@ export PERL_MM_USE_DEFAULT=1 PERL5LIB=""  \
        MODULEBUILDRC=/dev/null
 
 cd Path-Class-$version
+
 perl Makefile.PL
+
 make
 make DESTDIR=$PKG install
+
 find $PKG -name '*.bs' -or \
           -name .packlist -or \
           -name perllocal.pod -delete

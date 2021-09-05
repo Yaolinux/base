@@ -1,15 +1,17 @@
 description="Utilities for internationalization and localization."
 url="http://www.gnu.org/software/gettext/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=gettext
 version=0.21
 
 source=(http://ftp.gnu.org/gnu/gettext/gettext-$version.tar.xz)
-build()
-{
+
+build() {
 cd gettext-$version
+
 ./configure --prefix=/usr \
             --docdir=/usr/share/doc/gettext-$version
 
@@ -21,8 +23,8 @@ make DESTDIR=$PKG install
 
 chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
 }
-devel()
-{
+
+devel() {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/${name}.devel${PKGMK_BUILDVER}any.$PKGMK_PACKAGE_EXT \

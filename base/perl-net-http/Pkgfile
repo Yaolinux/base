@@ -1,5 +1,6 @@
 description="Low-level HTTP connection (client)"
 url="http://search.cpan.org/dist/Net-HTTP/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl)
@@ -12,9 +13,12 @@ source=(http://cpan.metacpan.org/authors/id/O/OA/OALDERS/Net-HTTP-$version.tar.g
 
 build() {
 cd Net-HTTP-$version
+
 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
+
 find $PKG \
          -name '*.bs' -or \
          -name '.packlist' -or \

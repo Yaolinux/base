@@ -1,18 +1,21 @@
 description="Nearly transparent SSL encapsulation for IO::Socket::INET"
 url="http://search.cpan.org/dist/IO-Socket-SSL/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl perl-net-ssleay perl-uri)
-run=( perl )
+run=(perl)
 
 name=perl-io-socket-ssl
-version=2.070
+version=2.072
 
 source=(http://www.cpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-$version.tar.gz)
 
 build() {
 cd IO-Socket-SSL-$version
+
 yes | perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
 

@@ -1,12 +1,12 @@
-makedepends=(lzo python)
-
 description="Btrfs filesystem utilities"
 url="http://btrfs.wiki.kernel.org/"
 
 packager="Yaolinux Team"
 
+makedepends=(lzo python)
+
 name=btrfs-progs
-version=5.11.1
+version=5.13.1
 
 source=(https://www.kernel.org/pub/linux/kernel/people/kdave/$name/$name-v$version.tar.xz)
 

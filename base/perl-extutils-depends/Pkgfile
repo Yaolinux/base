@@ -1,25 +1,26 @@
-makedepends=(perl)
-
 description="perl module"
 url="http://search.cpan.org/dist/ExtUtils-Depends/"
+
 packager="Yaolinux Team"
 
-run=( perl )
+makedepends=(perl)
+run=(perl)
 
 name=perl-extutils-depends
-version=0.8000
-release=1
+version=0.8001
 
 source=(http://www.cpan.org/authors/id/X/XA/XAOC/ExtUtils-Depends-$version.tar.gz)
 
 build() {
-	cd ExtUtils-Depends-$version
-	perl Makefile.PL
-	make
-	make DESTDIR=$PKG install
-	find $PKG \
-		-name perllocal.pod \
-		-o -name .packlist | xargs rm
-	find $PKG -empty | xargs rmdir -p ||:
+cd ExtUtils-Depends-$version
 
+perl Makefile.PL
+
+make
+make DESTDIR=$PKG install
+
+find $PKG \
+	-name perllocal.pod \
+	-o -name .packlist | xargs rm
+find $PKG -empty | xargs rmdir -p ||:
 }

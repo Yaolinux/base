@@ -1,14 +1,18 @@
 description="The Perl package contains the Practical Extraction and Report Language."
 url="http://www.perl.org/"
+
 packager="Yaolinux Team"
 
 name=perl
-version=5.32.1
+version=5.34.0
 
-source=(https://www.cpan.org/src/5.0/perl-${version}.tar.xz)
+source=(https://www.cpan.org/src/5.0/perl-${version}.tar.xz
+        https://www.linuxfromscratch.org/patches/lfs/development/perl-${version}-upstream_fixes-1.patch)
 
 build() {
 cd $name-$version
+
+patch -Np1 -i ../perl-${version}-upstream_fixes-1.patch
 
 if [ "`uname -m`" == "x86_64" ]; then
 	_ARCH="-Dcccdlflags='-fPIC'"
@@ -19,7 +23,6 @@ fi
 echo "127.0.0.1 localhost $(hostname)" > /etc/hosts
 export BUILD_ZLIB=False
 export BUILD_BZIP2=0
-
 
 sh Configure -des  -Dusethreads \
 	           -Dprefix=/usr \

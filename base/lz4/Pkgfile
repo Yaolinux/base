@@ -1,7 +1,8 @@
 description="Very fast lossless compression algorithm"
 url="https://github.com/Cyan4973/lz4"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=lz4
 version=1.9.3
@@ -13,7 +14,7 @@ source=(https://github.com/Cyan4973/lz4/archive/v$version.tar.gz)
 
 build() {
 cd $name-$version
-make PREFIX=/usr
 
+make PREFIX=/usr
 make install PREFIX=/usr DESTDIR=$PKG
 }

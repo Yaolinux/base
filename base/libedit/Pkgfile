@@ -5,20 +5,20 @@ packager="Yaolinux Team"
 maintainer="rems"
 
 name=libedit
-version=20210419-3.1
+version=20210714-3.1
 
 source=(https://thrysoee.dk/editline/libedit-${version}.tar.gz)
 
-build(){
-    cd $name-${version}
+build() {			
+cd $name-${version}
 
-    ./configure --prefix=/usr
+./configure --prefix=/usr
 
-    make
-    make prefix=$PKG/usr install
+make
+make prefix=$PKG/usr install
 
-    # conflicts with readline
-    rm $PKG/usr/share/man/man3/history.3
-    cp $PKG/usr/share/man/man3/editline.3 \
-    $PKG/usr/share/man/man3/el.3
+# conflicts with readline
+rm $PKG/usr/share/man/man3/history.3
+cp $PKG/usr/share/man/man3/editline.3 \
+ $PKG/usr/share/man/man3/el.3
 }

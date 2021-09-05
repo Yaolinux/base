@@ -15,7 +15,6 @@ PKGMK_KEEP_SOURCES="no"
 source=(http://dania.on86.net/sources/development/zram-tools-0.1.tar.xz)
 
 build() {
-
 cd $name-$version
 
 mkdir -pv $PKG/usr/sbin/

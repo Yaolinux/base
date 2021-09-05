@@ -1,11 +1,8 @@
-version=1.4.9
-name=zstd
-
-source=(http://rems.6admin.net/sources/development/zstd-${version}.tar.gz)
+version=1.5.0
+source=(https://github.com/facebook/zstd/releases/download/v1.5.0/zstd-$version.tar.gz)
 
 build() {
-
-cd $name-$version
+cd zstd-$version
 
 make
 make prefix=/tools install

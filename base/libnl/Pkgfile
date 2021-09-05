@@ -1,5 +1,6 @@
 description="Collection of Libraries providing APIs to netlink protocol based Linux kernel interfaces"
 url="http://people.suug.ch/~tgr/libnl"
+
 packager="Yaolinux Team"
 
 name=libnl
@@ -7,13 +8,16 @@ version=3.5.0
 release=3
 
 source=(https://github.com/thom311/libnl/releases/download/libnl$(echo $version|sed 's/\./_/g')/$name-$version.tar.gz)
+
 build() {
 cd $name-$version
+
 ./configure --prefix=/usr \
             --sysconfdir=/etc \
             --disable-static
 make
 make DESTDIR=$PKG install
+
 # Doc
 mkdir -p $PKG/usr/share/doc/$name-$version
 wget https://github.com/thom311/libnl/releases/download/libnl$(echo $version|sed 's/\./_/g')/libnl-doc-$version.tar.gz

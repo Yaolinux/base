@@ -1,8 +1,8 @@
 description="The Make package contains a program for compiling packages."
 url="http://www.gnu.org/software/make/"
 
-maintainer="rems"
 packager="Yaolinux Team"
+maintainer="rems"
 
 PKGMK_GROUPS=(man locale)
 
@@ -12,13 +12,11 @@ version=4.3
 source=(https://ftp.gnu.org/gnu/${name}/${name}-${version}.tar.gz)
 
 build() {
-
 cd $name-$version
 
 ./configure --prefix=/usr \
             --without-guile
 
 make
-
 make DESTDIR=$PKG install
 }

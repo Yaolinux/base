@@ -1,12 +1,13 @@
 description="The World-Wide Web library for Perl"
 url="http://search.cpan.org/"
+
 packager="Yaolinux Team"
 
 makedepends=(perl perl-encode-locale perl-file-listing perl-html-parser perl-http-cookies perl-http-daemon perl-http-date perl-http-negotiate perl-lwp-mediatypes perl-net-http perl-uri perl-www-robotrules perl-http-message)
 run=(perl)
 
 name=perl-libwww
-version=6.53
+version=6.56
 
 source=(https://cpan.metacpan.org/authors/id/O/OA/OALDERS/libwww-perl-$version.tar.gz)
 
@@ -16,7 +17,6 @@ cd libwww-perl-$version
 perl Makefile.PL  --aliases IINSTALLDIRS=vendor
 
 make
-
 make DESTDIR=$PKG install
 
 find $PKG \

@@ -1,24 +1,30 @@
 description="Texinfo is the official documentation format of the GNU project."
 url="http://www.gnu.org/software/texinfo"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=texinfo
-version=6.7
-release=2
+version=6.8
 
 source=(http://ftp.gnu.org/gnu/$name/texinfo-$version.tar.xz)
 
 build() {
 cd texinfo-*
 
+sed -e 's/__attribute_nonnull__/__nonnull/' \
+    -i gnulib/lib/malloc/dynarray-skeleton.c
+
 ./configure --prefix=/usr
+
+sed -e 's/__attribute_nonnull__/__nonnull/' \
+    -i gnulib/lib/malloc/dynarray-skeleton.c
 
 make
 make install DESTDIR=$PKG
 }
-devel()
-{
+
+devel() {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/${name}.devel${PKGMK_BUILDVER}any.$PKGMK_PACKAGE_EXT \

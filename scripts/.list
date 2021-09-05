@@ -20,7 +20,6 @@ acl
 pam
 libcap
 sed
-shadow
 psmisc
 iana-etc
 bison
@@ -39,6 +38,7 @@ autoconf
 automake
 kmod
 gettext
+shadow
 libelf
 libffi
 openssl
@@ -63,6 +63,8 @@ patch
 man-db
 tar
 texinfo
+python-markupsafe
+python-jinja2
 systemd
 dbus
 procps-ng

@@ -1,22 +1,24 @@
-makedepends=(perl)
-
 description="Data tables useful in parsing HTML"
 url="http://search.cpan.org/"
+
 packager="Yaolinux Team"
 
-run=( perl )
+makedepends=(perl)
+run=(perl)
 
 name=perl-html-tagset
 version=3.20
-release=1
 
 source=(http://www.cpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-$version.tar.gz)
 
 build() {
 cd HTML-Tagset-$version
+
 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make DESTDIR=$PKG install
+
 find $PKG \
          -name '*.bs' -or \
          -name '.packlist' -or \

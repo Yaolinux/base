@@ -1,8 +1,7 @@
-version=3.9.5
+version=3.9.6
 source=(http://www.python.org/ftp/python/$version/Python-$version.tar.xz)
 
-build()
-{
+build() {
 cd Python-$version
 
 sed -i '/def add_multiarch_paths/a \        return' setup.py

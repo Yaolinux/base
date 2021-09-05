@@ -1,12 +1,15 @@
 description="The linux kernel firmware set of files. More and more hardware requires this package"
+url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/"
+
 packager="Yaolinux Team"
 
 makedepends=(git)
 
 name=linux-firmware
-version=20210315
+version=20210818
 
 build() {
+
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git \
 $name-$version
 
@@ -32,5 +35,4 @@ rm -rvf .git
 
 mkdir $PKG/lib
 cp -a . $PKG/lib/firmware
-
 }

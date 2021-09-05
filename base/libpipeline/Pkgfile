@@ -1,7 +1,8 @@
 description="C library for manipulating pipelines of subprocesses in a flexible way"
 url="http://libpipeline.nongnu.org/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=libpipeline
 version=1.5.3
@@ -18,6 +19,5 @@ PKG_CONFIG_PATH=/tools/lib/pkgconfig \
 ./configure --prefix=/usr
 
 make
-
 make DESTDIR=$PKG install
 }

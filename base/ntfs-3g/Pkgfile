@@ -1,5 +1,6 @@
 description="The Ntfs-3g package contains a stable, read-write open source driver for NTFS partitions."
 url="http://www.ntfs-3g.org"
+
 packager="Yaolinux Team"
 
 name=ntfs-3g
@@ -7,8 +8,8 @@ version=2017.3.23
 release=3
 
 source=(http://tuxera.com/opensource/${name}_ntfsprogs-$version.tgz)
-build() {
 
+build() {
 cd ${name}_ntfsprogs-$version
 
 ./configure --prefix=/usr \

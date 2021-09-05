@@ -1,4 +1,4 @@
-version=2.4.128
+version=2.4.136
 source=(http://downloads.nutyx.org/files/cards-$version.tar.gz)
 
 # patchname="$name-$version-consolidate-1.patch"
@@ -6,7 +6,7 @@ source=(http://downloads.nutyx.org/files/cards-$version.tar.gz)
 [ -z "$patchname" ] || source+=" $patchname"
 
 build() {
-cd cards-cards-$version
+cd cards-$version
 [ -z "$patchname" ] || patch -Np1 -i ../$patchname
 
 PKG_CONFIG_PATH=/tools/lib/pkgconfig \

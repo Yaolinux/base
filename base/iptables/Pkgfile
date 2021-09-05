@@ -8,10 +8,9 @@ version=1.8.7
 yaolinux_version=1.0-RC3
 
 source=(http://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2
-        http://download.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+        http://yaolinux.mesfichiers.eu/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
 
 build() {
-
 cd $name-$version
 
 ./configure --prefix=/usr \
@@ -31,6 +30,7 @@ for file in ip4tc ip6tc ipq xtables
    mv -v $PKG/usr/lib/lib${file}.so.* $PKG/lib
    ln -sfv ../../lib/$(readlink $PKG/usr/lib/lib${file}.so) $PKG/usr/lib/lib${file}.so
  done
+
 # service
 cd ../yaolinux-${yaolinux_version}
 make DESTDIR=$PKG install-$name

@@ -1,5 +1,4 @@
-version=2.36.2
-
+version=2.37.2
 source=(http://www.kernel.org/pub/linux/utils/util-linux/v${version:0:4}/util-linux-$version.tar.xz)
 
 build() {
@@ -13,6 +12,5 @@ cd util-linux-$version
 PKG_CONFIG=""
 
 make
-
 make install
 }

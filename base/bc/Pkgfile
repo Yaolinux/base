@@ -4,7 +4,7 @@ url="http://ftp.gnu.org/gnu/bc/"
 packager="Yaolinux Team"
 
 name=bc
-version=3.3.4
+version=5.0.0
 
 source=(https://github.com/gavinhoward/bc/releases/download/$version/$name-$version.tar.xz)
 

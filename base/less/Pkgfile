@@ -1,10 +1,11 @@
 description="The Less package contains a text file viewer."
 url="http://www.greenwoodsoftware.com/less/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=less
-version=581
+version=590
 
 source=(http://www.greenwoodsoftware.com/less/less-$version.tar.gz)
 
@@ -15,6 +16,5 @@ cd less-$version
             --sysconfdir=/etc
 
 make
-
 make DESTDIR=$PKG install
 }

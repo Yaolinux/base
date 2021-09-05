@@ -1,8 +1,8 @@
 description="Connect your computer to a network which uses DHCP to assign network addresses."
 url="http://roy.marples.name/projects/dhcpcd"
 
-maintainer="rems"
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=dhcpcd
 version=9.4.0
@@ -21,7 +21,6 @@ cd $name-$version
             --dbdir=/var/lib/dhcpcd
 
 make
-
 make DESTDIR=$PKG install
 
 # Service

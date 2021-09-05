@@ -1,8 +1,7 @@
 version=5.45.4
 source=(http://prdownloads.sourceforge.net/expect/expect$version.tar.gz)
 
-build()
-{
+build() {
 cd expect$version
 
 cp configure{,.orig}
@@ -12,6 +11,5 @@ sed 's:/usr/local/bin:/bin:' configure.orig > configure
  --with-tclinclude=/tools/include
 
 make
-
 make SCRIPTS="" install
 }

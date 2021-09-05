@@ -1,5 +1,6 @@
 description="Perl extension for using OpenSSL"
 url="http://search.cpan.org/dist/Net-SSLeay"
+
 packager="Yaolinux Team"
 
 makedepends=(openssl perl)
@@ -18,10 +19,12 @@ export OPTIMIZE="$CFLAGS"
 export OPENSSL_PREFIX=/usr
 
 PERL_MM_USE_DEFAULT=1 perl Makefile.PL -- INSTALLDIRS=vendor
+
 make
 make install DESTDIR=$PKG
 
 install -D -m644 README $PKG/usr/share/licenses/$name/LICENSE
+
 find $PKG \
          -name '*.bs' -or \
          -name '.packlist' -or \

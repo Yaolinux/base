@@ -1,16 +1,16 @@
 description="The Gzip package contains programs for compressing and decompressing files."
 url="http://www.gzip.org/"
 
-maintainer="rems"
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=gzip
 version=1.10
+release=2
 
 source=(http://ftp.gnu.org/gnu/gzip/gzip-$version.tar.xz)
 
-build()
-{
+build() {
 cd gzip-$version
 
 ./configure --prefix=/usr

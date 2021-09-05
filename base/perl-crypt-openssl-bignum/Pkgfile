@@ -13,7 +13,9 @@ source=(http://search.cpan.org/CPAN/authors/id/K/KM/KMX/Crypt-OpenSSL-Bignum-$ve
 
 build() {
 cd Crypt-OpenSSL-Bignum-$version
+
 PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+
 make
 make pure_install doc_install DESTDIR=$PKG
 

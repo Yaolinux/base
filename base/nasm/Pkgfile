@@ -1,7 +1,8 @@
 description="80x86 assembler designed for portability and modularity."
 url="http://nasm.sourceforge.net/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=nasm
 version=2.15.05
@@ -10,17 +11,17 @@ source=(https://www.nasm.us/pub/nasm/releasebuilds/${version}/${name}-${version}
  	http://www.nasm.us/pub/nasm/releasebuilds/$version/nasm-$version-xdoc.tar.xz)
 
 build() {
-	cd $name-$version
+cd $name-$version
 
-	./configure --prefix=/usr \
-		    --mandir=/usr/share/man
+./configure --prefix=/usr \
+            --mandir=/usr/share/man
 	
-	make
+make
 	
-	mkdir -p $PKG/usr/bin 
-	mkdir -p $PKG/usr/share/man/man1
+mkdir -p $PKG/usr/bin 
+mkdir -p $PKG/usr/share/man/man1
 	
-	make DESTDIR=$PKG  install
+make DESTDIR=$PKG  install
 
 mkdir -pv $PKG/usr/share/doc/nasm-$version/html
 cd ../$name-$version

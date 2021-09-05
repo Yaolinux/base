@@ -1,15 +1,15 @@
 description="Searches input(s) file(s) for lines containing a match to a specified pattern."
 url="http://www.gnu.org/software/grep/"
-maintainer="rems"
+
 packager="Yaolinux Team"
+maintainer="rems"
 
 name=grep
-version=3.6
+version=3.7
 
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 
-build()
-{
+build() {
 cd grep-$version
 
 ./configure --prefix=/usr \
