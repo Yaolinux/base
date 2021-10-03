@@ -84,7 +84,7 @@ if [ -n "$KERNEL_VERSION" ] && [ ! -d "/lib/modules/$1" ] ; then
 fi
 
 libsystemdexecfiles='systemd systemd-sulogin-shell systemd-shutdown systemd-udevd'
-usrbinfiles="cut groups"
+usrbinfiles="cut groups basename"
 binfiles="udevadm sh cat clear date grep cp dd hostname killall ls mkdir mknod more mount mountpoint chmod"
 binfiles="$binfiles umount stty sed sleep ln rm uname systemd-tmpfiles"
 
