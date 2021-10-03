@@ -100,10 +100,11 @@ print_error_msg() {
 unmountall() {
 if [ -d "$DEPOT_CD/depot" ]; then
 	umount ${FOLDER}/${DEPOT}
-	umount  `cat /tmp/depot`
+	umount  $(cat /tmp/depot)
 fi
 [ ! -z $MOUNT ] && umount ${FOLDER}/${DEPOT}
 umount ${FOLDER}/run
+umount ${FOLDER}/dev/shm
 umount ${FOLDER}/dev/pts
 umount ${FOLDER}/dev
 umount ${FOLDER}/proc
@@ -128,6 +129,8 @@ mount -t devpts devpts ${FOLDER}/dev/pts
 mount -t proc proc ${FOLDER}/proc
 mount -t sysfs sysfs ${FOLDER}/sys
 mount -t tmpfs tmpfs ${FOLDER}/run
+mount -t tmpfs tmpfs ${FOLDER}/dev/shm
+
 if [ -h ${FOLDER}/dev/shm ]; then
    mkdir -p ${FOLDER}/$(readlink ${FOLDER}/dev/shm)
 fi
@@ -139,6 +142,7 @@ Chroot path: $DEVICE
 ******************************"
 chroot ${FOLDER} /usr/bin/env -i \
 HOME=/root \
+EUID=0 \
 TERM="$TERM" \
 PS1='\u:\w\$ ' \
 $LINUX_ARCH \
@@ -183,13 +187,14 @@ download_pkg() {
 #******************************************************************************
 install_pkg() {
 	getPackageFileName ${1}
-	if $TMP/`dirname $PKGADD`/pkginfo -r $FOLDER -i| grep "^$1 " > /dev/null; then
+	if $TMP/$(dirname $PKGADD)/pkginfo -r $FOLDER -i| grep "^$1 " > /dev/null; then
 		boot_mesg "$1 is already install on $DEVICE..."
 		echo_info
 	fi
 	if [ -f $FOLDER/$DEPOT/$BASE/${1}/$PackageFileName ]; then
 		# Installing the package
 		$TMP/$PKGADD -r $FOLDER -i $FOLDER/$DEPOT/$BASE/${1}/$PackageFileName || print_error_msg
+		rm -f $FOLDER/.{PRE,POST,README}
 		echo_ok
 	else
 		error "$PackageFileName not found"
@@ -231,7 +236,7 @@ end() {
 getPackageFileName() {
 	local BUILD_DATE EXT HEAD
 	if [ ! -f $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO ]; then
-		if ! (`which curl > /dev/null`); then
+		if ! ($(which curl > /dev/null)); then
 			error " Command 'curl' not found, please install curl programm"
 		fi
 		curl -LC - -sS --create-dirs \
@@ -239,13 +244,13 @@ getPackageFileName() {
 		error "Cannot download ${DEPOT_BASE}/${1}/.PKGREPO ..., check URL"
 		chmod -R 755 $FOLDER/$DEPOT
 	fi
-	if [ `wc -l $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO|cut -d " " -f1` -eq 0 ]; then
+	if [ $(wc -l $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO|cut -d " " -f1) -eq 0 ]; then
 		error "${DEPOT_BASE}/${1} not reacheable.."
 	fi
-	HEAD=`head -1 $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO`
+	HEAD=$(head -1 $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO)
 	if [ "${HEAD:10:1}" == "#" ]; then
-		BUILD_DATE="`echo $HEAD|cut -d "#" -f1`"
-		EXT="`echo $HEAD|cut -d "#" -f2`"
+		BUILD_DATE="$(echo $HEAD|cut -d "#" -f1)"
+		EXT="$(echo $HEAD|cut -d "#" -f2)"
 		PackageFileName="${1}${BUILD_DATE}${ARCH}${EXT}"
 	fi
 }
@@ -299,7 +304,7 @@ NORMAL="\[\e[0m\]"
 RED="\[\e[1;31m\]"
 GREEN="\[\e[1;32m\]"
 WHITE="\[\e[1;37m\]"
-INFOMACHINE="`date +%H:%M` `uname -m` `uname -r` `whoami`@`uname -n`"
+INFOMACHINE="$(date +%H:%M) $(uname -m) $(uname -r) $(whoami)@$(uname -n)"
 prompt_command() {
 # Sauvegarde de la pos courante
 tput sc
@@ -325,6 +330,7 @@ tput rc
 #PROMPT_COMMAND=prompt_command
 
 export XZ_DEFAULTS="-T0"
+export XZ_OPT="-T0"
 
 case $TERM in
         xterm|rxvt*)
@@ -793,6 +799,7 @@ export HISTIGNORE="&:[bf]g:exit"
 # Set some defaults for graphical systems
 export XDG_DATA_DIRS=/usr/share/
 export XDG_CONFIG_DIRS=/etc/xdg/
+export XDG_RUNTIME_DIR=/tmp/xdg-$USER
 
 # Set some defaults for certificates
 export GIO_USE_TLS=gnutls-pkcs11
@@ -1216,10 +1223,10 @@ fi
 [ -z "$VERSION" ] && VERSION="1.0-RC3"
 
 if [ "$VERSION" == "development" ]; then
-	CODE_NAME="`date +%Y%m%d`"
+	CODE_NAME="$(date +%Y%m%d)"
 	INIT="sysd"
 else
-	CODE_NAME="Houaphan"
+	CODE_NAME="EternalRolling"
 fi
 
 [ -z "$DEPOT" ] && DEPOT="/var/lib/pkg/depot"
@@ -1243,9 +1250,9 @@ fi
 [ -z $LFS ] && LFS=$FOLDER
 
 HOMEPAGE="${URL}"                      ## http://downloads.yaolinux.org
-INSTALL_BASE="$ARCH/$VERSION"          ## x86_64/1.0-RC2
-DEPOT_ROOT="$HOMEPAGE/${INSTALL_BASE}" ## http://downloads.yaolinux.org/x86_64/1.0-RC2
-DEPOT_BASE="$DEPOT_ROOT/$BASE"         ## http://downloads.yaolinux.org/x86_64/1.0-RC2/base
+INSTALL_BASE="$ARCH/$VERSION"          ## x86_64/1.0-RCx
+DEPOT_ROOT="$HOMEPAGE/${INSTALL_BASE}" ## http://downloads.yaolinux.org/x86_64/1.0-RCx
+DEPOT_BASE="$DEPOT_ROOT/$BASE"         ## http://downloads.yaolinux.org/x86_64/1.0-RCx/base
 
 LOCAL_DEPOT_PACKAGES="$DEPOT/$BASE"
 DEPOT_CD="/media/cdrom"
@@ -1254,8 +1261,8 @@ SETUP_FILE=/tmp/setup
 
 }
 config() {
-HOST_ARCH=`uname -m`
-[ -z "$ARCH" ] && ARCH=`uname -m`
+HOST_ARCH=$(uname -m)
+[ -z "$ARCH" ] && ARCH=$(uname -m)
 [ "$ARCH" = "i686" -a "$HOST_ARCH" = "x86_64" ] && LINUX_ARCH="linux32" || LINUX_ARCH=""
 
 # Number of seconds between STOPSIG and FALLBACK when stopping processes
@@ -1280,7 +1287,7 @@ WCOL=$((${COL} - 2))
 
 ## Provide an echo that supports -e and -n
 # If formatting is needed, $ECHO should be used
-case "`echo -e -n test`" in
+case "$(echo -e -n test)" in
         -[en]*)
                 ECHO=/bin/echo
                 ;;
@@ -1362,13 +1369,13 @@ mknod -m 600 ${FOLDER}/dev/console c 5 1
 mknod -m 666 ${FOLDER}/dev/null c 1 3
 }
 download_pkgadd() {
-	PKGADD="`which pkgadd`"
+	PKGADD="$(which pkgadd)"
 	if [ "$PKGADD" != "" ];then
-		mkdir -p $TMP/`dirname $PKGADD`
-		cp  $PKGADD $TMP/`dirname $PKGADD`/
-		ln -s $TMP/`dirname $PKGADD`/pkgadd  $TMP/`dirname $PKGADD`/pkginfo
+		mkdir -p $TMP/$(dirname $PKGADD)
+		cp  $PKGADD $TMP/$(dirname $PKGADD)/
+		ln -s $TMP/$(dirname $PKGADD)/pkgadd  $TMP/$(dirname $PKGADD)/pkginfo
 	else
-		if ! (`which bsdtar > /dev/null`); then
+		if ! ($(which bsdtar > /dev/null)); then
 			error " Command 'bsdtar' not found, please install libarchive"
 		fi
 
@@ -1480,7 +1487,7 @@ parse_options() {
 				install_configuration_files
 				exit 0;;
 			-v|--version)
-				echo "`basename $INSTALL_COMMAND` $VERSION-$RELEASE"
+				echo "$(basename $INSTALL_COMMAND) $VERSION-$RELEASE"
 				exit 0;;
 			/*)
 				boot_mesg "
@@ -1488,7 +1495,7 @@ parse_options() {
 "
 				exit 1;;
 			*)
-				echo "`basename $0`: invalid option $1"
+				echo "$(basename $0): invalid option $1"
 				exit 1 ;;
 		esac
 		shift
@@ -1496,8 +1503,8 @@ parse_options() {
 }
 main() {
 	config
-	if [ -f /etc/`basename $INSTALL_COMMAND`.conf ]; then
-		source /etc/`basename $INSTALL_COMMAND`.conf
+	if [ -f /etc/$(basename $INSTALL_COMMAND).conf ]; then
+		source /etc/$(basename $INSTALL_COMMAND).conf
 	fi
 	check_variables  "$@"
 	parse_options "$@"
@@ -1517,7 +1524,7 @@ DEPOT_BASE : $DEPOT_BASE
 DEVEL      : $DEVEL
 CHROOT_LIST: $CHROOT_LIST"
 	check_root
-	TMP=`mktemp -d`
+	TMP=$(mktemp -d)
 	check_mountfolder
 	check_mountpoint
 
@@ -1538,5 +1545,5 @@ CHROOT_LIST: $CHROOT_LIST"
 
 readonly BASE="base"
 readonly RELEASE=1
-INSTALL_COMMAND="`basename $0`"
+INSTALL_COMMAND="$(basename $0)"
 main "$@"
