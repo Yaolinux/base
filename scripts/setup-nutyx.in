@@ -516,7 +516,7 @@ setup_language()
 while [ true ]; do
 dialog   \
 --no-ok \
---timeout 60
+--timeout 60 \
 --no-cancel \
 --title "" --menu "" 0 0 0 \
 "United Arab Emirates" "Arabic" \
