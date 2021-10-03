@@ -2331,7 +2331,7 @@ $(gettext "Are you sure you want to continue ?")" 7 60
 }
 check_swap() {
 	unset SWAP_LIST
-	SWAP_LIST="$((LANGUAGE=C fdisk -l -o device,type|grep swap|cut -d " " -f1))"
+	SWAP_LIST="$(LANGUAGE=C fdisk -l -o device,type|grep swap|cut -d ' ' -f1)"
 	if [ -z "${SWAP_LIST}" ];then
 		dialog --title "   Hmmmm   " \
 	--msgbox "    $(gettext "Swap partition not found")" 6 60
