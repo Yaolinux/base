@@ -624,6 +624,10 @@ dialog   \
 "Viêt nam" "Viêt nam" \
 2> $TMP/language.check
 
+#timeout => exit
+if [ $? = 255 ]; then
+  exit 1
+fi
 if [ ! $? = 0 ]; then
   break
 fi
