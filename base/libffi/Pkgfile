@@ -9,25 +9,20 @@ maintainer="rems"
 
 name=libffi
 version=3.4.2
+release=2
 
-source=(https://sourceware.org/pub/libffi/libffi-$version.tar.gz)
+source=(https://github.com/$name/$name/releases/download/v$version/$name-$version.tar.gz)
 
 build() {
-cd $name-$version
+  cd $name-$version
 
-sed -e '/^includesdir/ s:$(libdir)/@PACKAGE_NAME@-@PACKAGE_VERSION@/include:$(includedir):' \
--i include/Makefile.in
+  ./configure --prefix=/usr \
+              --disable-static \
+              --disable-exec-static-tramp \
+              --with-gcc-arch=native
 
-sed -e '/^includedir/ s:${libdir}/@PACKAGE_NAME@-@PACKAGE_VERSION@/include:@includedir@:' \
--e 's/^Cflags: -I${includedir}/Cflags:/' \
--i libffi.pc.in
+  make
+  make DESTDIR=$PKG install
 
-./configure --prefix=/usr \
-            --disable-static \
-            --with-gcc-arch=native
-
-make
-make DESTDIR=$PKG install
-
-rm  -f $PKG/usr/share/info/dir
+  rm  -f $PKG/usr/share/info/dir
 }
