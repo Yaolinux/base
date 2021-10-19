@@ -1556,9 +1556,9 @@ do_start_network()
       ;;
       cli)
          # Start all network interfaces
-            systemctl start systemd-networkd
+            systemctl restart systemd-networkd
          evaluate_retval
-            systemctl start systemd-resolved
+            systemctl restart systemd-resolved
          evaluate_retval
       ;;
    esac
