@@ -57,7 +57,6 @@ _msgfmt() {
 	L=`echo ${1}|cut -d "_" -f1`
 	C=`echo ${1}|cut -d "_" -f2`
 	echo "group ${L}" >> ${CARDS}
-	localedef --delete-from-archive de_CH.utf8
 	localedef -i ${1} -f UTF-8 ${1}.UTF-8
 	if [ -f /lib/services/setup-nutyx/setup-nutyx.${L} ]; then
 		mkdir -p $TEXTDOMAINDIR/${L}/LC_MESSAGES
@@ -93,7 +92,12 @@ if [  `echo $NIC|wc -w` -gt 1 ];then
 		for i in $NIC
 		do
 			[ "$i" == "lo" ] && continue
-			echo -n \""$i"\"\  \"`/sbin/udevadm info /sys/class/net/$i|grep ID_MODEL_FROM_DATABASE|cut -d "=" -f2`\" " off "
+			#checked if only one entry.
+			if [  `echo $NIC|wc -w` -eq 2 ]; then
+	  		echo -n \""$i"\"\  \"`/sbin/udevadm info /sys/class/net/$i|grep ID_MODEL_FROM_DATABASE|cut -d "=" -f2`\" " on "
+			else
+  			echo -n \""$i"\"\  \"`/sbin/udevadm info /sys/class/net/$i|grep ID_MODEL_FROM_DATABASE|cut -d "=" -f2`\" " off "
+			fi
 			done >> $TMP/list
 			dialog --file $TMP/list 2>$TMP/result
 			retval=$?
@@ -516,7 +520,7 @@ setup_language()
 while [ true ]; do
 dialog   \
 --no-ok \
---timeout 60
+--timeout 60 \
 --no-cancel \
 --title "" --menu "" 0 0 0 \
 "United Arab Emirates" "Arabic" \
@@ -624,6 +628,10 @@ dialog   \
 "Viêt nam" "Viêt nam" \
 2> $TMP/language.check
 
+#timeout => exit
+if [ $? = 255 ]; then
+  exit 1
+fi
 if [ ! $? = 0 ]; then
   break
 fi
@@ -2331,7 +2339,7 @@ $(gettext "Are you sure you want to continue ?")" 7 60
 }
 check_swap() {
 	unset SWAP_LIST
-	SWAP_LIST="$((LANGUAGE=C fdisk -l -o device,type|grep swap|cut -d " " -f1))"
+	SWAP_LIST="$(LANGUAGE=C fdisk -l -o device,type|grep swap|cut -d ' ' -f1)"
 	if [ -z "${SWAP_LIST}" ];then
 		dialog --title "   Hmmmm   " \
 	--msgbox "    $(gettext "Swap partition not found")" 6 60
