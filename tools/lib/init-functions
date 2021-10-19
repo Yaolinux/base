@@ -1477,7 +1477,7 @@ NETWORKCONFIG_FILE="/etc/sysconfig/network"
   if [ ! -f /etc/sysconfig/network ]; then
     cat > ${NETWORKCONFIG_FILE} << "EOF"
 HOSTNAME='yaolinux'
-MANAGER='cli'
+MANAGER=''
 EOF
 fi
 
@@ -1700,7 +1700,7 @@ do_stop_sendsignals()
 print_file_system() {
 
   local PI FS
-  PI=`/sbin/blkid ${1}`
+  PI=$(/sbin/blkid ${1})
   for param in $PI; do
     case $param in TYPE=*)
       FS=`echo ${param#TYPE=}|sed s/\"//g`;;
