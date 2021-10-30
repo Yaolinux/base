@@ -511,6 +511,7 @@ dialog  --title " $(gettext "Name of your machine") " \
 " > /etc/hosts
         fi
 [ ! -f /etc/hostname ] && echo "yaolinux" > /etc/hostname
+do_start_network
 SETUP_CONFIG_NETWORK="no"
 }
 setup_language()

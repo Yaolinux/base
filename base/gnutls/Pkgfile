@@ -8,6 +8,7 @@ makedepends=(libtasn1 nettle p11-kit)
 
 name=gnutls
 version=3.7.2
+release=2
 
 source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v${version:0:3}/${name}-${version}.tar.xz)
 
@@ -19,7 +20,6 @@ cd $name-$version
             --disable-guile \
             --with-default-trust-store-pkcs11="pkcs11:" \
             --enable-openssl-compatibility \
-            --with-default-trust-store-file=/etc/pki/tls/certs/ca-bundle.crt \
             --with-included-unistring
 
 make
