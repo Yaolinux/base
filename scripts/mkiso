@@ -159,7 +159,9 @@ EOF
 	mkdir -pv iso/efiboot
 	mount -o loop iso/efiboot.img iso/efiboot || error "mount efiboot.img"
 	mkdir -pv iso/efiboot/boot/EFI
+	mkdir -pv iso/efiboot/EFI/boot
 	cp -v iso/EFI/${GRUB_EFI_IMG} iso/efiboot/boot/EFI
+	cp -v iso/EFI/${GRUB_EFI_IMG} iso/efiboot/EFI/boot
 
   [ "$bootia32" == "y" ] && ia32
 
