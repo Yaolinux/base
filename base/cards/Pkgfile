@@ -25,7 +25,7 @@ dialog.devel tar curl wget zlib.devel meson ninja)
 PKGMK_GROUPS=(devel doc man)
 
 name=cards
-version=2.4.138
+version=2.4.139
 
 #patchname="$name-$version-consolidate-$release.patch"
 
