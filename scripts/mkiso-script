@@ -150,28 +150,22 @@ EOF
 	do
 		[ -f isolinux/$FILE ] && mv -v isolinux/$FILE boot/
 	done
-	grub-mkimage-efi -c iso/grub-early.cfg -o iso/EFI/${GRUB_EFI_IMG} -O ${GRUB_EFI_ARCH}-efi -p "" iso9660 normal \
+        mkdir -pv EFI/boot
+	grub-mkimage-efi -c iso/grub-early.cfg -o EFI/boot/${GRUB_EFI_IMG} -O ${GRUB_EFI_ARCH}-efi -p "" iso9660 normal \
 	search search_fs_file || error "grub-mkimage"
-
-	# efiboot.img
-#	if [[ ! -z $2 ]]; then
-#		KERNEL_VERSION=$2
-#		modprobe -S $KERNEL_VERSION loop
-#	else
-		modprobe loop
-#	fi
+	modprobe loop || error "modprobe loop"
 	dd if=/dev/zero of=iso/efiboot.img count=4096
 	mkdosfs -n yaolinuxcd iso/efiboot.img || error "mkdosfs"
 	mkdir -pv iso/efiboot
 	mount -o loop iso/efiboot.img iso/efiboot || error "mount efiboot.img"
-	mkdir -pv iso/efiboot/boot/EFI
 	mkdir -pv iso/efiboot/EFI/boot
-	cp -v iso/EFI/${GRUB_EFI_IMG} iso/efiboot/boot/EFI
-	cp -v iso/EFI/${GRUB_EFI_IMG} iso/efiboot/EFI/boot
+	cp -v EFI/boot/${GRUB_EFI_IMG} iso/efiboot/EFI/boot
 
   [ "$bootia32" == "y" ] && ia32
 
 	umount iso/efiboot
+
+        rm -rf iso/efiboot
 
 	# Iso generation
 	xorriso -as mkisofs -R -l -J -o ${LFS}/${ISO}.iso \
@@ -193,14 +187,14 @@ ia32() {
       if [ ! -f iso/EFI/bootia32.efi ]; then
          [ -f /usr/bin/iso-read ] || error "please install libcdio"
          [ -d $LFS/WORK ] || mkdir -pv $LFS/WORK
-         [ -f $LFS/WORK/${i686iso} ] || wget http://downloads.yaolinux.org/${i686iso} -O $LFS/WORK/${i686iso}
+         [ -f $LFS/WORK/${i686iso} ] || wget http://yaolinux.fabienwang.fr/${i686iso} -O $LFS/WORK/${i686iso}
          iso-read -e /iso/EFI/bootia32.efi $LFS/WORK/${i686iso} -o iso/EFI/bootia32.efi
       fi
       cp -v iso/EFI/bootia32.efi iso/efiboot/EFI/boot
-      TS=`wget http://downloads.yaolinux.org/i686/development/base/grub-efi/.PKGREPO -O - | head -n 1 | cut -d'#' -f1`
+      TS=`wget http://yaolinux.fabienwang.fr/i686/development/base/grub-efi/.PKGREPO -O - | head -n 1 | cut -d'#' -f1`
       GE=grub-efi${TS}i686.cards.tar.xz
       mkdir -p $LFS/WORK
-      [ -f $LFS/WORK/$GE ] || wget http://downloads.yaolinux.org/i686/development/base/grub-efi/$GE -O $LFS/WORK/$GE || error "wget grub-efi i686"
+      [ -f $LFS/WORK/$GE ] || wget http://yaolinux.fabienwang.fr/i686/development/base/grub-efi/$GE -O $LFS/WORK/$GE || error "wget grub-efi i686"
       tar -C boot -xvf $LFS/WORK/$GE --strip-components=2 --wildcards *.mod || error "tar -C boot $GE"
    else
       error "--bootia32 option is not available for $ARCH architecture"
@@ -208,4 +202,3 @@ ia32() {
 }
 
 main "$@"
-
