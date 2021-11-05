@@ -13,7 +13,7 @@ makedepends=(yaolinux)
 name=kernel
 alias=(linux)
 
-version=5.10.75
+version=5.10.77
 _version=${version:0:4}
 
 # Linux patch version
@@ -22,7 +22,9 @@ _version=${version:0:4}
 ## Download all the sources
 #
 
-source=($url/pub/linux/kernel/v5.x/linux-${_version}.tar.xz config_64)
+source=($url/pub/linux/kernel/v5.x/linux-${_version}.tar.xz
+  config_64
+  fix_virtualbox.patch)
 
 [ -z $patchname ] || source+=" $url/pub/linux/kernel/v5.x/$patchname"
 
@@ -38,6 +40,8 @@ cd linux-${_version}
 if [ -f $SRC/patch-$version.xz ]; then
 	xz -d -c  $SRC/patch-$version.xz | patch -Np1
 fi
+
+patch -Np1 -i ../fix_virtualbox.patch
 
 make mrproper
 cp $SRC/config_64 ./.config
