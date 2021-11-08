@@ -5,7 +5,7 @@ packager="Yaolinux Team"
 maintainer="rems"
 
 name=inetutils
-version=2.1
+version=2.2
 
 source=(http://ftp.gnu.org/gnu/inetutils/inetutils-$version.tar.xz
         http://dania.on86.net/sources/development/0001-ifconfig-Force-use-of-proc-net-dev.patch)
