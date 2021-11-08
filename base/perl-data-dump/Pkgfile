@@ -4,9 +4,9 @@ url="https://metacpan.org/release/Data-Dump"
 packager="Yaolinux Team"
 
 name=perl-data-dump
-version=1.23
+version=1.25
 
-source=(http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/Data-Dump-$version.tar.gz)
+source=(https://cpan.metacpan.org/authors/id/G/GA/GARU/Data-Dump-${version}.tar.gz)
 
 build() {
 cd Data-Dump-$version
