@@ -4,7 +4,7 @@ url="http://www.ntfs-3g.org"
 packager="Yaolinux Team"
 
 name=ntfs-3g
-version=2017.3.23
+version=2021.8.22
 release=3
 
 source=(http://tuxera.com/opensource/${name}_ntfsprogs-$version.tgz)
