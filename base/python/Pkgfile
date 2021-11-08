@@ -10,7 +10,8 @@ PKGMK_IGNORE_UNPACK="yes"
 makedepends=(sqlite libffi)
 
 name=python
-version=3.9.6
+version=3.9.7
+release=2
 
 alias=(python3 Python)
 
