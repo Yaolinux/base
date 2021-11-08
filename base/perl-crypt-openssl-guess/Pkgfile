@@ -7,7 +7,7 @@ makedepends=(perl openssl)
 run=(perl)
 
 name=perl-crypt-openssl-guess
-version=0.13
+version=0.14
 
 source=(http://search.cpan.org/CPAN/authors/id/A/AK/AKIYM/Crypt-OpenSSL-Guess-$version.tar.gz)
 
