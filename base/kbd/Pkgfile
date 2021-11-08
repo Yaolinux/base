@@ -9,7 +9,7 @@ makedepends=(check)
 name=kbd
 version=2.4.0
 
-source=(http://ftp.altlinux.com/pub/people/legion/kbd/kbd-$version.tar.xz \
+source=(https://www.kernel.org/pub/linux/utils/kbd/kbd-$version.tar.xz \
 	http://www.linuxfromscratch.org/patches/downloads/$name/$name-$version-backspace-1.patch)
 
 build() {
