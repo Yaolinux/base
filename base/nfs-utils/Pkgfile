@@ -8,10 +8,12 @@ run=(rpcbind)
 
 name=nfs-utils
 version=2.5.4
-yaolinux_version=1.0-RC3
+release=2
+
+yaolinux_version=1.0-RC4
 
 source=(http://downloads.sourceforge.net/nfs/$name-$version.tar.bz2
-        http://dania.on86.net/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+        http://yaolinux.fabienwang.fr/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
 
 build() {
 cd $name-$version
