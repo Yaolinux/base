@@ -6,7 +6,7 @@ packager="Yaolinux Team"
 makedepends=(lzo python)
 
 name=btrfs-progs
-version=5.13.1
+version=5.15
 
 source=(https://www.kernel.org/pub/linux/kernel/people/kdave/$name/$name-v$version.tar.xz)
 
