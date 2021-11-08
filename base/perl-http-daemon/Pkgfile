@@ -7,7 +7,7 @@ makedepends=(perl perl-http-date perl-http-message perl-lwp-mediatypes)
 run=(perl)
 
 name=perl-http-daemon
-version=6.06
+version=6.12
 
 source=(https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Daemon-${version}.tar.gz)
 
