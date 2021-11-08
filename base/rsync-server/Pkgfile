@@ -10,9 +10,9 @@ run=(rsync)
 name=rsync-server
 version=3.2.3
 release=3
-yaolinux_version=1.0-RC3
+yaolinux_version=1.0-RC4
 
-source=(http://downloads.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+source=(http://yaolinux.fabienwang.fr/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
 
 build() {
 cd yaolinux-${yaolinux_version}
