@@ -5,7 +5,7 @@ packager="Yaolinux Team"
 maintainer="rems"
 
 name=gzip
-version=1.10
+version=1.11
 release=2
 
 source=(http://ftp.gnu.org/gnu/gzip/gzip-$version.tar.xz)
