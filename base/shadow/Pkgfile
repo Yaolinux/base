@@ -7,7 +7,7 @@ maintainer="rems"
 name=shadow
 version=4.9
 
-source=(https://github.com/shadow-maint/shadow/releases/download/$version/shadow-$version.tar.xz) 
+source=(https://github.com/shadow-maint/shadow/releases/download/v$version/shadow-$version.tar.xz) 
 
 build() {
 cd shadow-$version
