@@ -4,7 +4,7 @@ url="http://www.gnu.org/software/automake/"
 packager="Yaolinux Team"
 
 name=automake
-version=1.16.4
+version=1.16.5
 
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 
