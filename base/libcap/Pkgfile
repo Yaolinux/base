@@ -4,7 +4,7 @@ url="http://www.kernel.org/pub/linux/libs/security/linux-privs/"
 packager="Yaolinux Team"
 
 name=libcap
-version=2.53
+version=2.60
 
 source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-$version.tar.xz)
 
@@ -21,7 +21,7 @@ mkdir -pv $PKG/lib
 for libname in cap psx; do
     mv -v $PKG/usr/lib/lib${libname}.so.* $PKG/lib
     ln -sfv ../../lib/lib${libname}.so.2 $PKG/usr/lib/lib${libname}.so
-    chmod -v 755 $PKG/lib/lib${libname}.so.2.53
+    chmod -v 755 $PKG/lib/lib${libname}.so.2.60
     
 done
 
