@@ -7,7 +7,9 @@ maintainer="rems"
 name=python-markupsafe
 version=2.0.1
 
-source=(https://github.com/pallets/markupsafe/archive/markupsafe-$version.tar.gz)
+PKGMK_KEEP_SOURCE='no'
+
+source=(https://github.com/pallets/markupsafe/archive/$version.tar.gz)
 
 build() {
 cd markupsafe-$version
