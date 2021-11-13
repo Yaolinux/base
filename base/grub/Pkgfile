@@ -5,7 +5,7 @@ packager="Yaolinux Team"
 
 name=grub
 version=2.06
-release=7
+release=1
 
 makedepends=(efibootmgr efivar freetype)
 run=(efivar)
@@ -16,6 +16,12 @@ source=(http://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
 
 PKGMK_GROUPS=(man locale)
 
+unset CFLAGS
+unset CPPFLAGS
+unset CXXFLAGS
+unset LDFLAGS
+unset MAKEFLAGS
+
 build() {
 
   cp -a grub-$version grub-efi-$version
@@ -23,15 +29,12 @@ build() {
   #grub
   cd grub-$version
 
-  sed "s/gold-version/& -R .note.gnu.property/" \
-      -i Makefile.in grub-core/Makefile.in
-
   ./configure --prefix=/usr \
         --sysconfdir=/etc \
         --sbindir=/sbin \
         --enable-grub-mkfont \
         --disable-grub-emu-usb \
-        --disable-efiemu \
+        --enable-efiemu \
         --infodir=/usr/share/info \
         --disable-werror
 
@@ -42,11 +45,9 @@ build() {
   install -Dm644 ../grub.cfg \
   $PKG/boot/grub/grub.cfg.example
 
+
   #grub-efi
   cd $SRC/grub-efi-$version
-
-  sed "s/gold-version/& -R .note.gnu.property/" \
-      -i Makefile.in grub-core/Makefile.in
 
   ./configure --prefix=/usr \
               --sysconfdir=/etc \
@@ -60,6 +61,4 @@ build() {
 
   cp ../unicode.pf2 $PKG/usr/share/grub/
 
-  # Duplicate with grub package
-  rm -r $PKG/usr/share/{info,locale}
 }
