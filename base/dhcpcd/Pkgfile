@@ -1,29 +1,26 @@
 description="Connect your computer to a network which uses DHCP to assign network addresses."
 url="http://roy.marples.name/projects/dhcpcd"
 
-packager="Yaolinux Team"
-maintainer="rems"
-
 name=dhcpcd
 version=9.4.0
-yaolinux_version=1.0-RC4
+release=2
 
 makedepends=(systemd)
 
 source=(https://roy.marples.name/downloads/$name/$name-$version.tar.xz
-        https://yaolinux.fabienwang.fr/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+  dhcpcdat.service)
 
 build() {
-cd $name-$version
+  cd $name-$version
 
-./configure --prefix= \
-            --libexecdir=/lib/dhcpcd \
-            --dbdir=/var/lib/dhcpcd
+  ./configure --prefix= \
+              --libexecdir=/lib/dhcpcd \
+              --dbdir=/var/lib/dhcpcd
 
-make
-make DESTDIR=$PKG install
+  make
+  make DESTDIR=$PKG install
 
-# Service
-cd ../yaolinux-${yaolinux_version}
-make DESTDIR=$PKG install-dhcpcd
+  # Service
+  mkdir -p $PKG/lib/systemd/system/
+  install -v -m644 ../dhcpcdat.service $PKG/lib/systemd/system/dhcpcd@.service
 }
