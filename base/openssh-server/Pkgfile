@@ -4,13 +4,13 @@ url="http://www.openssh.org/"
 packager="Yaolinux Team"
 maintainer="rems"
 
-makedepends=(openssh)
+run=(openssh)
 
 name=openssh-server
-version=8.7p1
-yaolinux_version=1.0-RC3
+version=8.8p1
+yaolinux_version=1.0-RC4
 
-source=(http://dania.on86.net/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+source=(https://yaolinux.fabienwang.fr/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
 
 build() {
 cd yaolinux-${yaolinux_version}
