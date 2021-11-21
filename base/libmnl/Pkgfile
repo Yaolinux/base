@@ -1,7 +1,7 @@
 description="Minimalistic user-space library oriented to Netlink developers"
 url="http://www.netfilter.org/projects/libmnl/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=libmnl

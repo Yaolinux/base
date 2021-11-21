@@ -1,7 +1,7 @@
 description="Programe Perl for creating, manipulating and writing Zip archive files"
 url="http://search.cpan.org/~adamk/Archive-Zip-1.23/lib/Archive/Zip.pm"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=( perl )

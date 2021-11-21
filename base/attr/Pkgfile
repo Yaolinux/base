@@ -1,7 +1,7 @@
 description="Utilities to administer the extended attributes on filesystem objects"
 url="http://savannah.nongnu.org/projects/attr"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=attr

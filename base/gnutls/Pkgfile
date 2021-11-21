@@ -1,7 +1,7 @@
 description="Provide a secure layer over a reliable transport layer."
 url="https://www.gnupg.org"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(libtasn1 nettle p11-kit)

@@ -1,7 +1,7 @@
 description="80x86 assembler designed for portability and modularity."
 url="http://nasm.sourceforge.net/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=nasm

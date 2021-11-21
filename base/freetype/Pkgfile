@@ -1,7 +1,7 @@
 description="TrueType font rendering library"
 url="http://www.freetype.org"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(libpng)
 

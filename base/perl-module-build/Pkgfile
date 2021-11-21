@@ -1,7 +1,7 @@
 description="Build, test, and install Perl modules"
 url="http://search.cpan.org/dist/Module-Build"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl-cpan-meta perl-inc-latest)
 run=(perl perl-cpan-meta perl-inc-latest)

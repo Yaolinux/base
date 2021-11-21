@@ -1,7 +1,7 @@
 description="PCI bus configuration space access library and tools"
 url="http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=pciutils

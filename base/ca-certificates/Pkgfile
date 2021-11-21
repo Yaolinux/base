@@ -1,7 +1,7 @@
 description="Certificate Authority certificates, the Public Key Infrastructure."
 url="http://mxr.mozilla.org/mozilla/source/security/nss/lib/ckfw/builtins/certdata.txt?raw=1"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(p11-kit)
 

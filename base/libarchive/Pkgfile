@@ -1,7 +1,7 @@
 description="Library that can create and read several streaming archive formats."
 url="http://people.freebsd.org/~kientzle/libarchive"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=libarchive

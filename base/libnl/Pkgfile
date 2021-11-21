@@ -1,7 +1,7 @@
 description="Collection of Libraries providing APIs to netlink protocol based Linux kernel interfaces"
 url="http://people.suug.ch/~tgr/libnl"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=libnl
 version=3.5.0

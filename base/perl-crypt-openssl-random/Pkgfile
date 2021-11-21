@@ -1,7 +1,7 @@
 description="Interface to OpenSSL PRNG methods"
 url="https://metacpan.org/pod/Crypt::OpenSSL::Random"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl openssl perl-crypt-openssl-guess)
 run=(perl-crypt-openssl-guess)

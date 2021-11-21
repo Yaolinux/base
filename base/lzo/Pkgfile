@@ -1,7 +1,7 @@
 description="Portable lossless data compression library."
 url="http://www.oberhumer.com/opensource/lzo"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=lzo

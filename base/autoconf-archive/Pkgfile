@@ -1,7 +1,7 @@
 description="A collection of freely re-usable Autoconf macros"
 url="http://www.gnu.org/software/autoconf-archive/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(autoconf)
 

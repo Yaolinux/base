@@ -3,7 +3,7 @@ makedepends=(libmnl)
 description="Netfilter library providing interface to the nf_tables subsystem"
 url="http://netfilter.org/projects/libnftnl/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=libnftnl

@@ -1,7 +1,7 @@
 description="Perl Module: Easy manipulation of IPv4 and IPv6 addresses"
 url="http://search.cpan.org/dist/Net-IP/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

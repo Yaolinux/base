@@ -1,7 +1,7 @@
 description="the distribution metadata for a CPAN dist"
 url="https://metacpan.org/release/CPAN-Meta"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=( perl )

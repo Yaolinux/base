@@ -1,7 +1,7 @@
 description="The Shadow package contains programs for handling passwords in a secure way."
 url="http://shadow.pld.org.pl/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=shadow

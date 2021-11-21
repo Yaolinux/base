@@ -1,7 +1,7 @@
 description="Programs that show the differences between files or directories."
 url="http://www.gnu.org/software/diffutils/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=diffutils

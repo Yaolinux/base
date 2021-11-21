@@ -1,7 +1,7 @@
 description="A tool for generating text-scanning programs"
 url="http://flex.sourceforge.net"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=flex

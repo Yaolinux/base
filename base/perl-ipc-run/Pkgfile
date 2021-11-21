@@ -1,7 +1,7 @@
 description="IPC::Run - system() and background procs w/ piping, redirs, ptys"
 url="URL: http://search.cpan.org/dist/IPC-Run"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl-io-tty)
 run=(perl)

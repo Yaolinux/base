@@ -1,7 +1,7 @@
 description="Utility for transferring files with URL syntax to many protocols"
 url="http://curl.haxx.se"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(gnutls zstd)

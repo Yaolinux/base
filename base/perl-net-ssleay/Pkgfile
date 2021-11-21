@@ -1,7 +1,7 @@
 description="Perl extension for using OpenSSL"
 url="http://search.cpan.org/dist/Net-SSLeay"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(openssl perl)
 run=(perl)

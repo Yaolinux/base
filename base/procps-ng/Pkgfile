@@ -1,7 +1,7 @@
 description="Utilities for monitoring your system and its processes."
 url="http://procps.sourceforge.net/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=procps-ng
 version=3.3.17

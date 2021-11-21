@@ -1,7 +1,7 @@
 description="Libraries for terminal-independent handling of character screens."
 url="http://www.gnu.org/software/ncurses/ncurses.html"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=ncurses

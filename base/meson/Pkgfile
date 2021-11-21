@@ -1,7 +1,7 @@
 description="Meson is an open source build system meant to be both extremely fast, as user friendly as possible"
 url="http://mesonbuild.com/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=meson
 version=0.60.1

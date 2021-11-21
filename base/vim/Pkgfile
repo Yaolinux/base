@@ -1,7 +1,7 @@
 description="The Vim package contains a powerful text editor."
 url="http://www.vim.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=vim
 version=8.2.3582

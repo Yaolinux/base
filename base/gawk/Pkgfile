@@ -1,7 +1,7 @@
 description="The Gawk package contains programs for manipulating text files."
 url="http://www.gnu.org/software/gawk/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=gawk

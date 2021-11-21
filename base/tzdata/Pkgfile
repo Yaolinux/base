@@ -1,7 +1,7 @@
 description="The zoneinfo database or IANA Time Zone"
 url="http://www.gnu.org/software/libc/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=tzdata
 version=2021e

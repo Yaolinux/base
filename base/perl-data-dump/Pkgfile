@@ -1,7 +1,7 @@
 description="Pretty printing of data structures"
 url="https://metacpan.org/release/Data-Dump"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=perl-data-dump
 version=1.25

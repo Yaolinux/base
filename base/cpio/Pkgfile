@@ -1,7 +1,7 @@
 description="Copies files into or out of a cpio or tar archive."
 url="http://www.gnu.org/software/cpio/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=cpio

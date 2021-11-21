@@ -1,7 +1,7 @@
 description="Transport Independent RPC library (SunRPC replacement)"
 url="http://downloads.sourceforge.net/project/libtirpc"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=libtirpc

@@ -1,7 +1,7 @@
 description="The MPFR package contains functions for multiple precision math"
 url="http://www.mpfr.org"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=mpfr

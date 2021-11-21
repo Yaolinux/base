@@ -1,7 +1,7 @@
 description="Perl/CPAN Module YAML : YAML Aint Markup Language"
 url="http://search.cpan.org/dist/YAML/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

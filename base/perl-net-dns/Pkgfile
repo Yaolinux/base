@@ -1,7 +1,7 @@
 description="Perl Module: Interface to the DNS resolver"
 url="http://search.cpan.org/dist/Net-DNS/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-digest-hmac perl-net-ip perl-io-socket-inet6 perl-socket6)
 run=(perl)

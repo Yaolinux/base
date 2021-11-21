@@ -1,7 +1,7 @@
 description="A simple http server class"
 url="http://www.cpan.org"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-http-date perl-http-message perl-lwp-mediatypes)
 run=(perl)

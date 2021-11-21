@@ -1,7 +1,7 @@
 description="Object interface for AF_INET|AF_INET6 domain sockets"
 url="http://search.cpan.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-socket6)
 run=(perl)

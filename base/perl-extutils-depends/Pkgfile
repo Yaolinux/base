@@ -1,7 +1,7 @@
 description="perl module"
 url="http://search.cpan.org/dist/ExtUtils-Depends/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

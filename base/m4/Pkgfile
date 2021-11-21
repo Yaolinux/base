@@ -1,7 +1,7 @@
 description="The M4 package contains a macro processor"
 url="http://www.seindal.dk/rene/gnu/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=m4

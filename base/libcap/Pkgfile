@@ -1,7 +1,7 @@
 description="POSIX 1003.1e capabilities library"
 url="http://www.kernel.org/pub/linux/libs/security/linux-privs/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=libcap
 version=2.60

@@ -1,7 +1,7 @@
 description="The Less package contains a text file viewer."
 url="http://www.greenwoodsoftware.com/less/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=less

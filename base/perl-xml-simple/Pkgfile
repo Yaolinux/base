@@ -1,7 +1,7 @@
 description="Easy API to maintain XML"
 url="http://search.cpan.org/dist/XML-Simple/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

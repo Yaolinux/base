@@ -1,7 +1,7 @@
 description="Lightweight,taint-safe file finding module"
 url="http://search.cpan.org/dist/File-Next/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

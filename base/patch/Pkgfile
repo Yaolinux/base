@@ -1,7 +1,7 @@
 description="The GNU patch tool"
 url="http://www.gnu.org/software/patch/patch.html"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=patch

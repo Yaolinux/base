@@ -1,7 +1,7 @@
 description="Utilities for handling the ext2,3 and 4 files system."
 url="http://e2fsprogs.sourceforge.net/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 PKGMK_GROUPS=(devel man doc)

@@ -1,7 +1,7 @@
 description="The GNU generic library support script."
 url="http://www.gnu.org/software/libtool/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=libtool

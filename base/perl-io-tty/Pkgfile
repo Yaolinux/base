@@ -1,7 +1,7 @@
 description="Provide an interface to TTYs and PTYs"
 url="URL: http://search.cpan.org/dist/IO-Tty/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

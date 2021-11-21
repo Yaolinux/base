@@ -1,7 +1,7 @@
 description="Nearly transparent SSL encapsulation for IO::Socket::INET"
 url="http://search.cpan.org/dist/IO-Socket-SSL/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-net-ssleay perl-uri)
 run=(perl)

@@ -1,7 +1,7 @@
 description="A set of modules for parsing and evaluating XPath statements"
 url="https://metacpan.org/release/XML-XPath"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="Dania"
 
 name=perl-xml-xpath

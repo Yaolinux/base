@@ -1,7 +1,7 @@
 description="Next generation of the python high-level scripting language"
 url="http://www.python.org"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 PKGMK_GROUPS=(devel man doc)

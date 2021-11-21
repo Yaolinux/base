@@ -1,7 +1,7 @@
 description="To create nice user interfaces to shell scripts or other scripting languages."
 url="http://hightek.org/dialog/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 [ "$PKGMK_ARCH" == "x86_64" ] && PKGMK_GROUPS=(devel man)

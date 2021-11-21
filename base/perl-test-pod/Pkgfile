@@ -1,7 +1,7 @@
 description="Check for POD errors in files"
 url="http://search.cpan.org/dist/Test-Pod/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

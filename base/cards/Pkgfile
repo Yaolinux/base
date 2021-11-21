@@ -4,7 +4,7 @@ url="https://github.com/NuTyX/cards"
 makedepends=(libarchive curl zstd kernel-headers)
 
 maintainer="Tnut"
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 alias=(card)
 

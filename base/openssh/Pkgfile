@@ -1,7 +1,7 @@
 description="Free version of the SSH connectivity tools"
 url="http://www.openssh.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(libedit)

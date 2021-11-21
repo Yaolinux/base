@@ -1,7 +1,7 @@
 description="Base class SAX Drivers and Filters"
 url="http://search.cpan.org/dist/XML-SAX-Base"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

@@ -1,7 +1,7 @@
 description="The GRUB package contains the GRand Unified Bootloader, EFI version"
 url="http://www.gnu.org/software/grub/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=grub
 version=2.06

@@ -1,7 +1,7 @@
 description="XFS filesystem administration and debugging tools"
 url="http://oss.sgi.com/projects/xfs/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(libinih)

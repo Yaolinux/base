@@ -1,5 +1,5 @@
 description="Contains the rcpsvc protocol.x files and headers"
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=rpcsvc-proto
 version=1.4.2

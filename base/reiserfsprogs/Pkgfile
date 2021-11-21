@@ -1,7 +1,7 @@
 description="Utilities for use with the Reiser file system."
 url="http://www.kernel.org/pub/linux/utils/fs/reiserfs/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=reiserfsprogs
 version=3.6.27

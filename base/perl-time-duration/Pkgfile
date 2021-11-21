@@ -1,7 +1,7 @@
 description="Rounded or exact English expression of durations"
 url="http://search.cpan.org/dist/Time-Duration/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl-test-pod perl-test-pod-coverage)
 run=(perl)

@@ -1,7 +1,7 @@
 description="Perl HTML parser class"
 url="http://search.cpan.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-html-tagset )
 run=(perl)

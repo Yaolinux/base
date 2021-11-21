@@ -1,7 +1,7 @@
 description="Tiny editor without dependencies, written in assembly."
 url="http://sites.google.com/site/e3editor/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(nasm)

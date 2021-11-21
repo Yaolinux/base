@@ -1,7 +1,7 @@
 description="Btrfs filesystem utilities"
 url="http://btrfs.wiki.kernel.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(lzo python)
 

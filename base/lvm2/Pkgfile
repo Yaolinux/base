@@ -1,7 +1,7 @@
 description="Allows spanning of file systems across multiple physical disks and partitions."
 url="http://sourceware.org/lvm2/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(libaio systemd)
 

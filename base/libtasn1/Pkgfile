@@ -1,7 +1,7 @@
 description="is a highly portable C library that encodes and decodes DER/BER data"
 url="https://ftp.gnu.org/gnu/libtasn1"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=libtasn1

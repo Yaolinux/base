@@ -1,7 +1,7 @@
 description="Library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine"
 url="http://www.sqlite.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 _amalgamationver=3360000

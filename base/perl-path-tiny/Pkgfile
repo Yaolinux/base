@@ -1,7 +1,7 @@
 description="File path utility"
 url="https://metacpan.org/pod/Path::Tiny"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=( perl )

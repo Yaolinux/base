@@ -1,7 +1,7 @@
 description="A free library for arbitrary precision arithmetic."
 url="http://gmplib.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 paintainer="Torb,Granlund and many more"
 
 name=gmp

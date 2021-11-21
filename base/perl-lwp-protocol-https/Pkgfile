@@ -1,7 +1,7 @@
 description="Provide https support for LWP::UserAgent"
 url="http://search.cpan.org/dist/LWP-Protocol-https"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-io-socket-ssl perl-mozilla-ca perl-net-http perl-libwww )
 run=(perl)

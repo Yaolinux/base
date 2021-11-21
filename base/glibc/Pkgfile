@@ -1,7 +1,7 @@
 description="The Glibc package contains the main C library."
 url="https://www.gnu.org/software/libc/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 kernelversion=5.10.60
 gccversion=11.2.0

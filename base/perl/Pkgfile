@@ -1,7 +1,7 @@
 description="The Perl package contains the Practical Extraction and Report Language."
 url="http://www.perl.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=perl
 version=5.34.0

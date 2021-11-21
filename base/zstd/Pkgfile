@@ -1,7 +1,7 @@
 description="Zstandard - Fast real-time compression algorithm"
 url="https://www.zstd.net/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(lz4 xz zlib)

@@ -1,7 +1,7 @@
 description="ExtUtils::MakeMaker - Create a module Makefile"
 url="http://search.cpan.org/~bingos/ExtUtils-MakeMaker/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

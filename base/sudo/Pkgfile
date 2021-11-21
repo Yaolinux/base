@@ -1,7 +1,7 @@
 description="Give certain users (or groups) the ability to run some commands as root."
 url="http://www.sudo.ws"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(pam)
 

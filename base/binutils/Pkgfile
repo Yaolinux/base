@@ -1,7 +1,7 @@
 description="Linker, assembler, and other tools for handling object files."
 url="http://sources.redhat.com/binutils/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=binutils

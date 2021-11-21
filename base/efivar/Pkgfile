@@ -1,7 +1,7 @@
 description="Tools and library to manipulate EFI variables"
 url="https://github.com/rhinstaller/efivar"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(popt)
 
