@@ -1476,7 +1476,7 @@ do_config_network()
 NETWORKCONFIG_FILE="/etc/sysconfig/network"
   if [ ! -f /etc/sysconfig/network ]; then
     cat > ${NETWORKCONFIG_FILE} << "EOF"
-HOSTNAME='yaolinux'
+HOSTNAME='grat-os'
 MANAGER=''
 EOF
 fi
