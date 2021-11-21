@@ -1,23 +1,23 @@
-Yaolinux
+Grat-OS
 ======
 
-## Yaolinux, some ISOs are available here
+## Grat-OS, some ISOs are available here
 
 `http://yaolinux.mesfichiers.eu/Isos/`
 
-## Yaolinux, please following these commands to install the base
+## Grat-OS, please following these commands to install the base
 
-## on a normal Yaolinux in root
+## on a normal Grat-OS in root
 
 ```
 cards install cards.devel git
-wget https://raw.githubusercontent.com/YaoLinux/base-sysd/master/scripts/install-nutyx.in -O install-nutyx
+wget https://raw.githubusercontent.com/Grat-OS/base-sysd/master/scripts/install-grat-os.in -O install-grat-os
 ```
 
 ## You can continue
 ```
-chmod -v 755 install-nutyx
-mv -v install-nutyx /usr/bin/install-nutyx
+chmod -v 755 install-grat-os
+mv -v install-grat-os /usr/bin/install-grat-os
 ```
 
 ## If you've already make the installation process, you have to remove the LFS user from the nutyx base by
@@ -99,11 +99,11 @@ source ~/.bashrc
 
 ## You are in the LFS user, now continue the installation with
 ```
-git clone https://github.com/yaolinux/base-sysd.git development
+git clone https://github.com/Grat-OS/base-sysd.git development
 ```
 ### in case of development branch, you have to specify it
 ```
-git clone -b development https://github.com/yaolinux/base-sysd.git development
+git clone -b development https://github.com/Grat-OS/base-sysd.git development
 ```
 ```
 cd development
@@ -140,7 +140,7 @@ chown -R root:root $LFS
 install -dv -m0750  $LFS/root
 ln -sv development/scripts $LFS/root/bin
 mv /home/lfs/development $LFS/root/
-cd $LFS/root/development/base/yaolinux
+cd $LFS/root/development/base/grat-os
 ```
 
 ## make the first package
@@ -150,8 +150,8 @@ cd $LFS/root/development/base/yaolinux
 
 ## install it
 ```
-/tools/bin/pkgadd -r $LFS yaolinux1*
-/tools/bin/pkgadd -r $LFS yaolinux.man1*
+/tools/bin/pkgadd -r $LFS grat-os1*
+/tools/bin/pkgadd -r $LFS grat-os.man1*
 ```
 
 ## check if it's present
@@ -160,12 +160,12 @@ cd $LFS/root/development/base/yaolinux
 ```
 
 ## It's have to return 
-"(base) yaolinux 1.0-RC1-1... \
-(base) nutyx.man 1.0-RC1-1..."
+"(base) grat-os 1.0-RC1-1... \
+(base) grat-os.man 1.0-RC1-1..."
 
 ## make the configuration
 ```
-VERSION="development" install-nutyx -ic
+VERSION="development" install-grat-os -ic
 ```
 
 ## We mount the folders
@@ -206,7 +206,7 @@ chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" PS1='\u:\w\$ ' \
 ### Way 2
 
 ```
-install-nutyx -ec
+install-grat-os -ec
 ```
 
 ## Some "command not found" will appears, but not important here
