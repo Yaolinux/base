@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YaoLinuX Configuration tool\n"
+"Project-Id-Version: Grat-OS Configuration tool\n"
 "PO-Revision-Date: 2014-08-07+2000\n"
 "Last-Translator: https://translate.google.it/#fr/it/\n"
 "Language-Team: Italian\n"
@@ -124,8 +124,8 @@ msgstr "aggiungere un utente al sistema"
 msgid "Configure the system"
 msgstr "Configurare il sistema"
 
-msgid "Install YaoLinuX"
-msgstr "Installare YaoLinuX"
+msgid "Install Grat-OS"
+msgstr "Installare Grat-OS"
 
 msgid "Use the arrows keys to change the values"
 msgstr "Utilizzare i tasti freccia per modificare i valori"
@@ -157,14 +157,14 @@ msgstr "Selezionare il disco sul qualle vuole modificare il MBR"
 msgid "Select the partition on which you want to place the GRUB files"
 msgstr "Selezionare la partizione sul qualle vuole mettere i file di GRUB"
 
-msgid "Note that the destination partition can contain YaoLinuX or any other distribution"
-msgstr "Si noti che la partizione di destinazione puo contenere YaoLinuX o qualsiasi altri distribuzioni"
+msgid "Note that the destination partition can contain Grat-OS or any other distribution"
+msgstr "Si noti che la partizione di destinazione puo contenere Grat-OS o qualsiasi altri distribuzioni"
 
 msgid "No boot process configured"
 msgstr "Nessun processo di avvio configurato"
 
-msgid "You have installed YaoLinuX without configuring the boot process"
-msgstr "hai installato YaoLinuX senza configurare il processo di avvio"
+msgid "You have installed Grat-OS without configuring the boot process"
+msgstr "hai installato Grat-OS senza configurare il processo di avvio"
 
 msgid "Are you sure, you want to cancel the process ?"
 msgstr "Sei sicuro di voler annullare il processo ?"
@@ -178,8 +178,8 @@ msgstr "Buono a sapersi"
 msgid "Main Menu"
 msgstr "Menu principale"
 
-msgid "Welcome to the YaoLinuX installer"
-msgstr "Benvenuti nel programma di installazione YaoLinuX"
+msgid "Welcome to the Grat-OS installer"
+msgstr "Benvenuti nel programma di installazione Grat-OS"
 
 msgid "Create all your partitions"
 msgstr "Creare tutti i vostri partizione"
@@ -304,8 +304,8 @@ msgstr "Per favore aspettate"
 msgid "This is a very basic tool, do not expect too much"
 msgstr "E uno basilare strumento, non ti aspetti molto"
 
-msgid "It will ask you on which partition you want to install YaoLinuX"
-msgstr "Ti chiedero in cui partizione vuole installare YaoLinuX"
+msgid "It will ask you on which partition you want to install Grat-OS"
+msgstr "Ti chiedero in cui partizione vuole installare Grat-OS"
 
 msgid "If not yet created/formatted, it will prompt you to do so"
 msgstr "Se non creato/formatto, ti verra richiesta a farlo "
@@ -313,8 +313,8 @@ msgstr "Se non creato/formatto, ti verra richiesta a farlo "
 msgid "No future plan to make this installer more sophisticated"
 msgstr "Non c' futuri piani di fare l'installatore piu sofisticato"
 
-msgid "YaoLinuX goes on"
-msgstr "YaoLinuX continua"
+msgid "Grat-OS goes on"
+msgstr "Grat-OS continua"
 
 msgid "only ONE partition"
 msgstr "solo UNO partiizione"
@@ -322,20 +322,20 @@ msgstr "solo UNO partiizione"
 msgid "ONE exception, GRUB can be part of it , installed on a separate partition or not installed at all"
 msgstr "UNO eccezione, GRUB puo farne parte , installato su un'altra partizione o non installato"
 
-msgid "As YaoLinuX users, we recommand you to install GRUB on a separate partition"
-msgstr "Come YaoLinuX utenti, racommandiamo da installare GRUB su un'altra partizione"
+msgid "As Grat-OS users, we recommand you to install GRUB on a separate partition"
+msgstr "Come Grat-OS utenti, racommandiamo da installare GRUB su un'altra partizione"
 
 msgid "To do so"
 msgstr "Per fario"
 
-msgid "Install GRUB first, then YaoLinuX"
-msgstr "Installarlo GRUB prima, poi YaoLinuX"
+msgid "Install GRUB first, then Grat-OS"
+msgstr "Installarlo GRUB prima, poi Grat-OS"
 
 msgid "Have fun"
 msgstr "Buon divertimento"
 
-msgid "Thank you for installing YaoLinuX"
-msgstr "Ringrazio per installare YaoLinuX"
+msgid "Thank you for installing Grat-OS"
+msgstr "Ringrazio per installare Grat-OS"
 
 msgid "Help"
 msgstr "Aiuto"

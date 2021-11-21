@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YaoLinuX Configuration tool\n"
+"Project-Id-Version: Grat-OS Configuration tool\n"
 "PO-Revision-Date: 2014-08-07+2000\n"
 "Last-Translator: mahmutov\n"
 "Language-Team: Turkish\n"
@@ -123,8 +123,8 @@ msgstr "Add a user to the system"
 msgid "Configure the system"
 msgstr "Configure the system"
 
-msgid "Install YaoLinuX"
-msgstr "Install YaoLinuX"
+msgid "Install Grat-OS"
+msgstr "Install Grat-OS"
 
 msgid "Use the arrows keys to change the values"
 msgstr "Use the arrows keys to change the values"
@@ -156,14 +156,14 @@ msgstr "Select the disk on which you want to modify the MBR"
 msgid "Select the partition on which you want to place the GRUB files"
 msgstr "Select the partition on which you want to place the GRUB files"
 
-msgid "Note that the destination partition can contain YaoLinuX or any other distribution"
-msgstr "Note that the destination partition can contain YaoLinuX or any other distribution"
+msgid "Note that the destination partition can contain Grat-OS or any other distribution"
+msgstr "Note that the destination partition can contain Grat-OS or any other distribution"
 
 msgid "No boot process configured"
 msgstr "No boot process configured"
 
-msgid "You have installed YaoLinuX without configuring the boot process"
-msgstr "You have installed YaoLinuX without configuring the boot process"
+msgid "You have installed Grat-OS without configuring the boot process"
+msgstr "You have installed Grat-OS without configuring the boot process"
 
 msgid "Are you sure, you want to cancel the process ?"
 msgstr "Are you sure, you want to cancel the process ?"
@@ -177,8 +177,8 @@ msgstr "Good to know"
 msgid "Main Menu"
 msgstr "Main Menu"
 
-msgid "Welcome to the YaoLinuX installer"
-msgstr "Welcome to the YaoLinuX installer"
+msgid "Welcome to the Grat-OS installer"
+msgstr "Welcome to the Grat-OS installer"
 
 msgid "Create all your partitions"
 msgstr "Create all your partitions"
@@ -303,8 +303,8 @@ msgstr "Please wait"
 msgid "This is a very basic tool, do not expect too much"
 msgstr "This is a very basic tool, do not expect too much"
 
-msgid "It will ask you on which partition you want to install YaoLinuX"
-msgstr "It will ask you on which partition you want to install YaoLinuX"
+msgid "It will ask you on which partition you want to install Grat-OS"
+msgstr "It will ask you on which partition you want to install Grat-OS"
 
 msgid "If not yet created/formatted, it will prompt you to do so"
 msgstr "If not yet created/formatted, it will prompt you to do so"
@@ -312,8 +312,8 @@ msgstr "If not yet created/formatted, it will prompt you to do so"
 msgid "No future plan to make this installer more sophisticated"
 msgstr "No future plan to make this installer more sophisticated"
 
-msgid "YaoLinuX goes on"
-msgstr "YaoLinuX goes on"
+msgid "Grat-OS goes on"
+msgstr "Grat-OS goes on"
 
 msgid "only ONE partition"
 msgstr "only ONE partition"
@@ -321,20 +321,20 @@ msgstr "only ONE partition"
 msgid "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"
 msgstr "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"
 
-msgid "As YaoLinuX users, we recommand you to install GRUB on a separate partition"
-msgstr "As YaoLinuX users, we recommand you to install GRUB on a separate partition"
+msgid "As Grat-OS users, we recommand you to install GRUB on a separate partition"
+msgstr "As Grat-OS users, we recommand you to install GRUB on a separate partition"
 
 msgid "To do so"
 msgstr "To do so"
 
-msgid "Install GRUB first, then YaoLinuX"
-msgstr "Install GRUB first, then YaoLinuX"
+msgid "Install GRUB first, then Grat-OS"
+msgstr "Install GRUB first, then Grat-OS"
 
 msgid "Have fun"
 msgstr "Have fun"
 
-msgid "Thank you for installing YaoLinuX"
-msgstr "Thank you for installing YaoLinuX"
+msgid "Thank you for installing Grat-OS"
+msgstr "Thank you for installing Grat-OS"
 
 msgid "Help"
 msgstr "Help"

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YaoLinuX Configuration tool\n"
+"Project-Id-Version: Grat-OS Configuration tool\n"
 "PO-Revision-Date: 2014-08-07+2000\n"
 "Last-Translator: tnut <tnut at nutyx dot org>\n"
 "Language-Team: French\n"
@@ -123,8 +123,8 @@ msgstr "Ajouter un utilisateur au système"
 msgid "Configure the system"
 msgstr "Configurer tout le système"
 
-msgid "Install YaoLinuX"
-msgstr "Installer YaoLinuX"
+msgid "Install Grat-OS"
+msgstr "Installer Grat-OS"
 
 msgid "Use the arrows keys to change the values"
 msgstr "Utilisez les flèches pour changer les valeurs"
@@ -156,14 +156,14 @@ msgstr "Selectionnez le disque sur lequel vous souhaitez modifier le MBR"
 msgid "Select the partition on which you want to place the GRUB files"
 msgstr "Sélectionnez la partition sur laquelle doivent se trouver les fichiers GRUB"
 
-msgid "Note that the destination partition can contain YaoLinuX or any other distribution"
-msgstr "Noter que la partition de destination peut contenir YaoLinuX ou toute autre distribution"
+msgid "Note that the destination partition can contain Grat-OS or any other distribution"
+msgstr "Noter que la partition de destination peut contenir Grat-OS ou toute autre distribution"
 
 msgid "No boot process configured"
 msgstr "Aucun amorçage configuré"
 
-msgid "You have installed YaoLinuX without configuring the boot process"
-msgstr "Vous avez installez YaoLinuX sans configurer l'amorçage du PC"
+msgid "You have installed Grat-OS without configuring the boot process"
+msgstr "Vous avez installez Grat-OS sans configurer l'amorçage du PC"
 
 msgid "Are you sure, you want to cancel the process ?"
 msgstr "Etes-vous certain de vouloir annuler l'opération ?"
@@ -171,8 +171,8 @@ msgstr "Etes-vous certain de vouloir annuler l'opération ?"
 msgid "You already have a copy of the original MBR, I will not make a backup of it"
 msgstr "Vous avez déjà une copie du MBR original, celui-ci ne sera pas sauvegardé"
 
-msgid "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to restore it if need"
-msgstr "Une copie du MBR original est sauvegardée dans le dossier /boot/grub de YaoLinuX. Il sera ainsi possible de la restaurer en cas de necessité."
+msgid "A copy of the original MBR is saved in the folder /boot/grub of your Grat-OS. It will then be possible to restore it if need"
+msgstr "Une copie du MBR original est sauvegardée dans le dossier /boot/grub de Grat-OS. Il sera ainsi possible de la restaurer en cas de necessité."
 
 msgid "Everything OK, do you want to modify"
 msgstr "Tout s'est bien passé, souhaitez-vous modifier"
@@ -186,8 +186,8 @@ msgstr "Un nouveau"
 msgid "has been created"
 msgstr "a été créé"
 
-msgid "it has been adapted to launch the Maintenance system of YaoLinuX"
-msgstr "il a été adapté pour lancer le système de maintenance de YaoLinuX"
+msgid "it has been adapted to launch the Maintenance system of Grat-OS"
+msgstr "il a été adapté pour lancer le système de maintenance de Grat-OS"
 
 msgid "if you choose"
 msgstr "si vous choisissez"
@@ -213,8 +213,8 @@ msgstr "Bon à savoir"
 msgid "Main Menu"
 msgstr "Menu Principal"
 
-msgid "Welcome to the YaoLinuX installer"
-msgstr "Bienvenue dans l'installateur de YaoLinuX"
+msgid "Welcome to the Grat-OS installer"
+msgstr "Bienvenue dans l'installateur de Grat-OS"
 
 msgid "Create all your partitions"
 msgstr "Créer toutes vos partitions"
@@ -339,8 +339,8 @@ msgstr "Veuillez patienter"
 msgid "This is a very basic tool, do not expect too much"
 msgstr "Il s'agit d'un outil très simple, ne vous attendez pas à trop"
 
-msgid "It will ask you on which partition you want to install YaoLinuX"
-msgstr "Il vous sera demandé sur quelle partition vous voulez installer YaoLinuX"
+msgid "It will ask you on which partition you want to install Grat-OS"
+msgstr "Il vous sera demandé sur quelle partition vous voulez installer Grat-OS"
 
 msgid "If not yet created/formatted, it will prompt you to do so"
 msgstr "Si elle n'est pas encore créée / formatée, il vous demandera de le faire"
@@ -348,29 +348,29 @@ msgstr "Si elle n'est pas encore créée / formatée, il vous demandera de le fa
 msgid "No future plan to make this installer more sophisticated"
 msgstr "Aucune amélioration n'est prévue pour rendre cette installation plus sophistiquée"
 
-msgid "YaoLinuX goes on"
-msgstr "YaoLinuX s'installe sur"
+msgid "Grat-OS goes on"
+msgstr "Grat-OS s'installe sur"
 
 msgid "only ONE partition"
 msgstr "UNE seule partition"
 
 msgid "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"
-msgstr "UNE exception, grub peut faire partie de la YaoLinuX, être installé sur une autre partition ou ne pas être installé"
+msgstr "UNE exception, grub peut faire partie de la Grat-OS, être installé sur une autre partition ou ne pas être installé"
 
-msgid "As YaoLinuX users, we recommand you to install GRUB on a separate partition"
-msgstr "En tant qu'utilisateur YaoLinuX, nous vous recommandons d'installer GRUB sur une partition séparée"
+msgid "As Grat-OS users, we recommand you to install GRUB on a separate partition"
+msgstr "En tant qu'utilisateur Grat-OS, nous vous recommandons d'installer GRUB sur une partition séparée"
 
 msgid "To do so"
 msgstr "Procédez comme ceci"
 
-msgid "Install GRUB first, then YaoLinuX"
-msgstr "Installez grub d'abord puis YaoLinuX"
+msgid "Install GRUB first, then Grat-OS"
+msgstr "Installez grub d'abord puis Grat-OS"
 
 msgid "Have fun"
 msgstr "Amusez-vous bien"
 
-msgid "Thank you for installing YaoLinuX"
-msgstr "Merci d'avoir installé YaoLinuX"
+msgid "Thank you for installing Grat-OS"
+msgstr "Merci d'avoir installé Grat-OS"
 
 msgid "Help"
 msgstr "Aide"

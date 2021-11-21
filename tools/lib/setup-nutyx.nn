@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YaoLinuX Configuration tool\n"
+"Project-Id-Version: Grat-OS Configuration tool\n"
 "PO-Revision-Date: 2014-08-07+2000\n"
 "Last-Translator: https://translate.google.no/#fr/no/\n"
 "Language-Team: Norwegian\n"
@@ -123,8 +123,8 @@ msgstr "Legg til en bruker i systemet"
 msgid "Configure the system"
 msgstr "Konfigurere systemet"
 
-msgid "Install YaoLinuX"
-msgstr "Installere YaoLinuX"
+msgid "Install Grat-OS"
+msgstr "Installere Grat-OS"
 
 msgid "Use the arrows keys to change the values"
 msgstr "Bruk piltastene for å endre verdiene"
@@ -156,14 +156,14 @@ msgstr "Velg disken du ønsker å endre MBR på"
 msgid "Select the partition on which you want to place the GRUB files"
 msgstr "Velg partisjonen der du vil plassere GRUB-filerna på"
 
-msgid "Note that the destination partition can contain YaoLinuX or any other distribution"
-msgstr "Legg merke til at bestemmelses partisjon kan inneholde YaoLinuX eller annen fordeling"
+msgid "Note that the destination partition can contain Grat-OS or any other distribution"
+msgstr "Legg merke til at bestemmelses partisjon kan inneholde Grat-OS eller annen fordeling"
 
 msgid "No boot process configured"
 msgstr "ingen oppstartsprosessen konfigurert"
 
-msgid "You have installed YaoLinuX without configuring the boot process"
-msgstr "du har installert YaoLinuX uten å konfigurere oppstartsprosessen"
+msgid "You have installed Grat-OS without configuring the boot process"
+msgstr "du har installert Grat-OS uten å konfigurere oppstartsprosessen"
 
 msgid "Are you sure, you want to cancel the process ?"
 msgstr "er du sikker på at du ønsker å avbryte prosessen ?"
@@ -183,8 +183,8 @@ msgstr "En ny"
 msgid "has been created"
 msgstr "har blitt opprettet"
 
-msgid "it has been adapted to launch the Maintenance system of YaoLinuX"
-msgstr "Den er innrettet til å starte vedlikeholdssystemet i YaoLinuX"
+msgid "it has been adapted to launch the Maintenance system of Grat-OS"
+msgstr "Den er innrettet til å starte vedlikeholdssystemet i Grat-OS"
 
 msgid "if you choose"
 msgstr "Hvis du velger"
@@ -210,8 +210,8 @@ msgstr "godt å vite"
 msgid "Main Menu"
 msgstr "hovedmeny"
 
-msgid "Welcome to the YaoLinuX installer"
-msgstr "Velkommen i YaoLinuX installatør"
+msgid "Welcome to the Grat-OS installer"
+msgstr "Velkommen i Grat-OS installatør"
 
 msgid "Create all your partitions"
 msgstr "Oppretter alle partisjoner"
@@ -333,8 +333,8 @@ msgstr "Vennligst vent"
 msgid "This is a very basic tool, do not expect too much"
 msgstr "Dette er en svært grunnleggende verktøy, ikke forvent for mye"
 
-msgid "It will ask you on which partition you want to install YaoLinuX"
-msgstr "Den vil spørre deg hvilken partisjon du vil installere YaoLinuX på"
+msgid "It will ask you on which partition you want to install Grat-OS"
+msgstr "Den vil spørre deg hvilken partisjon du vil installere Grat-OS på"
 
 msgid "If not yet created/formatted, it will prompt you to do so"
 msgstr "Hvis den ennå ikke er opprettet / formatert, vil det be deg om å gjøre det"
@@ -342,8 +342,8 @@ msgstr "Hvis den ennå ikke er opprettet / formatert, vil det be deg om å gjør
 msgid "No future plan to make this installer more sophisticated"
 msgstr "Ingen fremtida plan for å gjøre denne installasjons mer sofistikerte"
 
-msgid "YaoLinuX goes on"
-msgstr "YaoLinuX er plassert på"
+msgid "Grat-OS goes on"
+msgstr "Grat-OS er plassert på"
 
 msgid "only ONE partition"
 msgstr "bare én partisjon"
@@ -351,20 +351,20 @@ msgstr "bare én partisjon"
 msgid "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"
 msgstr "Ett unntak, GRUB kan være en del av det, bli installert på en egen partisjon, eller ikke installert i det hele tatt"
 
-msgid "As YaoLinuX users, we recommand you to install GRUB on a separate partition"
-msgstr "Som YaoLinuX brukere, anbefaler vi deg å installere GRUB på en egen partisjon"
+msgid "As Grat-OS users, we recommand you to install GRUB on a separate partition"
+msgstr "Som Grat-OS brukere, anbefaler vi deg å installere GRUB på en egen partisjon"
 
 msgid "To do so"
 msgstr "For å gjøre dette"
 
-msgid "Install GRUB first, then YaoLinuX"
-msgstr "Installere GRUB først, deretter YaoLinuX"
+msgid "Install GRUB first, then Grat-OS"
+msgstr "Installere GRUB først, deretter Grat-OS"
 
 msgid "Have fun"
 msgstr "Ha det gøy"
 
-msgid "Thank you for installing YaoLinuX"
-msgstr "Takk for at du installerer YaoLinuX"
+msgid "Thank you for installing Grat-OS"
+msgstr "Takk for at du installerer Grat-OS"
 
 msgid "Help"
 msgstr "Hjelp"
@@ -372,8 +372,8 @@ msgstr "Hjelp"
 msgid "How to do it"
 msgstr "Bruksanvisning"
 
-msgid "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to restore it if need"
-msgstr "En kopi av den opprinnelige MBR er lagret i /boot/grub i din YaoLinuX. Det kan da bli gjenopprettet hvis det er nødvendig"
+msgid "A copy of the original MBR is saved in the folder /boot/grub of your Grat-OS. It will then be possible to restore it if need"
+msgstr "En kopi av den opprinnelige MBR er lagret i /boot/grub i din Grat-OS. Det kan da bli gjenopprettet hvis det er nødvendig"
 
 msgid "The name you enter is invalid"
 msgstr "The name you enter is invalid"

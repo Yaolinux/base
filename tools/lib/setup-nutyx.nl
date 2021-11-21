@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YaoLinuX Configuration tool\n"
+"Project-Id-Version: Grat-OS Configuration tool\n"
 "PO-Revision-Date: 2014-08-07+2000\n"
 "Last-Translator: https://translate.google.nl/#fr/nl/\n"
 "Language-Team: Nederlands\n"
@@ -123,8 +123,8 @@ msgstr "voeg een gebruiker toe aan het systeem"
 msgid "Configure the system"
 msgstr "Configureren van het hele systeem"
 
-msgid "Install YaoLinuX"
-msgstr "YaoLinuX installeren"
+msgid "Install Grat-OS"
+msgstr "Grat-OS installeren"
 
 msgid "Use the arrows keys to change the values"
 msgstr "Gebruik de pijltjes toetsen om de waarden te wijzigen"
@@ -156,14 +156,14 @@ msgstr "Selecteer de schijf waarop u de MBR wil wijzigen"
 msgid "Select the partition on which you want to place the GRUB files"
 msgstr "Selecteer de partitie voor de GRUB-bestanden"
 
-msgid "Note that the destination partition can contain YaoLinuX or any other distribution"
-msgstr "Merk op dat de doel partitie YaoLinuX of een andere distributie kan bevatten"
+msgid "Note that the destination partition can contain Grat-OS or any other distribution"
+msgstr "Merk op dat de doel partitie Grat-OS of een andere distributie kan bevatten"
 
 msgid "No boot process configured"
 msgstr "Geen boot proces geconfigureerd"
 
-msgid "You have installed YaoLinuX without configuring the boot process"
-msgstr "U heeft YaoLinuX geïnstalleerd zonder de configuratie van het bootproces"
+msgid "You have installed Grat-OS without configuring the boot process"
+msgstr "U heeft Grat-OS geïnstalleerd zonder de configuratie van het bootproces"
 
 msgid "Are you sure, you want to cancel the process ?"
 msgstr "Weet u zeker dat u het proces wilt annuleren ?"
@@ -177,8 +177,8 @@ msgstr "Goed om te weten"
 msgid "Main Menu"
 msgstr "Hoofdmenu"
 
-msgid "Welcome to the YaoLinuX installer"
-msgstr "Welkom in de YaoLinuX installer"
+msgid "Welcome to the Grat-OS installer"
+msgstr "Welkom in de Grat-OS installer"
 
 msgid "Create all your partitions"
 msgstr "Maak al uw partities"
@@ -300,7 +300,7 @@ msgstr "Wachten a.u.b."
 msgid "This is a very basic tool, do not expect too much"
 msgstr "Deze tool is rechttoe rechtaan, verwacht er niet te veel van"
 
-msgid "It will ask you on which partition you want to install YaoLinuX"
+msgid "It will ask you on which partition you want to install Grat-OS"
 msgstr "Er wordt gevraagd op welke partitie je NuTyx wil installeren"
 
 msgid "If not yet created/formatted, it will prompt you to do so"
@@ -309,8 +309,8 @@ msgstr "Indien je nog geen hebt gemaakt of gepartitioneerd, wordt je gevraagd di
 msgid "No future plan to make this installer more sophisticated"
 msgstr "Er zijn geen verdere plannen om de installatie-tool meer functies te geven"
 
-msgid "YaoLinuX goes on"
-msgstr "YaoLinuX wordt hier geinstalleerd"
+msgid "Grat-OS goes on"
+msgstr "Grat-OS wordt hier geinstalleerd"
 
 msgid "only ONE partition"
 msgstr "Gebruik slechts EEN partitie"
@@ -318,19 +318,19 @@ msgstr "Gebruik slechts EEN partitie"
 msgid "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"
 msgstr "EEN uitzondering, grub kan deel zijn van, geinstalleerd worden op een aparte partitie of helemaal niet geinstalleerd worden"
 
-msgid "As YaoLinuX users, we recommand you to install GRUB on a separate partition"
+msgid "As Grat-OS users, we recommand you to install GRUB on a separate partition"
 msgstr "Als NuTyx gebruikers, wordt het je aanbevolen om GRUB op een aparte partitie te installeren"
 
 msgid "To do so"
 msgstr "Hiervoor"
 
-msgid "Install GRUB first, then YaoLinuX"
+msgid "Install GRUB first, then Grat-OS"
 msgstr "Installeer je GRUB eerst en daarna pas NuTyx"
 
 msgid "Have fun"
 msgstr "Veel plezier"
 
-msgid "Thank you for installing YaoLinuX"
+msgid "Thank you for installing Grat-OS"
 msgstr "Hartelijk dank om NuTyx te installeren"
 
 msgid "Help"

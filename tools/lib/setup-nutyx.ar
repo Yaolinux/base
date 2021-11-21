@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YaoLinuX Configuration tool\n"
+"Project-Id-Version: Grat-OS Configuration tool\n"
 "PO-Revision-Date: 2014-08-07+2000\n"
 "Last-Translator: tnut <tnut at nutyx dot org>\n"
 "Language-Team: French\n"
@@ -122,8 +122,8 @@ msgstr "إضافة مستعمل للنظام"
 msgid "Configure the system"
 msgstr "تأكيد كل النظام"
 
-msgid "Install YaoLinuX"
-msgstr "أظافة YaoLinuX"
+msgid "Install Grat-OS"
+msgstr "أظافة Grat-OS"
 
 msgid "Use the arrows keys to change the values"
 msgstr "إستخدم الإشارات لتغيير القيم "
@@ -155,13 +155,13 @@ msgstr "فيهMRBإختيار القرص الدي تريد تغيير ال "
 msgid "Select the partition on which you want to place the GRUB files"
 msgstr "أختر المكان الدي تريد أن تجد فيه الملفات "
 
-msgid "Note that the destination partition can contain YaoLinuX or any other distribution"
-msgstr "توزيع أخر  أو اي YaoLinuX ضهور الوجهة يمكن أن يحتوي على " 
+msgid "Note that the destination partition can contain Grat-OS or any other distribution"
+msgstr "توزيع أخر  أو اي Grat-OS ضهور الوجهة يمكن أن يحتوي على " 
 
 msgid "No boot process configured"
 msgstr "لا تصميم مأكد "
 
-msgid "You have installed YaoLinuX without configuring the boot process"
+msgid "You have installed Grat-OS without configuring the boot process"
 msgstr "لقد أظفت البرنامج من دون تأكيد التصميم "
 
 msgid "Are you sure, you want to cancel the process ?"
@@ -170,7 +170,7 @@ msgstr "تريد حقا إالغاء العملية "
 msgid "You already have a copy of the original MBR, I will not make a backup of it"
 msgstr "لديك نسخة من  ال أصلية اما هده فلن تكون محفوظة MBR"
 
-msgid "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to restore it if need"
+msgid "A copy of the original MBR is saved in the folder /boot/grub of your Grat-OS. It will then be possible to restore it if need"
 msgstr " نسخة من  الأصلية محفوظة في الملف بوث مجموعة نوثيكس يمكن إسترجاعها عند الحاجة"
 
 msgid "Everything OK, do you want to modify"
@@ -185,7 +185,7 @@ msgstr "جديد"
 msgid "has been created"
 msgstr "لقد تم "
 
-msgid "it has been adapted to launch the Maintenance system of YaoLinuX"
+msgid "it has been adapted to launch the Maintenance system of Grat-OS"
 msgstr "لقد تبنى لإطلاق نظام المافظة ل نوثيكس"
 
 msgid "if you choose"
@@ -211,7 +211,7 @@ msgstr "جيد للمعرفة"
 msgid "Main Menu"
 msgstr "القائمة الرئيسية"
 
-msgid "Welcome to the YaoLinuX installer"
+msgid "Welcome to the Grat-OS installer"
 msgstr "مرحبا في أظافة النوثيكس"
 
 msgid "Create all your partitions"
@@ -337,8 +337,8 @@ msgstr "أنتظر"
 msgid "This is a very basic tool, do not expect too much"
 msgstr "أداة سهلة لن تنتظر كثيرا"
 
-msgid "It will ask you on which partition you want to install YaoLinuX"
-msgstr "سيطلب منك تريد إظافة YaoLinuX"
+msgid "It will ask you on which partition you want to install Grat-OS"
+msgstr "سيطلب منك تريد إظافة Grat-OS"
 
 msgid "If not yet created/formatted, it will prompt you to do so"
 msgstr "إدا لم يكن مظاف / ممسوح سيطلب منك فعله"
@@ -346,29 +346,29 @@ msgstr "إدا لم يكن مظاف / ممسوح سيطلب منك فعله"
 msgid "No future plan to make this installer more sophisticated"
 msgstr "لا توجد  تطور لإظافة فعالة"
 
-msgid "YaoLinuX goes on"
-msgstr "YaoLinuX يظاف في "
+msgid "Grat-OS goes on"
+msgstr "Grat-OS يظاف في "
 
 msgid "only ONE partition"
 msgstr "تجزي واحد "
 
 msgid "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"
-msgstr "حالة خاصة GRUB يمكن أن يكون جزء من YaoLinuX, يظاف على تجزيئ أخر أو لا يظاف"
+msgstr "حالة خاصة GRUB يمكن أن يكون جزء من Grat-OS, يظاف على تجزيئ أخر أو لا يظاف"
 
-msgid "As YaoLinuX users, we recommand you to install GRUB on a separate partition"
-msgstr "كمستعمل ل YaoLinuX ننصحك بإظافة GRUB  في تجزيئ أخر"
+msgid "As Grat-OS users, we recommand you to install GRUB on a separate partition"
+msgstr "كمستعمل ل Grat-OS ننصحك بإظافة GRUB  في تجزيئ أخر"
 
 msgid "To do so"
 msgstr "تصرف كالأتي"
 
-msgid "Install GRUB first, then YaoLinuX"
-msgstr "أظافة Grub أولا ثم YaoLinuX"
+msgid "Install GRUB first, then Grat-OS"
+msgstr "أظافة Grub أولا ثم Grat-OS"
 
 msgid "Have fun"
 msgstr "أستمتع جيدا"
 
-msgid "Thank you for installing YaoLinuX"
-msgstr "شكرا لإظافتك YaoLinuX"
+msgid "Thank you for installing Grat-OS"
+msgstr "شكرا لإظافتك Grat-OS"
 
 msgid "Help"
 msgstr "مساعدة"
