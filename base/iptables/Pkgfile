@@ -3,37 +3,37 @@ makedepends=(libmnl libnftnl)
 description="The principal firewall tool for Linux."
 url="http://www.iptables.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=iptables
 version=1.8.7
 
-yaolinux_version=1.0-RC4
+grat-os_version=-1.0-RC1
 
 source=(http://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2
-        http://yaolinux.mesfichiers.eu/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+        https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz)
 
 build() {
-cd $name-$version
+  cd $name-$version
 
-./configure --prefix=/usr \
-            --sbindir=/sbin \
-            --with-xtlibdir=/lib/xtables \
-            --with-pkgconfigdir=/usr/lib/pkgconfig \
-            --enable-libipq \
-            --enable-devel
+  ./configure --prefix=/usr \
+              --sbindir=/sbin \
+              --with-xtlibdir=/lib/xtables \
+              --with-pkgconfigdir=/usr/lib/pkgconfig \
+              --enable-libipq \
+              --enable-devel
 
-make
-make DESTDIR=$PKG install
+  make
+  make DESTDIR=$PKG install
 
-ln -sfv ../../sbin/xtables-multi $PKG/usr/bin/iptables-xml
-for file in ip4tc ip6tc ipq xtables
- do
-   mv -v $PKG/usr/lib/lib${file}.so.* $PKG/lib
-   ln -sfv ../../lib/$(readlink $PKG/usr/lib/lib${file}.so) $PKG/usr/lib/lib${file}.so
- done
+  ln -sfv ../../sbin/xtables-multi $PKG/usr/bin/iptables-xml
+  for file in ip4tc ip6tc ipq xtables
+  do
+    mv -v $PKG/usr/lib/lib${file}.so.* $PKG/lib
+    ln -sfv ../../lib/$(readlink $PKG/usr/lib/lib${file}.so) $PKG/usr/lib/lib${file}.so
+  done
 
-# service
-cd ../yaolinux-${yaolinux_version}
-make DESTDIR=$PKG install-$name
+  # service
+  cd ../grat-os-${grat-os_version}
+  make DESTDIR=$PKG install-$name
 }
