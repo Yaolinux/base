@@ -21,7 +21,7 @@
 
 include ../Makefile.inc
 
-MANPAGES = yaolinux.1 ifup.8
+MANPAGES = grat-os.1 ifup.8
 
 all: man mantxt
 
@@ -46,7 +46,7 @@ mantxt: man $(MANPAGES:=.txt)
 
 
 install: all
-	install -D -m0644 yaolinux.1 $(MANDIR)/man1/yaolinux.1
+	install -D -m0644 grat-os.1 $(MANDIR)/man1/grat-os.1
 	install -D -m0644 ifup.8 $(MANDIR)/man8/ifup.8
 
 clean:
