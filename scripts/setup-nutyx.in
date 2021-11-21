@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-#  Copyright (c) 2018 - 2019 by YaoLinuX team (http://yaolinux.org)
+#  Copyright (c) 2018 - 2021 by Grat-OS team (http://www.grat-os.fr)
 #  Copyright (c) 2014 - 2018 by NuTyX team (http://nutyx.org)
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -497,7 +497,7 @@ Name=${NETWORK_CARD}
 	fi
 fi
 dialog  --title " $(gettext "Name of your machine") " \
-        --inputbox " $(gettext "Enter a name") : " 8 40 "yaolinux" 2> $TMP/NAME
+        --inputbox " $(gettext "Enter a name") : " 8 40 "grat-os" 2> $TMP/NAME
 
         if [ "$(cat $TMP/NAME)" == "" ]; then
                 interrupt
@@ -510,7 +510,7 @@ dialog  --title " $(gettext "Name of your machine") " \
 # End /etc/hosts
 " > /etc/hosts
         fi
-[ ! -f /etc/hostname ] && echo "yaolinux" > /etc/hostname
+[ ! -f /etc/hostname ] && echo "grat-os" > /etc/hostname
 do_start_network
 SETUP_CONFIG_NETWORK="no"
 }
@@ -1309,7 +1309,7 @@ check_available_disk() {
 	local DISK_FULL_LIST
 	DISK_FULL_LIST=$(lsblk -p -n -d -o NAME -e 1,3,7,11)
 	for i in $DISK_FULL_LIST; do
-		[ "$(lsblk -p -n -d -o LABEL $i)" == "yaolinuxcd" ] && continue
+		[ "$(lsblk -p -n -d -o LABEL $i)" == "gratoscd" ] && continue
 		[ "$(echo $i|grep fd[0-9]*)" == "$i" ] && continue
 		DISK_LIST="$DISK_LIST $i"
 	done
@@ -1378,16 +1378,16 @@ setup_help() {
 	--title "   $(gettext "How to do it")  " \
 	--colors --msgbox \
 "$(gettext "This is a very basic tool, do not expect too much"). \
-$(gettext "It will ask you on which partition you want to install YaoLinuX"). \
+$(gettext "It will ask you on which partition you want to install Grat-OS"). \
 $(gettext "If not yet created/formatted, it will prompt you to do so").\n\
-\n\n$(gettext "YaoLinuX goes on") \
+\n\n$(gettext "Grat-OS goes on") \
 \Zu\Zb\Z1$(gettext "only ONE partition")\Zn\n\n\
 $(gettext "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"). \n\n\
-$(gettext "As YaoLinuX users, we recommand you to install GRUB on a separate partition"):\n\n\
+$(gettext "As Grat-OS users, we recommand you to install GRUB on a separate partition"):\n\n\
 $(gettext "To do so"): \
-$(gettext "Install GRUB first, then YaoLinuX") \n\n\
+$(gettext "Install GRUB first, then Grat-OS") \n\n\
 $(gettext "Have fun") :) \n\n\
-$(gettext "Thank you for installing YaoLinuX") \
+$(gettext "Thank you for installing Grat-OS") \
 " 0 0
 }
 setup_help_efi() {
@@ -1395,15 +1395,15 @@ setup_help_efi() {
 	--title "   $(gettext "How to do it")  " \
 	--colors --msgbox \
 "$(gettext "This is a very basic tool, do not expect too much"). \
-$(gettext "It will ask you on which partition you want to install YaoLinuX"). \
+$(gettext "It will ask you on which partition you want to install Grat-OS"). \
 $(gettext "If not yet created/formatted, it will prompt you to do so").\n\
-\n$(gettext "YaoLinuX goes on") \
+\n$(gettext "Grat-OS goes on") \
 \Zu\Zb\Z1$(gettext "only ONE partition")\Zn\n\n\
 $(gettext "Make sure you reserve the first partition for ESP"): \n\n\
 $(gettext "To do so"): \
 $(gettext "At partitioning, declare the first partition as EFI System") \n\n\
 $(gettext "Have fun") :) \n\n\
-$(gettext "Thank you for installing YaoLinuX") \
+$(gettext "Thank you for installing Grat-OS") \
 " 0 0
 
 }	
@@ -1510,7 +1510,7 @@ $(gettext "Are you sure you want to continue ?")" 7 60
 		esac
 		FORMAT=$(print_file_system $PARTITION)
 }
-erase_yaolinux() {
+erase_grat-os() {
 	local DIR REAL
 	cd ${1}/boot
 	if [ -d ${2}/home ];then
@@ -1528,10 +1528,10 @@ erase_yaolinux() {
 		echo "$PCT"
 		N=$((N+1))
 	done) |
-  dialog --title "$(gettext "Erase") YaoLinuX" --gauge "$(gettext "Please wait") ..." 6 50
-  $SETUP_LOG "setup-nutyx" "Erase YaoLinuX on ${PARTITION} done"
+  dialog --title "$(gettext "Erase") Grat-OS" --gauge "$(gettext "Please wait") ..." 6 50
+  $SETUP_LOG "setup-nutyx" "Erase Grat-OS on ${PARTITION} done"
 }
-install_yaolinux() {
+install_grat-os() {
 	local DIR REAL FILE
 	setup_swap
 
@@ -1603,8 +1603,8 @@ install_yaolinux() {
 	[ -a ${2}/dev/null ] || mknod -m 664 ${2}/dev/null    c 1 3
 	chmod 1777 ${2}/tmp
 	echo "100") |
-	dialog --title "$(gettext "Install YaoLinuX")" --gauge "$(gettext "Please wait") ..." 6 50
-	$SETUP_LOG "setup-nutyx" "Install YaoLinuX on ${PARTITION} done"
+	dialog --title "$(gettext "Install Grat-OS")" --gauge "$(gettext "Please wait") ..." 6 50
+	$SETUP_LOG "setup-nutyx" "Install Grat-OS on ${PARTITION} done"
 	if [ -f /var/log/install.log ]; then
 		cp -a /var/log/install.log  ${2}/var/log/install.log
 	fi
@@ -1624,7 +1624,7 @@ setup_erase() {
 	echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION" > /dev/tty2
 	[ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
 	if [ -z $PARTITION ]; then
-		select_partition "$(gettext "Erase") YaoLinuX"
+		select_partition "$(gettext "Erase") Grat-OS"
 		[ "$PARTITION" == "no" ] && return
 	fi
 	echo "PARTITION=$PARTITION" > /dev/tty2
@@ -1633,9 +1633,9 @@ setup_erase() {
 	mkdir -p $MF
 	mount $PARTITION $MF || error "$(gettext "mounting") $PARTITION"
 	if [ -d /media/cdrom/boot ]; then
-		erase_yaolinux "/media/cdrom" "$MF"
+		erase_grat-os "/media/cdrom" "$MF"
 	else
-		erase_yaolinux "/" "$MF"
+		erase_grat-os "/" "$MF"
 	fi
 	umount $PARTITION
 }
@@ -1654,7 +1654,7 @@ setup_install() {
 	echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION" > /dev/tty2
 	[ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
 	if [ -z $PARTITION ]; then
-		select_partition "$(gettext "Install YaoLinuX")"
+		select_partition "$(gettext "Install Grat-OS")"
 		[ "$PARTITION" == "no" ] && return
 	fi
 	echo "PARTITION=$PARTITION" > /dev/tty2
@@ -1670,11 +1670,11 @@ setup_install() {
 	mount $PARTITION $MF || error "$(gettext "mounting") $PARTITION"
 	if [ -d /media/cdrom/boot ]; then
 		# Installing from ISO
-		install_yaolinux "/media/cdrom/" "$MF"
+		install_grat-os "/media/cdrom/" "$MF"
 	else
 		# Installing from Maintenance this means
 		# TODO the initrd has to be rebuild at configuration time
-		install_yaolinux "/" "$MF"
+		install_grat-os "/" "$MF"
 	fi
 	umount $PARTITION
 	SETUP_INSTALL="yes"
@@ -1723,7 +1723,7 @@ MBR_ok() {
 	dialog --title "   $(gettext "Everything OK, do you want to modify") $GRUB_CONFIG_FILE ?   " \
 	--colors \
 	--yesno " $(gettext "A new") $GRUB_CONFIG_FILE $(gettext "has been created"), \
-$(gettext "it has been adapted to launch the Maintenance system of YaoLinuX"), \
+$(gettext "it has been adapted to launch the Maintenance system of Grat-OS"), \
 $(gettext "if you choose") $(gettext "Yes"), \
 $(gettext "an simplify VI editor will allow you to modify it").\n\n \
 	\Zb\Z4i\Zn  $(gettext "Enter the edit mode") \n\
@@ -1775,7 +1775,7 @@ setup_grub_efi() {
         mount $PARTITION $TMP/boot_partition
         echo "$PARTITION" > $TMP/boot_part
         if [ -d $TMP/boot_partition/boot ]; then
-                # YaoLinuX is installed means we install GRUB after install
+                # Grat-OS is installed means we install GRUB after install
                 GRUB_DESTINATION_DIR="boot/"
         fi
         GRUB_CONFIG_DIR="$TMP/boot_partition/${GRUB_DESTINATION_DIR}grub"
@@ -1797,7 +1797,7 @@ setup_grub_efi() {
 #       else
 #               cp $TMP/MBR $GRUB_CONFIG_DIR/MBR.original
 #               dialog --title " $(gettext "Good to know") " \
-#               --msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to restore it if need") " 10 60
+#               --msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your Grat-OS. It will then be possible to restore it if need") " 10 60
 #       fi
         if [ ! -f $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE ]; then
                 cat > $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE << "EOF"
@@ -1838,9 +1838,9 @@ EOF
                 echo "DISK=${DISK}" >> ${GRUB_LOG_FILE}
                 echo "GRUB_DESTINATION_DIR=${GRUB_DESTINATION_DIR}" >> ${GRUB_LOG_FILE}
                 echo "GRUB_CONFIG_DIR=${GRUB_CONFIG_DIR}" >> ${GRUB_LOG_FILE}
-                echo "YaoLinuX_PART=${YaoLinuX_PART}" >> ${GRUB_LOG_FILE}
+                echo "Grat-OS_PART=${Grat-OS_PART}" >> ${GRUB_LOG_FILE}
                 echo "BOOT_FS=${BOOT_FS}" >> ${GRUB_LOG_FILE}
-                echo "YaoLinuX_FS=${YaoLinuX_FS}" >> ${GRUB_LOG_FILE}
+                echo "Grat-OS_FS=${Grat-OS_FS}" >> ${GRUB_LOG_FILE}
                 echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
                 env >> ${GRUB_LOG_FILE}
                 # Restore MBR
@@ -1854,44 +1854,44 @@ EOF
         fi
         if [ -f $TMP/boot ]; then
                 #
-                # The $TMP/boot file contains the YaoLinuX partition
+                # The $TMP/boot file contains the Grat-OS partition
                 #
-                YaoLinuX_PART="$(cat $TMP/boot)"
+                Grat-OS_PART="$(cat $TMP/boot)"
                 BOOT_FS="$(print_file_system $PARTITION)"
-                YaoLinuX_FS="$(print_file_system $YaoLinuX_PART)"
-                echo "menuentry \"YaoLinuX LTS ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${YaoLinuX_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                Grat-OS_FS="$(print_file_system $Grat-OS_PART)"
+                echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${Grat-OS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"YaoLinuX LTS Verbose ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${YaoLinuX_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "menuentry \"Grat-OS LTS Verbose ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${Grat-OS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo " "  >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"YaoLinuX ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " linux /${GRUB_DESTINATION_DIR}kernel root=${YaoLinuX_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "menuentry \"Grat-OS ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo " linux /${GRUB_DESTINATION_DIR}kernel root=${Grat-OS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"YaoLinuX Verbose ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${YaoLinuX_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "menuentry \"Grat-OS Verbose ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${Grat-OS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 
         else
                 #
-                # YaoLinuX is not yet installed
+                # Grat-OS is not yet installed
                 #
                 cat >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}  << "EOF"
 #################################################################
 #                                                               #
 #               Example of a menuentry:                         #
 #                                                               #
-#   The YaoLinuX distribution to boot from is located:          #
+#   The Grat-OS distribution to boot from is located:          #
 #      on the SECOND harddisk ( HDD 2 ) AND                     #
 #      the second harddisk has THREE partitions.                #
-#      YaoLinuX IS installed on the third partition.            #
+#      Grat-OS IS installed on the third partition.            #
 #                                                               #
 # NOTE:                                                         #
 # -----                                                         #
@@ -1983,7 +1983,7 @@ setup_grub() {
 	mount $PARTITION $TMP/boot_partition
 	echo "$PARTITION" > $TMP/boot_part
 	if [ -d $TMP/boot_partition/boot ]; then
-		# YaoLinuX is installed means we install GRUB after install
+		# Grat-OS is installed means we install GRUB after install
 		GRUB_DESTINATION_DIR="boot/"
 	fi
 	GRUB_CONFIG_DIR="$TMP/boot_partition/${GRUB_DESTINATION_DIR}grub"
@@ -1995,7 +1995,7 @@ setup_grub() {
 #	else
 #		cp $TMP/MBR $GRUB_CONFIG_DIR/MBR.original
 #		dialog --title " $(gettext "Good to know") " \
-#		--msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your YaoLinuX. It will then be possible to restore it if need") " 10 60
+#		--msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your Grat-OS. It will then be possible to restore it if need") " 10 60
 #	fi
 	if [ ! -f $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE ]; then
 		cat > $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE << "EOF"
@@ -2036,9 +2036,9 @@ EOF
 		echo "DISK=${DISK}" >> ${GRUB_LOG_FILE}
 echo "GRUB_DESTINATION_DIR=${GRUB_DESTINATION_DIR}" >> ${GRUB_LOG_FILE}
 echo "GRUB_CONFIG_DIR=${GRUB_CONFIG_DIR}" >> ${GRUB_LOG_FILE}
-echo "YaoLinuX_PART=${YaoLinuX_PART}" >> ${GRUB_LOG_FILE}
+echo "Grat-OS_PART=${Grat-OS_PART}" >> ${GRUB_LOG_FILE}
 echo "BOOT_FS=${BOOT_FS}" >> ${GRUB_LOG_FILE}
-echo "YaoLinuX_FS=${YaoLinuX_FS}" >> ${GRUB_LOG_FILE}
+echo "Grat-OS_FS=${Grat-OS_FS}" >> ${GRUB_LOG_FILE}
 echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
 		env >> ${GRUB_LOG_FILE}
 		# Restore MBR
@@ -2051,44 +2051,44 @@ echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
 	fi
 	if [ -f $TMP/boot ]; then
 		#
-		# The $TMP/boot file contains the YaoLinuX partition
+		# The $TMP/boot file contains the Grat-OS partition
 		#
-		YaoLinuX_PART="`cat $TMP/boot`"
+		Grat-OS_PART="`cat $TMP/boot`"
 		BOOT_FS="`print_file_system $PARTITION`"
-		YaoLinuX_FS="`print_file_system $YaoLinuX_PART`"
-		echo "menuentry \"YaoLinuX LTS ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${YaoLinuX_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		Grat-OS_FS="`print_file_system $Grat-OS_PART`"
+		echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${Grat-OS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "menuentry \"YaoLinuX LTS Verbose ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${YaoLinuX_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "menuentry \"Grat-OS LTS Verbose ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${Grat-OS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo " "  >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "menuentry \"YaoLinuX ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo " linux /${GRUB_DESTINATION_DIR}kernel root=${YaoLinuX_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "menuentry \"Grat-OS ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo " linux /${GRUB_DESTINATION_DIR}kernel root=${Grat-OS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "menuentry \"YaoLinuX Verbose ${SETUP_ARCH} ${YaoLinuX_FS} on ${YaoLinuX_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${YaoLinuX_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "menuentry \"Grat-OS Verbose ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${Grat-OS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 
 	else
 		#
-		# YaoLinuX is not yet installed
+		# Grat-OS is not yet installed
 		#
 		cat >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}  << "EOF"
 #################################################################
 #                                                               #
 #               Example of a menuentry:                         #
 #                                                               #
-#   The YaoLinuX distribution to boot from is located:          #
+#   The Grat-OS distribution to boot from is located:          #
 #      on the SECOND harddisk ( HDD 2 ) AND                     #
 #      the second harddisk has THREE partitions.                #
-#      YaoLinuX IS installed on the third partition.            #
+#      Grat-OS IS installed on the third partition.            #
 #                                                               #
 # NOTE:                                                         #
 # -----                                                         #
@@ -2150,38 +2150,38 @@ setup_reboot() {
 		umount -f $i > /dev/null 2>&1
 	done
 	umount /media/cdrom 2>/dev/null
-	eject /dev/yaolinux-cd 2>/dev/null
+	eject /dev/gratos-cd 2>/dev/null
 	dialog --title "    $(gettext "Reboot the PC")    " \
 	--msgbox "  $(gettext "Press OK to reboot the computer")  " 0 0 
 	/sbin/reboot -f
 }
 setup_advanced_initrd() {
 	if [ -d "$EFIVARS" ]; then
-		dialog --title "   $(gettext "Welcome to the YaoLinuX installer")   " \
+		dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
 		--colors --menu "    $(gettext "Advanced Menu")   "  0 0 0 \
 		"$(gettext "Help")" "$(gettext "How to do it") ? " \
 		"$(gettext "Keyboard")" "$(gettext "Configure the keyboard") ($(gettext "optional"))" \
 		"$(gettext "Partitioning")" "$(gettext "Create all your partitions") ($(gettext "optional"))" \
 		"$(gettext "Format")" "$(gettext "Format a partition") ($(gettext "optional"))" \
-		"$(gettext "Install")" "$(gettext "Install YaoLinuX")" \
+		"$(gettext "Install")" "$(gettext "Install Grat-OS")" \
 		"$(gettext "Clock")" "$(gettext "Date and time settings") ($(gettext "optional"))" \
 		"$(gettext "Console")" "$(gettext "Open a console")" \
-		"$(gettext "Erase")" "$(gettext "Erase") YaoLinuX" \
+		"$(gettext "Erase")" "$(gettext "Erase") Grat-OS" \
 		"$(gettext "Restart")" "$(gettext "Reboot the PC")" \
 		"$(gettext "Main")" "$(gettext "Main Menu")" \
 		2>$TMP/choix
 	else
-		dialog --title "   $(gettext "Welcome to the YaoLinuX installer")   " \
+		dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
 		--colors --menu "    $(gettext "Main Menu")   "  0 0 0 \
 		"$(gettext "Help")" "$(gettext "How to do it") ? " \
 		"$(gettext "Keyboard")" "$(gettext "Configure the keyboard") ($(gettext "optional"))" \
 		"$(gettext "Partitioning")" "$(gettext "Create all your partitions") ($(gettext "optional"))" \
 		"$(gettext "Format")" "$(gettext "Format a partition") ($(gettext "optional"))" \
 		"$(gettext "Boot Bios")" "$(gettext "Configure the boot of the PC") ($(gettext "optional")) ($(gettext "skilled"))" \
-		"$(gettext "Install")" "$(gettext "Install YaoLinuX")" \
+		"$(gettext "Install")" "$(gettext "Install Grat-OS")" \
 		"$(gettext "Clock")" "$(gettext "Date and time settings") ($(gettext "optional"))" \
 		"$(gettext "Console")" "$(gettext "Open a console")" \
-		"$(gettext "Erase")" "$(gettext "Erase") YaoLinuX" \
+		"$(gettext "Erase")" "$(gettext "Erase") Grat-OS" \
 		"$(gettext "Restart")" "$(gettext "Reboot the PC")" \
 		"$(gettext "Main")" "$(gettext "Main Menu")" \
 		2>$TMP/choix
@@ -2255,9 +2255,9 @@ setup_advanced_initrd() {
 
 }
 setup_initrd() {
-	dialog --title "   $(gettext "Welcome to the YaoLinuX installer")   " \
+	dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
 	--colors --menu "    $(gettext "Main Menu")   "  0 0 0 \
-	"$(gettext "Install")" "$(gettext "Install YaoLinuX")" \
+	"$(gettext "Install")" "$(gettext "Install Grat-OS")" \
 	"$(gettext "Advanced")" "$(gettext "Advanced Menu")" \
 	2>$TMP/choix
 	retval=$?
@@ -2522,7 +2522,7 @@ top_loop() {
 	if [ "$SETUP_INITRD" = "yes" ]; then
 		[ "$SETUP_CONFIG_LANGUAGE" = "yes" ] && LANG=fr_FR.utf8 setup_language
 		if [ ! -d /media/cdrom/boot ]; then
-			dialog --title "   $(gettext "Welcome to the YaoLinuX installer")   " \
+			dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
 				--msgbox "    $(gettext "You can remove the ISO media now.")" 6 60
 		fi
 		if [ -d "$EFIVARS" ]; then
