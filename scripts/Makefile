@@ -21,7 +21,7 @@
 
 include ../Makefile.inc
 
-all: install-nutyx setup-nutyx flushmem which mkinitramfs
+all: install-grat-os setup-nutyx flushmem which mkinitramfs
 
 %: %.in
 	sed -e "s/#VERSION#/$(VERSION)/" $< > $@
@@ -30,14 +30,14 @@ all: install-nutyx setup-nutyx flushmem which mkinitramfs
 .PHONY:	install clean distclean dist
 
 install: all
-	install -D -m0755 install-nutyx $(SBINDIR)/install-nutyx
+	install -D -m0755 install-grat-os $(SBINDIR)/install-grat-os
 	install -D -m0755 setup-nutyx $(SBINDIR)/setup-nutyx
 	install -D -m0755 flushmem $(SBINDIR)/flushmem
 	install -D -m0755 mkinitramfs $(SBINDIR)/mkinitramfs
 	install -D -m0755 which $(BINDIR)/which
 
 clean:
-	rm -f install-nutyx
+	rm -f install-grat-os
 	rm -f setup-nutyx
 	rm -f flushmem
 	rm -f which
