@@ -1,7 +1,7 @@
 description="portmap replacement which supports RPC over various protocols"
 url="http://rpcbind.sourceforge.net/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 PKGMK_GROUPS=(man)
 
@@ -9,28 +9,28 @@ makedepends=(libtirpc systemd)
 
 name=rpcbind
 version=1.2.6
-yaolinux_version=1.0-RC3
+grat-os_version=1.0-RC1
 
-source=(http://dania.on86.net/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz
+source=(https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz
 	http://downloads.sourceforge.net/rpcbind/rpcbind-$version.tar.bz2
 	http://www.linuxfromscratch.org/patches/blfs/svn/rpcbind-$version-vulnerability_fixes-1.patch)
 
 build() {
-cd rpcbind-$version
+  cd rpcbind-$version
 
-sed -i "/servname/s:rpcbind:sunrpc:" src/rpcbind.c
+  sed -i "/servname/s:rpcbind:sunrpc:" src/rpcbind.c
 
-patch -Np1 -i ../rpcbind-$version-vulnerability_fixes-1.patch
+  patch -Np1 -i ../rpcbind-$version-vulnerability_fixes-1.patch
 
-./configure --prefix=/usr       \
-            --bindir=/sbin      \
-	    --sbindir=/sbin     \
-            --with-rpcuser=rpc  \
-    	    --enable-warmstarts
+  ./configure --prefix=/usr       \
+              --bindir=/sbin      \
+              --sbindir=/sbin     \
+              --with-rpcuser=rpc  \
+              --enable-warmstarts
 
-make
-make DESTDIR=$PKG install
+  make
+  make DESTDIR=$PKG install
 
-cd ../yaolinux-${yaolinux_version}
-make DESTDIR=$PKG install-rpcbind
+  cd ../grat-os-${grat-os_version}
+  make DESTDIR=$PKG install-rpcbind
 }
