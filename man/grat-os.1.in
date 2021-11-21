@@ -1,15 +1,15 @@
-.TH "YaoLinuX version #VERSION#" 8 "Mars, 2017" ""
+.TH "Grat-OS version #VERSION#" 8 "Mars, 2017" ""
 
 
-.SH YaoLinuX
+.SH Grat-OS
 
 .P
-Cette page de manuel vous permet de prendre connaissance du minimum vital pour pouvoir utiliser votre système d'exploitation YaoLinuX GNU/Linux. Veuillez consulter les fichiers mentionnés pour obtenir plus d'information.
+Cette page de manuel vous permet de prendre connaissance du minimum vital pour pouvoir utiliser votre système d'exploitation Grat-OS GNU/Linux. Veuillez consulter les fichiers mentionnés pour obtenir plus d'information.
 
 .SH CONFIGURATION
 
 .P
-La configuration de YaoLinuX comprend: le réglage du clavier, le réglage du réseau, le montage de partitions ou disques supplémentaires, l'ajout d'une partition ou fichier d'échange, la création d'un nouveau compte utilisateur (utilisatrice), le réglage de l'heure, le nom de la machine, le réglage de la langue de la machine, le réglage de la région qui détermine le fuseau horaire, le réglage de l'amorçage de la machine, le chargement manuel des modules, la modification des fichiers au démarrage de la machine.
+La configuration de Grat-OS comprend: le réglage du clavier, le réglage du réseau, le montage de partitions ou disques supplémentaires, l'ajout d'une partition ou fichier d'échange, la création d'un nouveau compte utilisateur (utilisatrice), le réglage de l'heure, le nom de la machine, le réglage de la langue de la machine, le réglage de la région qui détermine le fuseau horaire, le réglage de l'amorçage de la machine, le chargement manuel des modules, la modification des fichiers au démarrage de la machine.
 
 .TP
   \fBLe clavier\fR:
@@ -111,7 +111,7 @@ Si tout s'est bien passé et qu'aucune erreur ne s'est produite, vous pouvez sup
  # rm -r /home/*
  Le dossier \fI/home\fR est maintenant vide et prêt pour pouvoir être monté sur le point de montage de votre choix.
 
-Le fichier \fI/etc/fstab\fR défini les points de montage des différents périphériques lors de l'amorçage de la machine. Vous souhaitez probablement utiliser une partition ou un disque oumême un dossier NFS pour stocker les données personnelles des utilisateurs enrégistrés sur la machine. Dans notre exemple, GRUB est sur la première partition, YaoLinuX sur la deuxième partition, les données d'échange mémoire virtuelle sur la troisième partition. Le fichier \fI/etc/fstab\fR de notre exemple contient les informations suivantes:
+Le fichier \fI/etc/fstab\fR défini les points de montage des différents périphériques lors de l'amorçage de la machine. Vous souhaitez probablement utiliser une partition ou un disque oumême un dossier NFS pour stocker les données personnelles des utilisateurs enrégistrés sur la machine. Dans notre exemple, GRUB est sur la première partition, Grat-OS sur la deuxième partition, les données d'échange mémoire virtuelle sur la troisième partition. Le fichier \fI/etc/fstab\fR de notre exemple contient les informations suivantes:
 .P
  # file/device   mountpoint  type      options    dump fsck order
  ...
@@ -162,13 +162,13 @@ Et ajouter l'entrée dans \fI/etc/fstab\fR:
 
 La commande \fBsetup-nutyx -cu\fP permet d'ajouter un nouvel utilisateur sur votre système.
 
-Le nouvel utilisateur sera automatiquement ajouté aux groupes essentiels de YaoLinuX. Si une interface graphique a été installée, celle-ci sera lancée et le \fBpremier\fR utilisateur inscrit sera automatiquement logué. Si vous souhaitez déactiver cette fonction, éditez le fichier \fI/etc/lxdm/lxdm.conf\fR. Les commandes classiques \fBuseradd/userdel\fR permettent d'ajouter/supprimer des comptes utilisateurs
+Le nouvel utilisateur sera automatiquement ajouté aux groupes essentiels de Grat-OS. Si une interface graphique a été installée, celle-ci sera lancée et le \fBpremier\fR utilisateur inscrit sera automatiquement logué. Si vous souhaitez déactiver cette fonction, éditez le fichier \fI/etc/lxdm/lxdm.conf\fR. Les commandes classiques \fBuseradd/userdel\fR permettent d'ajouter/supprimer des comptes utilisateurs
 .TP
   \fBL'horloge\fR:
 
 La commande \fBsetup-nutyx -cc\fP permet de configurer facilement la date et l'heure
 
-Sous YaoLinuX, l'affichage de l'horloge peut utiliser 2 methodes: 
+Sous Grat-OS, l'affichage de l'horloge peut utiliser 2 methodes: 
  - Methode 1: UTC=1, tenir compte du "Temps universel coordonné". Ajustement automatique heure d'été/hiver. Consultez la page wiki http://fr.wikipedia.org/wiki/Temps_universel_coordonn%C3%A9 pour plus d'informations.
  - Methode 2: UTC=0, tenir compte de l'heure locale (celle de votre poignet) uniquement et ignorer le temps universel coordonné. Cette methode ne mettra pas l'horloge de votre machine à jour aux changements heure été/hiver.
 
@@ -179,7 +179,7 @@ Le lien symbolique \fI/etc/localtime\fR défini la methode d'affichage de l'horl
 Le fichier \fI/etc/hostname\fR défini le nom de la machine. Exemple de fichier de configuration:
 .P
 # Le nom de votre machine
-yaolinux
+grat-os
 
 .TP
   \fBLa langue utilisée\fR:
@@ -189,9 +189,9 @@ Le fichier \fI/etc/locale.conf\fR défini la langue utilisée. La commande \fBse
 Le lien \fI/etc/localtime\fR défini la région où vous vous trouvez et ajustera le fuseau horaire en conséquence. Pour connaître le choix possible des différentes régions pour l'Europe par exemple, utilisez la commande: \fBl /usr/share/zoneinfo/Europe\fR. Ensuite ajustez le lien avec votre ville la plus proche, par exemple la commande: \fBsudo ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime\fR défini Rome comme ville de votre région. La commande \fBsetup-nutyx -cl\fP permet de configurer facilement la langue et la région à utiliser.
 .TP
   \fBL'amorçage de la machine\fR:
-Si vous avez utilisez une iso pour l'installation de YaoLinuX et que vous avez choisi d'installer l'amorçage de la machine, le fichier de configuration de l'amorçage se trouve dans \fI/boot/grub/grub.cfg\fR. Le nom du fichier du kernel-lts de YaoLinuX s'appelle \fBkernel-lts\fR, et le nom de l'initrd s'appelle \fBinitrd-lts\fR. Les deux  fichiers se trouvent par défaut dans le dossier \fB/boot\fR. Dans l'exemple qui suit: YaoLinuX est installée sur la première partition du deuxième disque, grub est installé sur le premier disque. Le fichier de configurations sera:
+Si vous avez utilisez une iso pour l'installation de Grat-OS et que vous avez choisi d'installer l'amorçage de la machine, le fichier de configuration de l'amorçage se trouve dans \fI/boot/grub/grub.cfg\fR. Le nom du fichier du kernel-lts de Grat-OS s'appelle \fBkernel-lts\fR, et le nom de l'initrd s'appelle \fBinitrd-lts\fR. Les deux  fichiers se trouvent par défaut dans le dossier \fB/boot\fR. Dans l'exemple qui suit: Grat-OS est installée sur la première partition du deuxième disque, grub est installé sur le premier disque. Le fichier de configurations sera:
 .P
-menuentry "YaoLinuX houaphan" {
+menuentry "Grat-OS houaphan" {
   set root=(hd1,1)
   linux /boot/kernel-lts root=/dev/sdb1 ro quiet 3
   initrd /boot/initrd-lts
@@ -199,7 +199,7 @@ menuentry "YaoLinuX houaphan" {
 
 Si l'on souhaite avoir une entrée supplémentaire pour lancer le système de maintenance, quand celle-ci sera disponible:
 .P
-menuentry "YaoLinuX systeme de maintenance" {
+menuentry "Grat-OS systeme de maintenance" {
   set root=(hd1,1)
   linux /boot/kernel-lts ro quiet single
   initrd /boot/initrd-lts
@@ -208,7 +208,7 @@ menuentry "YaoLinuX systeme de maintenance" {
 Notez que l'option \fBroot=/dev/sdb1\fR est supprimée.
 
 Si l'amorce de \fBgrub\fR n'est pas encore installé, (dans le cas d'une installation depuis le script par exemple). Vous pouvez installer grub en spécifiant \fBle disque\fR sur
-lequel la partition de YaoLinuX sekong se trouve, dans notre exemple ci-dessus, on utilisera la commande suivante:
+lequel la partition de Grat-OS sekong se trouve, dans notre exemple ci-dessus, on utilisera la commande suivante:
 .P
 sudo grub-install /dev/sdb
 
@@ -238,7 +238,7 @@ La gestion des paquets binaires se fait via la commande \fBcards\fP. Elle compre
 .TP
   \fBConfiguration de cards\fR
 
-Le fichier \fI/etc/cards.conf\fR définit les règles de fonctionnement de la commande \fBcards\fR. Les lignes commençant par dir définis les dossiers où sont stockés les paquets binaires et l'adresse URL du mirroir utilisé. Les lignes commençant par base définies la liste des paquets que contient une YaoLinuX de base dans le cas de la commande \fBcards base\fR. Libre à vous d'ajouter les paquets que vous souhaitez garder lors de l'exécution de cette commande. Pour cela, vous ajoutez les dossiers concernés dans un des dossiers specifiés à cette ligne.
+Le fichier \fI/etc/cards.conf\fR définit les règles de fonctionnement de la commande \fBcards\fR. Les lignes commençant par dir définis les dossiers où sont stockés les paquets binaires et l'adresse URL du mirroir utilisé. Les lignes commençant par base définies la liste des paquets que contient une Grat-OS de base dans le cas de la commande \fBcards base\fR. Libre à vous d'ajouter les paquets que vous souhaitez garder lors de l'exécution de cette commande. Pour cela, vous ajoutez les dossiers concernés dans un des dossiers specifiés à cette ligne.
 
 .TP
   \fBcheck\fR ou \fBsudo cards sync && cards diff\fR
@@ -365,7 +365,7 @@ Désactivation et arret du serviceX
 
 .TP
   \fBSite des utilisateurs\fR
-http://www.yaolinux.org
+http://www.grat-os.org
 
 .SH FICHIERS
 \fI/etc/cards.conf,
@@ -385,7 +385,7 @@ http://www.yaolinux.org
 .SH AUTHEURS
 
 .P
-Ecrit par Frederic Galusik <fred.galusik ~AT~ linuxpedia.fr>, Thierry Nuttens <thierryn1 ~AT~ hispeed.ch> et Rems de Yaolinux
+Ecrit par Frederic Galusik <fred.galusik ~AT~ linuxpedia.fr>, Thierry Nuttens <thierryn1 ~AT~ hispeed.ch> et Rems de Grat-OS
 
 .SH VOIR AUSSI les pages man de
 
