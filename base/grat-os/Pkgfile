@@ -1,0 +1,25 @@
+description="Base system of Grat-OS, contains all folders and startup scripts."
+url="https://github.com/Grat-OS"
+
+packager="Grat-OS Team"
+maintainer="rems"
+
+PKGMK_GROUPS=(man)
+PKGMK_IGNORE_RUNTIMEDEPS=yes
+PKGMK_KEEP_SOURCES="no"
+
+name=grat-os
+version=1.0-RC1
+
+patchname=""
+
+source=(https://repo.grat-os.fr/files/$name-$version.tar.xz)
+[ -z "$patchname" ] || source+=" $patchname"
+
+build() {
+  cd $name-$version
+
+  [ -z "$patchname" ] || patch -Np1 -i ../$patchname
+
+  make DESTDIR=$PKG install
+}
