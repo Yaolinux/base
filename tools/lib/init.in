@@ -207,7 +207,7 @@ do_mount_in_ram()
 }
 find_media() {
 	local PI FSIZE MSIZE
-	EXPECT_LABEL="yaolinuxcd"
+	EXPECT_LABEL="gratoscd"
 	if [ -n "$fromiso" ]; then
 		mkdir -p /media/fromdev
 		mount -o ro ${fromdev} /media/fromdev
@@ -224,13 +224,13 @@ find_media() {
 		eval `/sbin/blkid $DEV|cut -d ":" -f2`
 		if [ ${LABEL} == ${EXPECT_LABEL} ]  2>/dev/null ; then
                         if [ -b ${DEV}1 ]; then
-                           ln -sf ${DEV}1 /dev/yaolinux-cd
+                           ln -sf ${DEV}1 /dev/gratos-cd
                         else
-                           ln -sf ${DEV} /dev/yaolinux-cd
+                           ln -sf ${DEV} /dev/gratos-cd
                         fi
 			mkdir  -p /media/cdrom 2>/dev/null
-			[ "$verbose" == "no" ] || printf "mount -n /dev/yaolinux-cd /media/cdrom\n"
-			mount -n /dev/yaolinux-cd /media/cdrom
+			[ "$verbose" == "no" ] || printf "mount -n /dev/gratos-cd /media/cdrom\n"
+			mount -n /dev/gratos-cd /media/cdrom
 			break
 		fi
 	done
@@ -357,7 +357,7 @@ if [ "$live" == "yes" ] || [ "$root" == "" ]; then
 	LoadModules
 	if [ ! -f /sbin/setup-nutyx ]; then
 		find_media
-		if [ ! -L /dev/yaolinux-cd ]; then
+		if [ ! -L /dev/gratos-cd ]; then
 			[ "$verbose" == "no" ] || printf "Media not found yet, trying again in 5 sec\n"
 			sleep 5
 			find_media
