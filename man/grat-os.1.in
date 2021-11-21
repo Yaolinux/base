@@ -191,7 +191,7 @@ Le lien \fI/etc/localtime\fR défini la région où vous vous trouvez et ajuster
   \fBL'amorçage de la machine\fR:
 Si vous avez utilisez une iso pour l'installation de Grat-OS et que vous avez choisi d'installer l'amorçage de la machine, le fichier de configuration de l'amorçage se trouve dans \fI/boot/grub/grub.cfg\fR. Le nom du fichier du kernel-lts de Grat-OS s'appelle \fBkernel-lts\fR, et le nom de l'initrd s'appelle \fBinitrd-lts\fR. Les deux  fichiers se trouvent par défaut dans le dossier \fB/boot\fR. Dans l'exemple qui suit: Grat-OS est installée sur la première partition du deuxième disque, grub est installé sur le premier disque. Le fichier de configurations sera:
 .P
-menuentry "Grat-OS houaphan" {
+menuentry "Grat-OS EternalRolling" {
   set root=(hd1,1)
   linux /boot/kernel-lts root=/dev/sdb1 ro quiet 3
   initrd /boot/initrd-lts
@@ -208,7 +208,7 @@ menuentry "Grat-OS systeme de maintenance" {
 Notez que l'option \fBroot=/dev/sdb1\fR est supprimée.
 
 Si l'amorce de \fBgrub\fR n'est pas encore installé, (dans le cas d'une installation depuis le script par exemple). Vous pouvez installer grub en spécifiant \fBle disque\fR sur
-lequel la partition de Grat-OS sekong se trouve, dans notre exemple ci-dessus, on utilisera la commande suivante:
+lequel la partition de Grat-OS EternalRolling se trouve, dans notre exemple ci-dessus, on utilisera la commande suivante:
 .P
 sudo grub-install /dev/sdb
 
