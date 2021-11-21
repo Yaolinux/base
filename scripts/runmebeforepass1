@@ -6,7 +6,7 @@ color_mesg
 
 version="development"
 #[ -z "${URL}" ] && URL="http://rems.6admin.net"
-[ -z "${URL}" ] && URL="http://yaolinux.fabienwang.fr"
+[ -z "${URL}" ] && URL="http://repo.grat-os.fr"
 echo
 msg "$(gettext "This script will run some pre-checks and")"
 msg "$(gettext "download missing sources...")"
