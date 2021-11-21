@@ -1,7 +1,7 @@
 description="Userspace server and client tools necessary to use the kernel's NFS abilities."
 url="http://nfs.sourceforge.net"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(libtirpc rpcbind libcap sqlite lvm2 rpcsvc-proto systemd libevent keyutils)
 run=(rpcbind)
@@ -10,30 +10,30 @@ name=nfs-utils
 version=2.5.4
 release=2
 
-yaolinux_version=1.0-RC4
+grat-os_version=1.0-RC1
 
 source=(http://downloads.sourceforge.net/nfs/$name-$version.tar.bz2
-        http://yaolinux.fabienwang.fr/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+        https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz)
 
 build() {
-cd $name-$version
+  cd $name-$version
 
-./configure --prefix=/usr     \
-            --sysconfdir=/etc \
-            --sbindir=/sbin   \
-            --disable-gss \
-            --with-systemd
+  ./configure --prefix=/usr     \
+              --sysconfdir=/etc \
+              --sbindir=/sbin   \
+              --disable-gss \
+              --with-systemd
 
-make
+  make
 
-mkdir $PKG/sbin
+  mkdir $PKG/sbin
 
-make DESTDIR=$PKG install
+  make DESTDIR=$PKG install
 
-chmod u+w,go+r $PKG/sbin/mount.nfs
-chown nobody.nogroup $PKG/var/lib/nfs
+  chmod u+w,go+r $PKG/sbin/mount.nfs
+  chown nobody.nogroup $PKG/var/lib/nfs
 
-# Services
-cd ../yaolinux-${yaolinux_version}
-make DESTDIR=$PKG install-nfs-server
+  # Services
+  cd ../grat-os-${grat-os_version}
+  make DESTDIR=$PKG install-nfs-server
 }
