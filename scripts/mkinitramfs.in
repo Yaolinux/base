@@ -222,7 +222,7 @@ fi
 if [ -f /etc/hostname ] ; then
 	cp /etc/hostname $WDIR/etc/hostname
 else
-	echo "yaolinux" > $WDIR/etc/hostname
+	echo "grat-os" > $WDIR/etc/hostname
 fi
 # Clock setting
 [ -f /etc/sysconfig/clock ] && cp /etc/sysconfig/clock $WDIR/etc/sysconfig
