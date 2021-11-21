@@ -76,7 +76,7 @@ print_error_msg() {
         boot_mesg -n " of ${i} "
         boot_mesg_flush
         boot_mesg -n " Thanks to inform us"
-        boot_mesg -n " via the website http://www.yaolinux.org."
+        boot_mesg -n " via the website http://www.grat-os.org."
         boot_mesg " Thanks again for your collaboration.\n"
         boot_mesg_flush
         boot_mesg -n "Press Enter to continue..." ${INFO}
@@ -113,7 +113,7 @@ umount ${FOLDER}/sys
 #******************************************************************************
 # Function - setup_chroot
 #
-# Purpose:	Enter the Yaolinux Distribution
+# Purpose:	Enter the Grat-OS Distribution
 #
 # Inputs:	$1 the full path of the Distro
 #
@@ -1171,7 +1171,7 @@ base ${DEPOT}/base
 # base ${DEPOT}/gui-extra
 # base ${DEPOT}/..." > ${FOLDER}/etc/cards.conf
 }
-generate_yaolinux_version() {
+generate_grat-os_version() {
 local FILE
 FILE="nutyx-version"
 [ -f ${FOLDER}/var/lib/pkg/$FILE ] && return
@@ -1180,8 +1180,8 @@ echo "name ${CODE_NAME}
 version $VERSION" > ${FOLDER}/var/lib/pkg/$FILE
 }
 generate_lsb() {
-echo "DISTRIB_ID=\"YaoLinuX\"
-DISTRIB_DESCRIPTION=\"YaoLinuX GNU/Linux\"
+echo "DISTRIB_ID=\"Grat-OS\"
+DISTRIB_DESCRIPTION=\"Grat-OS GNU/Linux\"
 DISTRIB_CODENAME=\"${CODE_NAME}\"
 DISTRIB_RELEASE=\"$VERSION\"
 LSB_VERSION=\"1.4-1\"" > ${FOLDER}/etc/lsb-release
@@ -1192,14 +1192,14 @@ install_resolv_conf() {
 successfull_installation () {
 echo "
 ****************************************************
-      Installation of YaoLinuX $VERSION installed
+      Installation of Grat-OS $VERSION installed
       in $LFS sucessfully
 ****************************************************
 
 ****************************************************
-* Thanks for installing YaoLinuX                   *
+* Thanks for installing Grat-OS                   *
 *                                                  *
-* Check http://www.yaolinux.org/		   *
+* Check http://www.Grat-OS.org/		   *
 *                                                  *
 * Make sure to review /etc/cards.conf              *
 * to meet your requirements in packages selection  *
@@ -1212,15 +1212,15 @@ check_root() {
 }
 check_variables() {
 if [ -z "$CHROOT_LIST" ]; then
-	CHROOT_LIST="yaolinux acl attr bash bzip2 coreutils curl \
+	CHROOT_LIST="grat-os acl attr bash bzip2 coreutils curl \
 expat gcc readline ncurses lzo glibc gmp xz zstd zlib \
 libarchive mpc mpfr openssl cards util-linux \
 libtasn1 nettle gnutls p11-kit libffi kmod"
 fi
 
-[ -z "$URL" ] && URL="http://downloads.yaolinux.org"
+[ -z "$URL" ] && URL="http://repo.grat-os.fr"
 
-[ -z "$VERSION" ] && VERSION="1.0-RC3"
+[ -z "$VERSION" ] && VERSION="1.0-RC1"
 
 if [ "$VERSION" == "development" ]; then
 	CODE_NAME="$(date +%Y%m%d)"
@@ -1249,10 +1249,10 @@ fi
 
 [ -z $LFS ] && LFS=$FOLDER
 
-HOMEPAGE="${URL}"                      ## http://downloads.yaolinux.org
+HOMEPAGE="${URL}"                      ## http://repo.grat-os.fr
 INSTALL_BASE="$ARCH/$VERSION"          ## x86_64/1.0-RCx
-DEPOT_ROOT="$HOMEPAGE/${INSTALL_BASE}" ## http://downloads.yaolinux.org/x86_64/1.0-RCx
-DEPOT_BASE="$DEPOT_ROOT/$BASE"         ## http://downloads.yaolinux.org/x86_64/1.0-RCx/base
+DEPOT_ROOT="$HOMEPAGE/${INSTALL_BASE}" ## http://repo.grat-os.fr/x86_64/1.0-RCx
+DEPOT_BASE="$DEPOT_ROOT/$BASE"         ## http://repo.grat-os.fr/x86_64/1.0-RCx/base
 
 LOCAL_DEPOT_PACKAGES="$DEPOT/$BASE"
 DEPOT_CD="/media/cdrom"
@@ -1414,7 +1414,7 @@ gettext procps-ng psmisc \
 sed sudo tzdata inetutils \
 iproute2 libelf iana-etc \
 less groff man-db \
-cards.fr cards.man yaolinux.man \
+cards.fr cards.man grat-os.man \
 lvm2 libaio dialog cpio squashfs \
 ca-certificates lsb-release \
 $KERNEL \
@@ -1448,7 +1448,7 @@ install_configuration_files() {
 	generate_rc_site
 	generate_etc_bashrc
 	generate_lsb
-	generate_yaolinux_version
+	generate_grat-os_version
 }
 print_help() {
 	echo "
