@@ -9,9 +9,10 @@ makedepends=(libtirpc systemd)
 
 name=rpcbind
 version=1.2.6
-grat-os_version=1.0-RC1
+release=2
+grat_os_version=1.0-RC1
 
-source=(https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz
+source=(https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz
 	http://downloads.sourceforge.net/rpcbind/rpcbind-$version.tar.bz2
 	http://www.linuxfromscratch.org/patches/blfs/svn/rpcbind-$version-vulnerability_fixes-1.patch)
 
@@ -31,6 +32,6 @@ build() {
   make
   make DESTDIR=$PKG install
 
-  cd ../grat-os-${grat-os_version}
+  cd ../grat-os-${grat_os_version}
   make DESTDIR=$PKG install-rpcbind
 }
