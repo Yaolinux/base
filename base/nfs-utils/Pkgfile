@@ -10,10 +10,10 @@ name=nfs-utils
 version=2.5.4
 release=2
 
-grat-os_version=1.0-RC1
+grat_os_version=1.0-RC1
 
 source=(http://downloads.sourceforge.net/nfs/$name-$version.tar.bz2
-        https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz)
+        https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz)
 
 build() {
   cd $name-$version
@@ -34,6 +34,6 @@ build() {
   chown nobody.nogroup $PKG/var/lib/nfs
 
   # Services
-  cd ../grat-os-${grat-os_version}
+  cd ../grat-os-${grat_os_version}
   make DESTDIR=$PKG install-nfs-server
 }
