@@ -8,10 +8,10 @@ packager="Grat-OS Team"
 name=iptables
 version=1.8.7
 
-grat-os_version=-1.0-RC1
+grat_os_version=-1.0-RC1
 
 source=(http://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2
-        https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz)
+        https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz)
 
 build() {
   cd $name-$version
@@ -34,6 +34,6 @@ build() {
   done
 
   # service
-  cd ../grat-os-${grat-os_version}
+  cd ../grat-os-${grat_os_version}
   make DESTDIR=$PKG install-$name
 }
