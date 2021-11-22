@@ -1,19 +1,19 @@
 description="The current stable kernel version"
 url="http://www.kernel.org"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 PKGMK_IGNORE_UNPACK="yes"
 PKGMK_NO_STRIP="yes"
 PKGMK_GROUPS=(devel doc)
 
-makedepends=(yaolinux)
+makedepends=(grat-os)
 
 name=kernel
 alias=(linux)
 
-version=5.10.77
+version=5.10.81
 release=2
 _version=${version:0:4}
 
@@ -34,70 +34,70 @@ source=($url/pub/linux/kernel/v5.x/linux-${_version}.tar.xz
 
 build() {
 
-bsdtar -p -o -C $SRC -xf linux-${_version}.tar.xz
+  bsdtar -p -o -C $SRC -xf linux-${_version}.tar.xz
 
-cd linux-${_version}
+  cd linux-${_version}
 
-if [ -f $SRC/patch-$version.xz ]; then
-	xz -d -c  $SRC/patch-$version.xz | patch -Np1
-fi
+  if [ -f $SRC/patch-$version.xz ]; then
+    xz -d -c  $SRC/patch-$version.xz | patch -Np1
+  fi
 
-patch -Np1 -i ../fix_virtualbox.patch
+  patch -Np1 -i ../fix_virtualbox.patch
 
-make mrproper
-cp $SRC/config_64 ./.config
+  make mrproper
+  cp $SRC/config_64 ./.config
 
-# make menuconfig
+  # make menuconfig
 
-make
+  make
 
-cp .config $SRC/config_64
+  cp .config $SRC/config_64
 
-## Modules
-#
-# Kernel modules
-cd $SRC/linux-${_version}
-make INSTALL_MOD_PATH=$PKG modules_install
+  ## Modules
+  #
+  # Kernel modules
+  cd $SRC/linux-${_version}
+  make INSTALL_MOD_PATH=$PKG modules_install
 
-KERNEL_VERSION="${version}-YaoLinuX"
-[ -z $patchname ] && KERNEL_VERSION="${version}.0-YaoLinuX"
+  KERNEL_VERSION="${version}-Grat-OS"
+  [ -z $patchname ] && KERNEL_VERSION="${version}.0-Grat-OS"
 
 
-# depmod needed
-depmod -b $PKG -a ${KERNEL_VERSION}
+  # depmod needed
+  depmod -b $PKG -a ${KERNEL_VERSION}
 
-# Install config and kernel files
-cd $SRC/linux-${_version}
+  # Install config and kernel files
+  cd $SRC/linux-${_version}
 
-mkdir -p $PKG/boot
+  mkdir -p $PKG/boot
 
-cp  System.map \
-$PKG/boot/System_64.map-${KERNEL_VERSION}
-cp  .config    \
-$PKG/boot/config_64-${KERNEL_VERSION}
-cp  arch/x86_64/boot/bzImage \
-$PKG/boot/kernel-${KERNEL_VERSION}
+  cp  System.map \
+  $PKG/boot/System_64.map-${KERNEL_VERSION}
+  cp  .config    \
+  $PKG/boot/config_64-${KERNEL_VERSION}
+  cp  arch/x86_64/boot/bzImage \
+  $PKG/boot/kernel-${KERNEL_VERSION}
 
-# Reorgenise the sources
-cd $PKG/lib/modules/${KERNEL_VERSION}/
+  # Reorgenise the sources
+  cd $PKG/lib/modules/${KERNEL_VERSION}/
 
-mkdir -p $PKG/usr/src
+  mkdir -p $PKG/usr/src
 
-mv $SRC/linux-${_version} $PKG/usr/src/
-rm {build,source}
+  mv $SRC/linux-${_version} $PKG/usr/src/
+  rm {build,source}
 
-ln -sv /usr/src/linux-${_version} build
-ln -sv /usr/src/linux-${_version} source
+  ln -sv /usr/src/linux-${_version} build
+  ln -sv /usr/src/linux-${_version} source
 
-mkdir $SRC/linux-${_version}
-mv $PKG/usr/src/linux-${_version}/Documentation \
-$SRC/linux-${_version}
+  mkdir $SRC/linux-${_version}
+  mv $PKG/usr/src/linux-${_version}/Documentation \
+  $SRC/linux-${_version}
 
-# Firmware are in linux-firmware
-rm -rf $PKG/lib/firmware
+  # Firmware are in linux-firmware
+  rm -rf $PKG/lib/firmware
 
-# post-install autogen
-echo 'LK="."
+  # post-install autogen
+  echo 'LK="."
 [ -L boot/kernel ] && LK="$(readlink boot/kernel)"
 if [ "$(dirname $LK)" != "." ]; then
   echo "This is a efi installation"
@@ -125,32 +125,34 @@ fi" >> $PKGMK_ROOT/$name.post-install
 
 devel() {
 
-cd $PKG
-#rm -r usr/src/linux-${_version}/{tools,ipc,init,drivers,fs,mm,samples,security,sound,virt}
-for i in alpha arc arm arm26 arm64 avr32 blackfin c6x \
-cris frv h8300 hexagon ia64 m32r m68k m68knommu metag \
-mips microblaze mn10300 openrisc parisc powerpc ppc s390 \
-score sh sh64 sparc sparc64 tile unicore32 um v850 xtensa
-do rm -rf usr/src/linux-${_version}/arch/$i
-done
+  cd $PKG
+  #rm -r usr/src/linux-${_version}/{tools,ipc,init,drivers,fs,mm,samples,security,sound,virt}
+  for i in alpha arc arm arm26 arm64 avr32 blackfin c6x \
+  cris frv h8300 hexagon ia64 m32r m68k m68knommu metag \
+  mips microblaze mn10300 openrisc parisc powerpc ppc s390 \
+  score sh sh64 sparc sparc64 tile unicore32 um v850 xtensa
+  do rm -rf usr/src/linux-${_version}/arch/$i
+  done
 
-bsdtar -cf \
-$PKGMK_PACKAGE_DIR/$name.devel${PKGMK_BUILDVER}any.${PKGMK_PACKAGE_EXT} \
-usr/src/linux-${_version}
+  bsdtar -cf \
+  $PKGMK_PACKAGE_DIR/$name.devel${PKGMK_BUILDVER}any.${PKGMK_PACKAGE_EXT} \
+  usr/src/linux-${_version}
 
-rm -r usr
+  rm -r usr
+
 }
 
 doc() {
 
-cd $PKG
-mkdir -p usr/share/doc
-mv $SRC/linux-${_version}/Documentation \
-usr/share/doc/linux-$version
+  cd $PKG
+  mkdir -p usr/share/doc
+  mv $SRC/linux-${_version}/Documentation \
+  usr/share/doc/linux-$version
 
-bsdtar -cf \
-$PKGMK_PACKAGE_DIR/$name.doc${PKGMK_BUILDVER}any.${PKGMK_PACKAGE_EXT} \
-usr/share/doc/linux-$version
+  bsdtar -cf \
+  $PKGMK_PACKAGE_DIR/$name.doc${PKGMK_BUILDVER}any.${PKGMK_PACKAGE_EXT} \
+  usr/share/doc/linux-$version
 
-rm -r usr
+  rm -r usr
+
 }
