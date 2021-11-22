@@ -6,32 +6,34 @@ packager="Grat-OS Team"
 name=gpm
 version=1.20.7
 
-grat-os_version=1.0-RC1
+grat_os_version=1.0-RC1
 
-source=(https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz
+source=(https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz
         http://anduin.linuxfromscratch.org/BLFS/$name/$name-$version.tar.bz2
         http://www.linuxfromscratch.org/patches/blfs/10.1/$name-$version-consolidated-1.patch)
 
 build() {
-cd $name-$version
 
-patch -Np1 -i ../$name-$version-consolidated-1.patch
-sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/{display-buttons,display-coords,get-versions}.c
+  cd $name-$version
 
-./autogen.sh
-./configure --prefix=/usr \
-	    --sysconfdir=/etc \
-            --mandir=/usr/share/man \
-	    --infodir=/usr/share/info
+  patch -Np1 -i ../$name-$version-consolidated-1.patch
+  sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/{display-buttons,display-coords,get-versions}.c
 
-make
-make ROOT=$PKG install
+  ./autogen.sh
+  ./configure --prefix=/usr \
+        --sysconfdir=/etc \
+        --mandir=/usr/share/man \
+        --infodir=/usr/share/info
 
-ln -sv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so.1
-ln -sv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so
-install -v -m644 conf/gpm-root.conf $PKG/etc
+  make
+  make ROOT=$PKG install
 
-# service
-cd ../yaolinux-${grat-os_version}
-make DESTDIR=$PKG install-gpm
+  ln -sv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so.1
+  ln -sv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so
+  install -v -m644 conf/gpm-root.conf $PKG/etc
+
+  # service
+  cd ../grat-os-${grat_os_version}
+  make DESTDIR=$PKG install-gpm
+
 }
