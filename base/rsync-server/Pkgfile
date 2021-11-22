@@ -10,12 +10,12 @@ run=(rsync)
 name=rsync-server
 version=3.2.3
 release=3
-grat-os_version=1.0-RC1
+grat_os_version=1.0-RC1
 
-source=(https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz)
+source=(https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz)
 
 build() {
-  cd grat-os-${grat-os_version}
+  cd grat-os-${grat_os_version}
 
   make DESTDIR=$PKG install-rsyncd
 }
