@@ -119,7 +119,8 @@ else
       ln -sf initrd-${KERNEL_VERSION} boot/initrd
     fi
   fi
-  ln -sf kernel-${KERNEL_VERSION} boot/kernel
+  ln -sf kernel-${KERNEL_VERSION} boot/${name}
+
 fi" >> $PKGMK_ROOT/$name.post-install
 }
 
