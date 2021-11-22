@@ -7,6 +7,6 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=libnftnl
-version=1.2.0
+version=1.2.1
 
 source=(http://netfilter.org/projects/libnftnl/files/libnftnl-$version.tar.bz2)
