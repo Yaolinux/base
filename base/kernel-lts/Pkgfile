@@ -1,22 +1,22 @@
 description="The long term stable kernel version"
 url="http://www.kernel.org"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 PKGMK_IGNORE_UNPACK="yes"
 PKGMK_NO_STRIP="yes"
 PKGMK_GROUPS=(devel doc)
 
-makedepends=(yaolinux)
+makedepends=(grat-os)
 
 name=kernel-lts
 alias=(linux-lts)
 
-version=4.19.215
+version=4.19.217
 _version=${version%.*}
 
-run=(yaolinux)
+run=(grat-os)
 
 ## Download all the sources
 
@@ -28,86 +28,86 @@ source=($url/pub/linux/kernel/v4.x/linux-${_version}.tar.xz
 
 build() {
 
-bsdtar -p -o -C $SRC -xf linux-${_version}.tar.xz
+  bsdtar -p -o -C $SRC -xf linux-${_version}.tar.xz
 
-cd linux-${_version}
+  cd linux-${_version}
 
-if [ -f $SRC/patch-$version.xz ]; then
-	xz -d -c  $SRC/patch-$version.xz | patch -Np1
-fi
+  if [ -f $SRC/patch-$version.xz ]; then
+    xz -d -c  $SRC/patch-$version.xz | patch -Np1
+  fi
 
-make mrproper
-cp $SRC/config_64 ./.config
+  make mrproper
+  cp $SRC/config_64 ./.config
 
-# make menuconfig
+  # make menuconfig
 
-make
+  make
 
-cp .config $SRC/config_64
+  cp .config $SRC/config_64
 
-## Modules
-#
-# Kernel modules
-cd $SRC/linux-${_version}
-make INSTALL_MOD_PATH=$PKG DEPMOD=/bin/true modules_install
+  ## Modules
+  #
+  # Kernel modules
+  cd $SRC/linux-${_version}
+  make INSTALL_MOD_PATH=$PKG DEPMOD=/bin/true modules_install
 
-KERNEL_VERSION="${version}-YaoLinuX-lts"
+  KERNEL_VERSION="${version}-Grat-OS-lts"
 
-# depmod needed
-depmod -b $PKG -a ${KERNEL_VERSION}
+  # depmod needed
+  depmod -b $PKG -a ${KERNEL_VERSION}
 
-# Install config and kernel files
-cd $SRC/linux-${_version}
+  # Install config and kernel files
+  cd $SRC/linux-${_version}
 
-mkdir -p $PKG/boot
+  mkdir -p $PKG/boot
 
-cp  System.map \
-$PKG/boot/System_64.map-$version-YaoLinuX-lts
-cp  .config    \
-$PKG/boot/config_64-$version-YaoLinuX-lts
-cp  arch/x86_64/boot/bzImage \
-$PKG/boot/kernel-$version-YaoLinuX-lts
+  cp  System.map \
+  $PKG/boot/System_64.map-$version-Grat-OS-lts
+  cp  .config    \
+  $PKG/boot/config_64-$version-Grat-OS-lts
+  cp  arch/x86_64/boot/bzImage \
+  $PKG/boot/kernel-$version-Grat-OS-lts
 
-# Reorgenise the sources
-cd $PKG/lib/modules/${KERNEL_VERSION}/
+  # Reorgenise the sources
+  cd $PKG/lib/modules/${KERNEL_VERSION}/
 
-mkdir -p $PKG/usr/src
+  mkdir -p $PKG/usr/src
 
-mv $SRC/linux-${_version} $PKG/usr/src/
-rm {build,source}
+  mv $SRC/linux-${_version} $PKG/usr/src/
+  rm {build,source}
 
-ln -sv ../../../usr/src/linux-${_version} build
-ln -sv ../../../usr/src/linux-${_version} source
+  ln -sv ../../../usr/src/linux-${_version} build
+  ln -sv ../../../usr/src/linux-${_version} source
 
-mkdir $SRC/linux-${_version}
-mv $PKG/usr/src/linux-${_version}/Documentation \
-$SRC/linux-${_version}
+  mkdir $SRC/linux-${_version}
+  mv $PKG/usr/src/linux-${_version}/Documentation \
+  $SRC/linux-${_version}
 
-# Firmware are in linux-firmware
-rm -rf $PKG/lib/firmware
+  # Firmware are in linux-firmware
+  rm -rf $PKG/lib/firmware
 
-# post-install autogen
+  # post-install autogen
 echo 'LK="."
 [ -L boot/kernel-lts ] && LK="`readlink boot/kernel-lts`"
 if [ "`dirname $LK`" != "." ]; then
   echo "This is a efi installation"
   ln -sf $LK boot/kernel-lts
   if [ -f boot/$LK ]; then' > $PKGMK_ROOT/$name.post-install
-echo "    mv boot/kernel-$version-YaoLinuX-lts boot/\$LK 2>/dev/null
-    ln -sf \$LK boot/kernel-$version-YaoLinuX-lts
+    echo "    mv boot/kernel-$version-Grat-OS-lts boot/\$LK 2>/dev/null
+    ln -sf \$LK boot/kernel-$version-Grat-OS-lts
   else
     echo \"EFI Partition not found, mount EFI Partition and re-install the kernel\"
   fi
 else
   echo \"This is a bios installation\"
   if [ -L boot/initrd-lts ]; then
-	if [[ -x usr/bin/dracut ]]; then
-		dracut --kver ${KERNEL_VERSION} 2>&1 > /dev/null
-		ln -sf initramfs-${KERNEL_VERSION} boot/initrd-lts
-	else
-		mkinitramfs ${KERNEL_VERSION}
-		ln -sf initrd-${KERNEL_VERSION} boot/initrd-lts
-	fi
+    if [[ -x usr/bin/dracut ]]; then
+      dracut --kver ${KERNEL_VERSION} 2>&1 > /dev/null
+      ln -sf initramfs-${KERNEL_VERSION} boot/initrd-lts
+    else
+      mkinitramfs ${KERNEL_VERSION}
+      ln -sf initrd-${KERNEL_VERSION} boot/initrd-lts
+    fi
   fi
   ln -sf kernel-${KERNEL_VERSION} boot/kernel-lts
 fi" >> $PKGMK_ROOT/$name.post-install
