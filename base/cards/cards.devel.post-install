@@ -11,7 +11,7 @@ lxde lxde-extra \
 nos
 do
    if [ ! -f etc/ports/$i.cards ]; then
-      echo "host=downloads.yaolinux.org
+      echo "host=repo.grat-os.fr
 destination=/usr/ports/$i
 version=$VERSION
 collection=$i" > etc/ports/$i.cards
