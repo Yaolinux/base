@@ -3,12 +3,11 @@ url="https://www.gnu.org/software/libc/"
 
 packager="Grat-OS Team"
 
-kernelversion=5.10.60
 gccversion=11.2.0
 
 name=glibc
 version=2.34
-release=2
+release=3
 
 source=(http://www.linuxfromscratch.org/patches/downloads/$name/glibc-$version-fhs-1.patch
 	http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
@@ -16,67 +15,67 @@ source=(http://www.linuxfromscratch.org/patches/downloads/$name/glibc-$version-f
 
 build() {
 
-cd glibc-$version
+  cd glibc-$version
 
-sed -e '/NOTIFY_REMOVED)/s/)/ \&\& data.attr != NULL)/' \
-    -i sysdeps/unix/sysv/linux/mq_notify.c
+  sed -e '/NOTIFY_REMOVED)/s/)/ \&\& data.attr != NULL)/' \
+      -i sysdeps/unix/sysv/linux/mq_notify.c
 
-# Some of the Glibc programs use the non-FHS compilant /var/db directory to store their runtime data. Apply the following patch to make such programs store their runtime data in the FHS-compliant locations
-patch -Np1 -i ../glibc-$version-fhs-1.patch
+  # Some of the Glibc programs use the non-FHS compilant /var/db directory to store their runtime data. Apply the following patch to make such programs store their runtime data in the FHS-compliant locations
+  patch -Np1 -i ../glibc-$version-fhs-1.patch
 
-case $(uname -m) in
-   i?86)
-     mkdir $PKG/lib
-     GCC_INCDIR=/usr/lib/gcc/$(uname -m)-pc-linux-gnu/$gccversion/include
-     ln -s ld-linux.so.2 $PKG/lib/ld-lsb.so.3
-   ;;
-   x86_64) 
-     mkdir $PKG/lib64
-     GCC_INCDIR=/usr/lib/gcc/x86_64-pc-linux-gnu/$gccversion/include
-     ln -s ../lib/ld-linux-x86-64.so.2 $PKG/lib64
-     ln -s ../lib/ld-linux-x86-64.so.2 $PKG/lib64/ld-lsb-x86-64.so.3
-   ;;
-   aarch64)
-     mkdir $PKG/lib64
-     GCC_INCDIR=/usr/lib/gcc/$(uname -m)-linux-gnu/$gccversion/include
-     ln -s ../lib/ld-linux-$(uname -m).so.2 $PKG/lib64
-     ln -s ../lib/ld-linux-$(uname -m).so.2 $PKG/lib64/ld-lsb-$(uname -m).so.3
-   ;;
-esac
+  case $(uname -m) in
+    i?86)
+      mkdir $PKG/lib
+      GCC_INCDIR=/usr/lib/gcc/$(uname -m)-pc-linux-gnu/$gccversion/include
+      ln -s ld-linux.so.2 $PKG/lib/ld-lsb.so.3
+    ;;
+    x86_64) 
+      mkdir $PKG/lib64
+      GCC_INCDIR=/usr/lib/gcc/x86_64-pc-linux-gnu/$gccversion/include
+      ln -s ../lib/ld-linux-x86-64.so.2 $PKG/lib64
+      ln -s ../lib/ld-linux-x86-64.so.2 $PKG/lib64/ld-lsb-x86-64.so.3
+    ;;
+    aarch64)
+      mkdir $PKG/lib64
+      GCC_INCDIR=/usr/lib/gcc/$(uname -m)-linux-gnu/$gccversion/include
+      ln -s ../lib/ld-linux-$(uname -m).so.2 $PKG/lib64
+      ln -s ../lib/ld-linux-$(uname -m).so.2 $PKG/lib64/ld-lsb-$(uname -m).so.3
+    ;;
+  esac
 
-mkdir -v build
-cd       build
+  mkdir -v build
+  cd       build
 
-../configure --prefix=/usr                                \
-             --with-bugurl=https://bugs.yaolinux.org  \
-             --disable-werror                \
-             --enable-kernel=3.2             \
-             --enable-stack-protector=strong \
-             --enable-static-pie \
-             --disable-profile \
-             libc_cv_slibdir=/lib
+  ../configure --prefix=/usr                            \
+              --with-bugurl=https://github.com/Grat-OS/ \
+              --disable-werror                          \
+              --enable-kernel=3.2                       \
+              --enable-stack-protector=strong           \
+              --enable-static-pie                       \
+              --disable-profile                         \
+              libc_cv_slibdir=/lib
 
-make || make -j1
+  make || make -j1
 
-# make -k check 2>&1 | tee glibc-check-log
-# grep Error glibc-check-log
+  # make -k check 2>&1 | tee glibc-check-log
+  # grep Error glibc-check-log
 
-make install_root=$PKG install
+  make install_root=$PKG install
 
-mkdir -p $PKG/etc
-cp -v ../nscd/nscd.conf $PKG/etc/nscd.conf
-mkdir -pv $PKG/var/cache/nscd
+  mkdir -p $PKG/etc
+  cp -v ../nscd/nscd.conf $PKG/etc/nscd.conf
+  mkdir -pv $PKG/var/cache/nscd
 
-touch $PKG/etc/ld.so.conf
+  touch $PKG/etc/ld.so.conf
 
-mkdir -pv $PKG/usr/lib/locale
+  mkdir -pv $PKG/usr/lib/locale
 
-cp $SRC/glibc.locales.supported \
-../localedata/SUPPORTED
+  cp $SRC/glibc.locales.supported \
+  ../localedata/SUPPORTED
 
-make install_root=$PKG localedata/install-locales
+  make install_root=$PKG localedata/install-locales
 
-cat > $PKG/etc/nsswitch.conf << "EOF"
+  cat > $PKG/etc/nsswitch.conf << "EOF"
 # Begin /etc/nsswitch.conf
 
 passwd: files
@@ -94,7 +93,7 @@ rpc: files
 # End /etc/nsswitch.conf
 EOF
 
-cat > $PKG/etc/ld.so.conf << "EOF"
+  cat > $PKG/etc/ld.so.conf << "EOF"
 # Begin /etc/ld.so.conf
 /usr/local/lib
 /opt/lib
@@ -104,21 +103,23 @@ include /etc/ld.so.conf.d/*.conf
 # End of  /etc/ld.so.conf
 EOF
 
-mkdir $PKG/etc/ld.so.conf.d
+  mkdir $PKG/etc/ld.so.conf.d
 
-# Compatibility symlink for non ld-linux-armhf awareness
-case $(uname -m) in
-     aarch64)
-          ln -sv ld-2.30.so $PKG/lib/ld-linux.so.3
-          unlink /lib/ld-linux-aarch64.so.1
-     ;;
-esac
+  # Compatibility symlink for non ld-linux-armhf awareness
+  case $(uname -m) in
+      aarch64)
+            ln -sv ld-2.30.so $PKG/lib/ld-linux.so.3
+            unlink /lib/ld-linux-aarch64.so.1
+      ;;
+  esac
 }
 
 devel() {
-cd $PKG
-bsdtar -r -f \
-$PKGMK_PACKAGE_DIR/${name}.${group}${PKGMK_BUILDVER}`uname -m`.$PKGMK_PACKAGE_EXT \
-usr/include
-rm -r usr/include
+
+  cd $PKG
+  bsdtar -r -f \
+  $PKGMK_PACKAGE_DIR/${name}.${group}${PKGMK_BUILDVER}`uname -m`.$PKGMK_PACKAGE_EXT \
+  usr/include
+  rm -r usr/include
+
 }
