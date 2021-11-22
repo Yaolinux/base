@@ -8,12 +8,12 @@ run=(openssh)
 
 name=openssh-server
 version=8.8p1
-grat-os_version=1.0-RC1
+grat_os_version=1.0-RC1
 
-source=(https://repo.grat-os.fr/files/grat-os-${grat-os_version}.tar.xz)
+source=(https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz)
 
 build() {
-  cd grat-os-${grat-os_version}
+  cd grat-os-${grat_os_version}
 
   make DESTDIR=$PKG install-sshd
 }
