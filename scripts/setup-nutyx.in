@@ -1838,9 +1838,9 @@ EOF
                 echo "DISK=${DISK}" >> ${GRUB_LOG_FILE}
                 echo "GRUB_DESTINATION_DIR=${GRUB_DESTINATION_DIR}" >> ${GRUB_LOG_FILE}
                 echo "GRUB_CONFIG_DIR=${GRUB_CONFIG_DIR}" >> ${GRUB_LOG_FILE}
-                echo "Grat-OS_PART=${Grat-OS_PART}" >> ${GRUB_LOG_FILE}
+                echo "GratOS_PART=${GratOS_PART}" >> ${GRUB_LOG_FILE}
                 echo "BOOT_FS=${BOOT_FS}" >> ${GRUB_LOG_FILE}
-                echo "Grat-OS_FS=${Grat-OS_FS}" >> ${GRUB_LOG_FILE}
+                echo "GratOS_FS=${GratOS_FS}" >> ${GRUB_LOG_FILE}
                 echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
                 env >> ${GRUB_LOG_FILE}
                 # Restore MBR
@@ -1856,26 +1856,26 @@ EOF
                 #
                 # The $TMP/boot file contains the Grat-OS partition
                 #
-                Grat-OS_PART="$(cat $TMP/boot)"
+                GratOS_PART="$(cat $TMP/boot)"
                 BOOT_FS="$(print_file_system $PARTITION)"
-                Grat-OS_FS="$(print_file_system $Grat-OS_PART)"
-                echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${Grat-OS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                GratOS_FS="$(print_file_system $GratOS_PART)"
+                echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${GratOS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"Grat-OS LTS Verbose ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${Grat-OS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "menuentry \"Grat-OS LTS Verbose ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${GratOS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo " "  >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"Grat-OS ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " linux /${GRUB_DESTINATION_DIR}kernel root=${Grat-OS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "menuentry \"Grat-OS ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo " linux /${GRUB_DESTINATION_DIR}kernel root=${GratOS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"Grat-OS Verbose ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${Grat-OS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "menuentry \"Grat-OS Verbose ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+                echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${GratOS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
                 echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 
@@ -2036,9 +2036,9 @@ EOF
 		echo "DISK=${DISK}" >> ${GRUB_LOG_FILE}
 echo "GRUB_DESTINATION_DIR=${GRUB_DESTINATION_DIR}" >> ${GRUB_LOG_FILE}
 echo "GRUB_CONFIG_DIR=${GRUB_CONFIG_DIR}" >> ${GRUB_LOG_FILE}
-echo "Grat-OS_PART=${Grat-OS_PART}" >> ${GRUB_LOG_FILE}
+echo "GratOS_PART=${GratOS_PART}" >> ${GRUB_LOG_FILE}
 echo "BOOT_FS=${BOOT_FS}" >> ${GRUB_LOG_FILE}
-echo "Grat-OS_FS=${Grat-OS_FS}" >> ${GRUB_LOG_FILE}
+echo "GratOS_FS=${GratOS_FS}" >> ${GRUB_LOG_FILE}
 echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
 		env >> ${GRUB_LOG_FILE}
 		# Restore MBR
@@ -2053,26 +2053,26 @@ echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
 		#
 		# The $TMP/boot file contains the Grat-OS partition
 		#
-		Grat-OS_PART="`cat $TMP/boot`"
+		GratOS_PART="`cat $TMP/boot`"
 		BOOT_FS="`print_file_system $PARTITION`"
-		Grat-OS_FS="`print_file_system $Grat-OS_PART`"
-		echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${Grat-OS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		GratOS_FS="`print_file_system $Grat-OS_PART`"
+		echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${GratOS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "menuentry \"Grat-OS LTS Verbose ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${Grat-OS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "menuentry \"Grat-OS LTS Verbose ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${GratOS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo " "  >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "menuentry \"Grat-OS ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo " linux /${GRUB_DESTINATION_DIR}kernel root=${Grat-OS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "menuentry \"Grat-OS ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo " linux /${GRUB_DESTINATION_DIR}kernel root=${GratOS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "menuentry \"Grat-OS Verbose ${SETUP_ARCH} ${Grat-OS_FS} on ${Grat-OS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-		echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${Grat-OS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "menuentry \"Grat-OS Verbose ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
+		echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${GratOS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 
