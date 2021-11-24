@@ -1583,7 +1583,7 @@ install_grat-os() {
 	for i in /lib/modules/*
 	do
 		j=$(basename $i)
-		ke=-$(echo $j|cut -d "-" -f3)
+		ke=-$(echo $j|cut -d "-" -f4)
 		[ ${#ke} == 1 ] && ke=""
 		ln -sf kernel-$j ${2}/boot/kernel$ke
 	done
