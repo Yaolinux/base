@@ -1214,7 +1214,7 @@ check_variables() {
 if [ -z "$CHROOT_LIST" ]; then
 	CHROOT_LIST="grat-os acl attr bash bzip2 coreutils curl \
 expat gcc readline ncurses lzo glibc gmp xz zstd zlib \
-libarchive mpc mpfr openssl cards util-linux \
+libarchive mpc mpfr openssl ca-certificates cards util-linux \
 libtasn1 nettle gnutls p11-kit libffi kmod"
 fi
 
@@ -1416,7 +1416,7 @@ iproute2 libelf iana-etc \
 less groff man-db \
 cards.fr cards.man grat-os.man \
 lvm2 libaio dialog cpio squashfs \
-ca-certificates lsb-release \
+lsb-release \
 $KERNEL \
 $DEVEL
 exit" > $FOLDER/$SETUP_FILE
