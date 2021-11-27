@@ -24,8 +24,7 @@ _version=${version:0:4}
 #
 
 source=($url/pub/linux/kernel/v5.x/linux-${_version}.tar.xz
-  config_64
-  fix_virtualbox.patch)
+  config_64)
 
 [ -z $patchname ] || source+=" $url/pub/linux/kernel/v5.x/$patchname"
 
@@ -42,8 +41,6 @@ build() {
     xz -d -c  $SRC/patch-$version.xz | patch -Np1
   fi
 
-  #patch -Np1 -i ../fix_virtualbox.patch
-
   make mrproper
   cp $SRC/config_64 ./.config
 
@@ -59,8 +56,8 @@ build() {
   cd $SRC/linux-${_version}
   make INSTALL_MOD_PATH=$PKG modules_install
 
-  KERNEL_VERSION="${version}-Grat-OS"
-  [ -z $patchname ] && KERNEL_VERSION="${version}.0-Grat-OS"
+  KERNEL_VERSION="${version}-Grat-OS-515"
+  [ -z $patchname ] && KERNEL_VERSION="${version}.0-Grat-OS-515"
 
 
   # depmod needed
