@@ -5,13 +5,13 @@ packager="Grat-OS Team"
 
 name=grub
 version=2.06
-release=1
+release=2
 
 makedepends=(efibootmgr efivar freetype)
 run=(efivar)
 
 source=(http://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
-        http://dania.on86.net/yaolinux/files/unicode.pf2
+        https://repo.grat-os.fr/files/unicode.pf2
         grub.cfg)
 
 PKGMK_GROUPS=(man locale)
