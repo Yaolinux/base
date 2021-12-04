@@ -1,27 +1,8 @@
 #!/usr/bin/env bash
-#
-#  Copyright (c) 2018 - 2021 by Grat-OS team (http://www.grat-os.fr)
-#  Copyright (c) 2014 - 2018 by NuTyX team (http://nutyx.org)
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software
-#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
-#  USA.
-#
-#
 
 # gettext initialization
 #
-export TEXTDOMAIN='setup-nutyx'
+export TEXTDOMAIN='setup-grat-os'
 export TEXTDOMAINDIR='/usr/share/locale'
 . gettext.sh
 . /lib/lsb/init-functions
@@ -50,7 +31,7 @@ is_true()
 }
 _zoneinfo(){
 	ln -sf ${1} ${2}
-	$SETUP_LOG "setup-nutyx --config-lang" "ln -sv ${1} ${2}"
+	$SETUP_LOG "setup-grat-os --config-lang" "ln -sv ${1} ${2}"
 }
 _msgfmt() {
 	local L C
@@ -58,15 +39,15 @@ _msgfmt() {
 	C=`echo ${1}|cut -d "_" -f2`
 	echo "group ${L}" >> ${CARDS}
 	localedef -i ${1} -f UTF-8 ${1}.UTF-8
-	if [ -f /lib/services/setup-nutyx/setup-nutyx.${L} ]; then
+	if [ -f /lib/services/setup-grat-os/setup-grat-os.${L} ]; then
 		mkdir -p $TEXTDOMAINDIR/${L}/LC_MESSAGES
-		msgfmt /lib/services/setup-nutyx/$TEXTDOMAIN.${L} \
-		-o $TEXTDOMAINDIR/${L}/LC_MESSAGES/setup-nutyx.mo
+		msgfmt /lib/services/setup-grat-os/$TEXTDOMAIN.${L} \
+		-o $TEXTDOMAINDIR/${L}/LC_MESSAGES/setup-grat-os.mo
 		TEXTDOMAINFILE=$TEXTDOMAINDIR/${L}/LC_MESSAGES/$TEXTDOMAIN.mo
 	fi
 	echo "LANG=${1}.utf8" > ${LOCALE}
 	echo "export LANG=${1}.utf8" > ${PROFILELOCALE}
-	$SETUP_LOG "setup-nutyx --config-lang" "variable LANG=${1}.utf8 saved in ${LOCALE} and ${PROFILELOCALE}"
+	$SETUP_LOG "setup-grat-os --config-lang" "variable LANG=${1}.utf8 saved in ${LOCALE} and ${PROFILELOCALE}"
 }
 calc(){
         echo "scale=2;$@"|bc
@@ -114,7 +95,7 @@ if [  `echo $NIC|wc -w` -gt 1 ];then
 			esac
 	done
 	NETWORK_CARD=`cat $TMP/result|sed 's/"//g'`
-	$SETUP_LOG "setup-nutyx --config-net" "Network card found: $NETWORK_CARD"
+	$SETUP_LOG "setup-grat-os --config-net" "Network card found: $NETWORK_CARD"
 	rm -f $TMP/result
 	rm -f $TMP/list
 fi
@@ -185,7 +166,7 @@ setup_password()
 	done
 
 	echo -e "$PASSWORD\n$CONFIRM_PASSWORD"|passwd "$NAME" 2> /dev/null
-	$SETUP_LOG "setup-nutyx --create-user" "$NAME password changed"
+	$SETUP_LOG "setup-grat-os --create-user" "$NAME password changed"
 }
 setup_user()
 {
@@ -270,10 +251,10 @@ setup_user()
 		else
 			if [ -d /home/"${NAME}" ];then
 				chown -R ${NAME}:${NAME} /home/${NAME}
-				$SETUP_LOG "setup-nutyx --create-user" "chown -R ${NAME}:${NAME} /home/${NAME}"
-				$SETUP_LOG "setup-nutyx --create-user" "${DESCRIPTION} -G $USER_GROUPS -M ${NAME}"
+				$SETUP_LOG "setup-grat-os --create-user" "chown -R ${NAME}:${NAME} /home/${NAME}"
+				$SETUP_LOG "setup-grat-os --create-user" "${DESCRIPTION} -G $USER_GROUPS -M ${NAME}"
 			else
-				$SETUP_LOG "setup-nutyx --create-user" "${DESCRIPTION} -G $USER_GROUPS -m ${NAME}"
+				$SETUP_LOG "setup-grat-os --create-user" "${DESCRIPTION} -G $USER_GROUPS -m ${NAME}"
 			fi
 			setup_password
 		fi
@@ -389,7 +370,7 @@ setup_wireless()
 		dialog --clear --title " $TITLE " \
 		--colors \
 		--msgbox "$(gettext "File") \Zb\Z4$WPA_FILE\Zn $(gettext "successfully created")" 0 0
-		$SETUP_LOG "setup-nutyx --config-wireless" "$ESSID configured"
+		$SETUP_LOG "setup-grat-os --config-wireless" "$ESSID configured"
 	else
 		dialog  --clear --title " $TITLE " \
 		--colors \
@@ -431,7 +412,7 @@ DHCP=ipv4
 UseDomains=true
 
 " > ${NETWORK_DIR}${NETWORK_CARD}-dhcp.network
-	$SETUP_LOG "setup-nutyx --config-net" "$NETWORK_CARD set to Auto DHCP"
+	$SETUP_LOG "setup-grat-os --config-net" "$NETWORK_CARD set to Auto DHCP"
 else
 	dialog \
 	--title " $(gettext "Configuration of") ${NETWORK_CARD} " \
@@ -473,13 +454,13 @@ Name=${NETWORK_CARD}
 
 [Network]" > ${NETWORK_DIR}${NETWORK_CARD}-static.network
 
-	$SETUP_LOG "setup-nutyx --config-net" "$NETWORK_CARD: SERVICE=ipv4-static"
+	$SETUP_LOG "setup-grat-os --config-net" "$NETWORK_CARD: SERVICE=ipv4-static"
 	echo "Address=${IP}" >> ${NETWORK_DIR}${NETWORK_CARD}-static.network
 	if [ -n ${GW} ]; then
 		echo "Gateway=${GW}" >> ${NETWORK_DIR}${NETWORK_CARD}-static.network
-		$SETUP_LOG "setup-nutyx --config-net" "$NETWORK_CARD: GATEWAY=${GW}"
+		$SETUP_LOG "setup-grat-os --config-net" "$NETWORK_CARD: GATEWAY=${GW}"
 	fi
-	$SETUP_LOG "setup-nutyx --config-net" "$NETWORK_CARD: BROADCAST=${BROADCAST}"
+	$SETUP_LOG "setup-grat-os --config-net" "$NETWORK_CARD: BROADCAST=${BROADCAST}"
 	if [ -n "${DNS}" ]; then
 		dialog \
 		--title " $(gettext "DNS Search Suffix") " \
@@ -488,11 +469,11 @@ Name=${NETWORK_CARD}
 		$(gettext "Most of the time it's not need"): " 10 60 2> $TMP/SUFFIX
 		SUFFIX=$(tail -n 1 $TMP/SUFFIX)
 		echo "DNS=${DNS}"  >> ${NETWORK_DIR}${NETWORK_CARD}-static.network
-		$SETUP_LOG "setup-nutyx --config-net" "/etc/resolv.conf: nameserver ${DNS}"
+		$SETUP_LOG "setup-grat-os --config-net" "/etc/resolv.conf: nameserver ${DNS}"
 		if [ -n "${SUFFIX}" ]; then
 			echo "Domains=${SUFFIX}" >> ${NETWORK_DIR}${NETWORK_CARD}-static.network
 			echo "search ${SUFFIX}" >> /etc/resolv.conf
-			$SETUP_LOG "setup-nutyx --config-net" "/etc/resolv.conf: search ${SUFFIX}"
+			$SETUP_LOG "setup-grat-os --config-net" "/etc/resolv.conf: search ${SUFFIX}"
 		fi
 	fi
 fi
@@ -1107,7 +1088,7 @@ break
 done
 sed -i "/KEYMAP/d" ${CONSOLE}
 echo "KEYMAP=${REPLY}.map" >> ${CONSOLE}
-$SETUP_LOG "setup-nutyx --config-keymap" "KEYMAP=${REPLY}.map saved in ${CONSOLE}"
+$SETUP_LOG "setup-grat-os --config-keymap" "KEYMAP=${REPLY}.map saved in ${CONSOLE}"
 loadkeys ${REPLY}.map > /dev/null 2>&1
 case $REPLY in
 	us)
@@ -1177,7 +1158,7 @@ case $REPLY in
 		echo 'export XKB_DEFAULT_LAYOUT="uk"' > ${WAYLKB};;
 esac
 echo "EndSection" >> ${XORGKB}
-$SETUP_LOG "setup-nutyx --config-keymap" "${XORGKB} adjusted"
+$SETUP_LOG "setup-grat-os --config-keymap" "${XORGKB} adjusted"
 SETUP_CONFIG_KEYBOARD="no"
 }
 
@@ -1243,7 +1224,7 @@ REMOTE" >> /etc/adjtime
 	date -s "$GOODDATE $USERTIME"
 
 	hwclock --systohc ${CLOCKPARAMS}
-	$SETUP_LOG "setup-nutyx --config-clock" "$(gettext "Date and time settings"): $(date -s "$GOODDATE $USERTIME")"
+	$SETUP_LOG "setup-grat-os --config-clock" "$(gettext "Date and time settings"): $(date -s "$GOODDATE $USERTIME")"
 
 	SETUP_CONFIG_CLOCK="no"
 }
@@ -1478,31 +1459,31 @@ $(gettext "Are you sure you want to continue ?")" 7 60
 				case $result in
 					ext2)
 						mkfs.ext2 -F $PARTITION > /dev/tty2 || error "mkfs.ext2 $PARTITION"
-						$SETUP_LOG "setup-nutyx" "mkfs.ext2 -F $PARTITION"
+						$SETUP_LOG "setup-grat-os" "mkfs.ext2 -F $PARTITION"
 						;;
 					ext3)
 						mkfs.ext3 -F $PARTITION > /dev/tty2 || error "mkfs.ext3 $PARTITION"
-						$SETUP_LOG "setup-nutyx" "mkfs.ext3 -F $PARTITION"
+						$SETUP_LOG "setup-grat-os" "mkfs.ext3 -F $PARTITION"
 						;;
 					ext4)
 						mkfs.ext4 -F $PARTITION > /dev/tty2 || error "mkfs.ext4 $PARTITION"
-						$SETUP_LOG "setup-nutyx" "mkfs.ext4 -F $PARTITION"
+						$SETUP_LOG "setup-grat-os" "mkfs.ext4 -F $PARTITION"
 						;;
 					reiserfs)
 						mkreiserfs -q $PARTITION > /dev/tty2 || error "mkreiserfs -q $PARTITION"
-						$SETUP_LOG "setup-nutyx" "mkreiserfs -q $PARTITION"
+						$SETUP_LOG "setup-grat-os" "mkreiserfs -q $PARTITION"
 						;;
 					btrfs)
 						mkfs.btrfs -f $PARTITION > /dev/tty2 || error "mkfs.btrfs -f $PARTITION"
-						$SETUP_LOG "setup-nutyx" "mkfs.btrfs -f $PARTITION"
+						$SETUP_LOG "setup-grat-os" "mkfs.btrfs -f $PARTITION"
 						;;
 					xfs)
 						mkfs.xfs -f -m crc=0 $PARTITION > /dev/tty2 || error "mkfs.xfs -f $PARTITION"
-						$SETUP_LOG "setup-nutyx" "mkfs.xfs -f -m crc=0 $PARTITION"
+						$SETUP_LOG "setup-grat-os" "mkfs.xfs -f -m crc=0 $PARTITION"
 						;;
 					jfs)
 						mkfs.jfs -f $PARTITION > /dev/tty2 || error "mkfs.jfs -f $PARTITION"
-						$SETUP_LOG "setup-nutyx" "mkfs.jfs -f $PARTITION"
+						$SETUP_LOG "setup-grat-os" "mkfs.jfs -f $PARTITION"
 						;;
 				esac;;
 			1|255)
@@ -1529,7 +1510,7 @@ erase_grat-os() {
 		N=$((N+1))
 	done) |
   dialog --title "$(gettext "Erase") Grat-OS" --gauge "$(gettext "Please wait") ..." 6 50
-  $SETUP_LOG "setup-nutyx" "Erase Grat-OS on ${PARTITION} done"
+  $SETUP_LOG "setup-grat-os" "Erase Grat-OS on ${PARTITION} done"
 }
 install_grat-os() {
 	local DIR REAL FILE
@@ -1604,7 +1585,7 @@ install_grat-os() {
 	chmod 1777 ${2}/tmp
 	echo "100") |
 	dialog --title "$(gettext "Install Grat-OS")" --gauge "$(gettext "Please wait") ..." 6 50
-	$SETUP_LOG "setup-nutyx" "Install Grat-OS on ${PARTITION} done"
+	$SETUP_LOG "setup-grat-os" "Install Grat-OS on ${PARTITION} done"
 	if [ -f /var/log/install.log ]; then
 		cp -a /var/log/install.log  ${2}/var/log/install.log
 	fi
@@ -2325,7 +2306,7 @@ $(gettext "Are you sure you want to continue ?")" 7 60
 			case $retval2 in
 				0)
 					/usr/bin/mkfs.vfat $EFI_SYS_PART
-					$SETUP_LOG "setup-nutyx" "EFI partition $EFI_SYS_PART formatted in vfat"
+					$SETUP_LOG "setup-grat-os" "EFI partition $EFI_SYS_PART formatted in vfat"
 					;;
 				1|255)
 					break;;
@@ -2333,7 +2314,7 @@ $(gettext "Are you sure you want to continue ?")" 7 60
 		fi
 		FORMAT="$(print_file_system $EFI_SYS_PART)"
 		if [ "$FORMAT" == "vfat" ]; then
-			$SETUP_LOG "setup-nutyx" "EFI partition $EFI_SYS_PART added in /etc/fstab"
+			$SETUP_LOG "setup-grat-os" "EFI partition $EFI_SYS_PART added in /etc/fstab"
 			echo "$EFI_SYS_PART /boot/efi     vfat       defaults            0     0" >> /etc/fstab
 		fi
 	fi
@@ -2349,7 +2330,7 @@ check_swap() {
 setup_swap() {
 for i in ${SWAP_LIST}
 do
-	$SETUP_LOG "setup-nutyx" "swap partition $i added in /etc/fstab"
+	$SETUP_LOG "setup-grat-os" "swap partition $i added in /etc/fstab"
 	echo "$i swap     swap       pri=1             0     0" >> /etc/fstab
 	[ $(print_file_system $i) == "swap" ] || mkswap $i 2>1 > /dev/null
 done
@@ -2597,7 +2578,7 @@ if [ ! -z "$IWCONFIG" ];then
 	WIFI_NETWORK_CARD="`$IWCONFIG 2>&1|grep IEEE|cut -d " " -f1|tail -1`"
 fi
 
-SETUP_LOG="setup-nutyx-log"
+SETUP_LOG="setup-grat-os-log"
 CARDS="/etc/cards.conf"
 XORGKB="/etc/X11/xorg.conf.d/20-keyboard.conf"
 WAYLKB="/etc/profile.d/keyboard.sh"

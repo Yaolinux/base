@@ -81,7 +81,7 @@ echo
 msg "$(gettext "Downloading sources...")"
 echo
 
-for i in $(cat scripts/wget_nutyx_list|grep -v ^#|sed "s@  @|@")
+for i in $(cat scripts/wget_grat-os_list|grep -v ^#|sed "s@  @|@")
 do
 	FILE=$(echo $i|cut -d "|" -f2)
 	MD5SUM=$(echo $i|cut -d "|" -f1)

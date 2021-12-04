@@ -1,4 +1,4 @@
-version=2.4.136
+version=2.4.140
 source=(http://downloads.nutyx.org/files/cards-$version.tar.gz)
 
 # patchname="$name-$version-consolidate-1.patch"

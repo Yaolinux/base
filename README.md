@@ -20,7 +20,7 @@ chmod -v 755 install-grat-os
 mv -v install-grat-os /usr/bin/install-grat-os
 ```
 
-## If you've already make the installation process, you have to remove the LFS user from the nutyx base by
+## If you've already make the installation process, you have to remove the LFS user from the Grat-OS base by
 ```
 userdel lfs
 rm -r /home/lfs
@@ -256,7 +256,7 @@ pass
 ## After that use the "mybld" script to continue automated compilation, need to complete that
 ## Commit it later, no need to continue next commands
 
-## Now, follow few commands to configure your nutyx-systemd
+## Now, follow few commands to configure your grat-os-systemd
 `exit` \
 `echo $LFS`
 
@@ -283,20 +283,20 @@ set default=0 \
 set timeout=5 \
 insmod ext2 \
 set root=(hd0,2) \
-menuentry "GNU/Linux, NuTyX-systemd" { \
+menuentry "Grat-OS" { \
         linux   /boot/kernel root=/dev/sda2 ro \
 } \
 EOF
 
 ## make a /etc/hostname
-echo "nutyx-systemd" > /etc/hostname
+echo "grat-os-systemd" > /etc/hostname
 
 ## make a /etc/hosts like that if you have a network with DHCP
 cat > /etc/hosts << "EOF" \
 #Begin /etc/hosts \
 \
 127.0.0.1 localhost \
-127.0.1.1 nutyx-systemd.home nutyx-systemd \
+127.0.1.1 grat-os-systemd.home grat-os-systemd \
 ::1       localhost ip6-localhost ip6-loopback \
 ff02::1   ip6-allnodes \
 ff02::2   ip6-allrouters \
@@ -349,10 +349,10 @@ EOF
 
 ## make a /etc/os-release
 cat > /etc/os-release << "EOF" \
-NAME="Linux From Scratch" \
-VERSION="nutyx-systemd" \
+NAME="Grat-OS" \
+VERSION="grat-os" \
 ID=lfs \
-PRETTY_NAME="nutyx-systemd" \
+PRETTY_NAME="grat-os" \
 VERSION_CODENAME="<your name here>" \
 EOF 
 
@@ -369,4 +369,4 @@ and \
 unmount the filesystems \
 ```umount /mnt/lfs/{run,proc,sys,dev/pts,dev,}```
 
-## After that you will normally have to reboot on your new NuTyX-systemd and enjoy to start a build-collection
+## After that you will normally have to reboot on your new Grat-OS and enjoy to start a build-collection

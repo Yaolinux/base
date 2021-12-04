@@ -1,5 +1,5 @@
-description="Base system of NuTyX, contains all folders and startup scripts."
-url="https://github.com/nutyx"
+description="Base system of Grat-OS, contains all folders and startup scripts."
+url="https://github.com/Grat-OS/"
 
 packager="Grat-OS Team"
 maintainer="rems"

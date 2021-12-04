@@ -1,25 +1,4 @@
 #!/bin/sh
-#
-#  Copyright (c) 2014 - 2018 by NuTyX team (http://nutyx.org)
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software
-#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
-#  USA.
-#
-#
-# This code is base on the documented init.in script file from BLFS
-# http://www.linuxfromscratch.org/blfs/view/svn/postlfs/initramfs.html
-#
 
 # Default Quota in percent for rootfs
 ROOTFS_QUOTA=50
@@ -253,9 +232,9 @@ MainLoop(){
    do
 	if [ "$verbose" == "yes" ]; then
 		ListModules
-		printf "Launch /sbin/setup-nutyx ...\n"
+		printf "Launch /sbin/setup-grat-os ...\n"
 	fi
-	/sbin/setup-nutyx || problem
+	/sbin/setup-grat-os || problem
    done
    clear
 }
@@ -355,7 +334,7 @@ if [ "$live" == "yes" ] || [ "$root" == "" ]; then
 	[ "$verbose" == "no" ] || printf "Loading kernel Modules ...\n"
 	[ "$verbose" == "no" ] || sleep 2
 	LoadModules
-	if [ ! -f /sbin/setup-nutyx ]; then
+	if [ ! -f /sbin/setup-grat-os ]; then
 		find_media
 		if [ ! -L /dev/gratos-cd ]; then
 			[ "$verbose" == "no" ] || printf "Media not found yet, trying again in 5 sec\n"
@@ -367,16 +346,16 @@ if [ "$live" == "yes" ] || [ "$root" == "" ]; then
 	do_mount_in_ram
 
 	#
-	# If still not find the setup-nutyx file then it's time to giveup
+	# If still not find the setup-grat-os file then it's time to giveup
 	#
-	if [ ! -f /sbin/setup-nutyx ]; then
+	if [ ! -f /sbin/setup-grat-os ]; then
 		no_mount
 		sh
 	fi
 	if [ "$verbose" == "yes" ]; then
 
-		printf "/sbin/setup-nutyx exist ...\n"
-		ls -lt /sbin/setup-nutyx
+		printf "/sbin/setup-grat-os exist ...\n"
+		ls -lt /sbin/setup-grat-os
 		sleep 5
 	fi
 fi
@@ -392,13 +371,13 @@ if [ "$live" == "yes" ]; then
 	chmod 755 /
 	chmod 755 /var
 	cd /
-	cat > "/usr/share/applications/setup-nutyx.desktop" << "EOF"
+	cat > "/usr/share/applications/setup-grat-os.desktop" << "EOF"
 [Desktop Entry]
 Version=1.0
-Name=Install NuTyX on your machine
-Comment=Install NuTyX on your machine
-GenericName=Setup NuTyX
-Exec=sudo /root/bin/setup-nutyx
+Name=Install Grat-OS on your machine
+Comment=Install Grat-OS on your machine
+GenericName=Setup Grat-OS
+Exec=sudo /root/bin/setup-grat-os
 Terminal=true
 Icon=package-x-generic
 Categories=System;
@@ -406,13 +385,13 @@ Type=Application
 StartupNotification=true
 EOF
 	mkdir -p /root/bin
-	cat > /root/bin/setup-nutyx << "EOF"
+	cat > /root/bin/setup-grat-os << "EOF"
 #!/bin/sh
 #
 rm -f /etc/sysconfig/console
-/sbin/setup-nutyx
+/sbin/setup-grat-os
 EOF
-	chmod 755 /root/bin/setup-nutyx
+	chmod 755 /root/bin/setup-grat-os
 	[ "$verbose" == "no" ] || printf "exec \"%s\" \"%s\" > /dev/null 2>&1 ...\n" "$init" "$@"
 	[ "$verbose" == "no" ] || sleep 5
 	exec "$init" "$@" > /dev/null 2>&1

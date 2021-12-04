@@ -21,7 +21,7 @@ install: all
 	$(MAKE) -C $(DIRTOOLS) install
 	$(MAKE) -C $(DIRSCRIPTS) install
 	$(MAKE) -C $(DIRMAN) install
-	$(MAKE) -C $(DIRSERVICES) install-service-setup-nutyx
+	$(MAKE) -C $(DIRSERVICES) install-service-setup-grat-os
 man:
 	$(MAKE) -C $(DIRMAN) man
 clean:
@@ -38,8 +38,8 @@ dist: distclean
 	git log > $(NAME)/ChangeLog
 	tar cJvf $(NAME).tar.xz $(NAME)
 	rm -rf $(NAME)
-	sed -i "/grat-os-/d" scripts/wget_nutyx_list
-	md5sum $(NAME).tar.xz >> scripts/wget_nutyx_list
+	sed -i "/grat-os-/d" scripts/wget_grat-os_list
+	md5sum $(NAME).tar.xz >> scripts/wget_grat-os_list
 
 distclean:
 	rm -rf $(NAME).tar.xz

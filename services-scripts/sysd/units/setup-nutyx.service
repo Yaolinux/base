@@ -6,7 +6,7 @@
 #  (at your option) any later version.
 
 [Unit]
-Description=Configuration NuTyX
+Description=Configuration Grat-OS
 DefaultDependencies=no
 After=systemd-tmpfiles-setup.service
 Before=sysinit.target shutdown.target
@@ -16,7 +16,7 @@ Before=sysinit.target shutdown.target
 Type=oneshot
 Environment=HOME=/root
 WorkingDirectory=-/root
-ExecStart=-/sbin/setup-nutyx start
+ExecStart=-/sbin/setup-grat-os start
 StandardInput=tty-force
 StandardOutput=inherit
 StandardError=inherit

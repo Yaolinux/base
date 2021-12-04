@@ -1004,13 +1004,13 @@ if [ -f "/etc/bashrc" ] ; then
   source /etc/bashrc
 fi
 if [ $EUID -eq 0 ] ; then
-        alias nu='setup-nutyx -cu'
+        alias nu='setup-grat-os -cu'
         alias del='cards remove'
         alias get='cards install'
         alias up='cards install -u'
         alias check='cards sync;cards diff'
 else
-        alias nu='sudo setup-nutyx -cu'
+        alias nu='sudo setup-grat-os -cu'
         alias del='sudo cards remove'
         alias get='sudo cards install'
         alias up='sudo cards install -u'
@@ -1173,7 +1173,7 @@ base ${DEPOT}/base
 }
 generate_grat-os_version() {
 local FILE
-FILE="nutyx-version"
+FILE="grat-os-version"
 [ -f ${FOLDER}/var/lib/pkg/$FILE ] && return
 [ ! -d ${FOLDER}/var/lib/pkg ] && mkdir -pv ${FOLDER}/var/lib/pkg
 echo "name ${CODE_NAME}
