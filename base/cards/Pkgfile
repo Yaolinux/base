@@ -26,11 +26,11 @@ PKGMK_GROUPS=(devel doc man)
 
 name=cards
 version=2.4.140
-release=10
+release=12
 
 #patchname="$name-$version-consolidate-$release.patch"
 
-source=(https://github.com/Grat-OS/$name/archive/refs/tags/$version.tar.gz)
+source=(https://repo.grat-os.fr/files/$name-$version.tar.gz)
 
 #[ -z "$patchname" ] || source+=" $patchname"
 
