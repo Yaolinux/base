@@ -2,7 +2,7 @@ binutils_pass1
 gcc_pass1
 kernel-headers
 glibc
-libstdc++
+libstdc++_pass1
 binutils_pass2
 gcc_pass2
 tcl
@@ -18,6 +18,7 @@ diffutils
 file
 findutils
 gawk
+libstdc++_pass2
 gettext
 grep
 gzip

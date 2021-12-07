@@ -2,16 +2,24 @@ version=6.3
 source=(ftp://invisible-island.net/ncurses/ncurses-$version.tar.gz)
 
 build() {
-cd ncurses-$version
+mkdir -pv build-progs && cd build-progs
 
-sed -i s/mawk// configure
+sed -i s/mawk// ../$name-$version/configure
 
-./configure --prefix=/tools --with-shared \
- --without-debug --without-ada --enable-widec  \
- --enable-overwrite
+../$name-$version/configure
+  make -C include
+  make -C progs tic
+
+mkdir ../build && cd ../build
+
+../ncurses-$version/configure --prefix=/tools \
+            --with-shared \
+            --without-debug \
+            --without-ada \
+            --enable-widec  \
+            --enable-overwrite
 	
 make	
-make install
-
-ln -s libncursesw.so /tools/lib/libncurses.so
+make TIC_PATH=$(pwd)/../build-progs/progs/tic install
+echo "INPUT(-lncursesw)" > /tools/lib/libncurses.so
 }

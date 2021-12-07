@@ -2,10 +2,20 @@ version=5.41
 source=(ftp://ftp.astron.com/pub/file/file-$version.tar.gz)
 
 build() {
-cd file-$version
+mkdir pre-build && cd pre-build
 
-./configure --prefix=/tools
+../file-$version/configure --prefix=/tools \
+                           --disable-bzlib      \
+                           --disable-libseccomp \
+                           --disable-xzlib      \
+                           --disable-zlib
 
 make
+
+mkdir ../build && cd ../build
+
+../file-$version/configure --prefix=/tools
+
+make FILE_COMPILE=$(pwd)/../pre-build/src/file
 make install
 }

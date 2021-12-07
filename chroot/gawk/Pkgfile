@@ -4,7 +4,9 @@ source=(http://ftp.gnu.org/gnu/gawk/gawk-$version.tar.xz)
 build() {
 cd gawk-$version
 
- ./configure --prefix=/tools
+sed -i 's/extras//' Makefile.in
+
+./configure --prefix=/tools
 
 make
 make install

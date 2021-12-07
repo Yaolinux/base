@@ -17,7 +17,7 @@ cd build
 
 make
 case $(uname -m) in
- x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
+ x86_64|aarch64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
 esac
-make install
+make -j1 install
 }

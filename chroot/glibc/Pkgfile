@@ -2,23 +2,35 @@ version=2.34
 source=(http://ftp.gnu.org/gnu/glibc/glibc-$version.tar.xz)
 
 build() {
+
 cd glibc-$version
 
-mkdir -v build
-cd build
+case $(uname -m) in
+    arm)   ln -sfv ld-linux-armhf.so.3 /tools/lib/ld-lsb.so.3
+    ;;
+    aarch64) ln -sfv ../lib/ld-linux-aarch64.so.1 /tools/lib64
+            ln -sfv ../lib/ld-linux-aarch64.so.1 /tools/lib64/ld-lsb-aarch64.so.3
+    ;;
+esac
 
-../configure  \
+mkdir -v ../build && cd ../build
+
+../glibc-$version/configure  \
       --prefix=/tools                    \
       --host=$LFS_TARGET                 \
-      --build=$(../scripts/config.guess) \
-      --enable-kernel=3.2                \
+      --build=$(../$name-$version/scripts/config.guess) \
+      --enable-kernel=5.4                \
       --with-headers=/tools/include
 
 make
 make install
 
+sed '/RTLDLIST=/s@/usr@/tools@g' -i /tools/bin/ldd
+
 echo 'main(){}' > dummy.c
 $LFS_TARGET-gcc dummy.c
 echo $(readelf -l a.out | grep ': /tools')
 rm -v dummy.c a.out
+
+/tools/libexec/gcc/$LFS_TGT/$version/install-tools/mkheaders
 }

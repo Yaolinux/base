@@ -53,8 +53,8 @@ mv -v ../gmp-6.2.1 gmp
 mv -v ../mpc-1.2.1 mpc
 
 
-mkdir -v build
-cd build
+mkdir -v build && cd build
+
 
 CC=$LFS_TARGET-gcc                                   \
 CXX=$LFS_TARGET-g++                                  \
@@ -62,13 +62,20 @@ AR=$LFS_TARGET-ar                                    \
 RANLIB=$LFS_TARGET-ranlib                            \
 ../configure                                         \
     --prefix=/tools                                  \
+    --with-build-sysroot=/tools                      \
     --with-local-prefix=/tools                       \
     --with-native-system-header-dir=/tools/include   \
+    --enable-initfini-array                          \
     --enable-languages=c,c++                         \
-    --disable-libstdcxx-pch                          \
     --disable-multilib                               \
+    --disable-decimal-float                          \
+    --disable-libatomic                              \
+    --disable-libstdcxx                              \
     --disable-bootstrap                              \
-    --disable-libgomp
+    --disable-libgomp                                \
+    --disable-libquadmath                            \
+    --disable-libssp                                 \
+    --disable-libvtv
 
 
 make

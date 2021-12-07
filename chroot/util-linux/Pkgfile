@@ -5,11 +5,19 @@ build() {
 cd util-linux-$version
 
 ./configure --prefix=/tools \
---without-python \
---disable-makeinstall-chown \
---without-systemdsystemunitdir \
---without-ncurses              \
-PKG_CONFIG=""
+            --without-python \
+            --disable-makeinstall-chown \
+            --without-systemdsystemunitdir \
+            --without-ncurses              \
+            --disable-chfn-chsh  \
+            --disable-login      \
+            --disable-nologin    \
+            --disable-su         \
+            --disable-setpriv    \
+            --disable-runuser    \
+            --disable-pylibmount \
+            runstatedir=/run \
+            PKG_CONFIG=""
 
 make
 make install
