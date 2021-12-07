@@ -7,17 +7,14 @@ maintainer="rems"
 makedepends=(lz4 lzo xz zlib zstd)
 
 name=squashfs
-version=4.4
+version=4.5
 
 PKGMK_KEEP_SOURCE="no"
 
-source=(http://dania.on86.net/sources/development/$name-$version.tar.gz
-        http://dania.on86.net/sources/development/squashfs-tools-4.4-fno-common.patch)
+source=(http://gratos.mesfichiers.eu/files/$name-$version.tar.gz)
 
 build() {
 cd squashfs-tools-$version/squashfs-tools
-
-patch -Np2 -i ../../squashfs-tools-4.4-fno-common.patch
 
 make XZ_SUPPORT=1 \
      LZO_SUPPORT=1 \
