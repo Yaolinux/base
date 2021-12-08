@@ -63,8 +63,6 @@ RANLIB=$LFS_TARGET-ranlib                            \
 ../configure                                         \
     --prefix=/tools                                  \
     --with-build-sysroot=/tools/                     \
-    --with-local-prefix=/tools/                      \
-    --with-native-system-header-dir=include          \
     --enable-initfini-array                          \
     --enable-languages=c,c++                         \
     --disable-multilib                               \
