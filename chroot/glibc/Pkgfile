@@ -12,7 +12,8 @@ mkdir -v ../build && cd ../build
       --host=$LFS_TARGET                 \
       --build=$(../$name-$version/scripts/config.guess) \
       --enable-kernel=5.4                \
-      --with-headers=/tools/include
+      --with-headers=/tools/include      \
+      libc_cv_slibdir=/tools/lib
 
 make
 make install
