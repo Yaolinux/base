@@ -11,7 +11,7 @@ Grat-OS
 
 ```
 cards install cards.devel git
-wget https://raw.githubusercontent.com/Grat-OS/base-sysd/master/scripts/install-grat-os.in -O install-grat-os
+wget https://raw.githubusercontent.com/Grat-OS/base/master/scripts/install-grat-os.in -O install-grat-os
 ```
 
 ## You can continue
@@ -99,11 +99,11 @@ source ~/.bashrc
 
 ## You are in the LFS user, now continue the installation with
 ```
-git clone https://github.com/Grat-OS/base-sysd.git development
+git clone https://code.grat-os.fr/Grat-OS/base development
 ```
 ### in case of development branch, you have to specify it
 ```
-git clone -b development https://github.com/Grat-OS/base-sysd.git development
+git clone -b development https://code.grat-os.fr/Grat-OS/base development
 ```
 ```
 cd development
