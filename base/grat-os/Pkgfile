@@ -1,5 +1,5 @@
 description="Base system of Grat-OS, contains all folders and startup scripts."
-url="https://github.com/Grat-OS"
+url="https://code.grat-os.fr/Grat-OS"
 
 packager="Grat-OS Team"
 maintainer="rems"
