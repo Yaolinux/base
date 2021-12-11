@@ -47,7 +47,7 @@ build() {
   cd       build
 
   ../configure --prefix=/usr                            \
-              --with-bugurl=https://github.com/Grat-OS/ \
+              --with-bugurl=https://code.grat-os.fr/Grat-OS/ \
               --disable-werror                          \
               --enable-kernel=3.2                       \
               --enable-stack-protector=strong           \
