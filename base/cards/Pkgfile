@@ -1,5 +1,5 @@
 description="A set of utilities to manage software packages on Grat-OS distribution."
-url="https://github.com/Grat-OS/cards"
+url="https://code.grat-os.fr/Grat-OS/cards"
 
 makedepends=(libarchive curl zstd kernel-headers)
 
