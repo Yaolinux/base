@@ -121,7 +121,7 @@ PRETTY_NAME="Grat-OS $grat_os_version"
 ANSI_COLOR="0;34"
 CPE_NAME="cpe:/o:Grat-OS_project:grat-os:$grat_os_version"
 HOME_URL="https://www.grat-os.fr/"
-BUG_REPORT_URL="https://github.com/Grat-OS/"
+BUG_REPORT_URL="https://code.grat-os.fr/Grat-OS/"
 
 # End /etc/os-release
 EOF
