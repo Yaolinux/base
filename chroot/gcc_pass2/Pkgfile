@@ -62,7 +62,9 @@ AR=$LFS_TARGET-ar                                    \
 RANLIB=$LFS_TARGET-ranlib                            \
 ../configure                                         \
     --prefix=/tools                                  \
-    --with-build-sysroot=/tools/                     \
+    --with-build-sysroot=$LFS                        \
+    --with-local-prefix=/tools                       \
+    --with-native-system-header-dir=/tools/include   \
     --enable-initfini-array                          \
     --enable-languages=c,c++                         \
     --disable-multilib                               \
@@ -96,6 +98,6 @@ case $(uname -m) in
          sed 's/tools/usr/' /tools/lib/libstdc++.la > $LFS/usr/lib/libstdc++.la
      ;;
      aarch64)
-         ln -sv /tools/lib/ld-linux-aarch64.so.1 $LFS/{lib,lib64}/ld-linux-aarch64.so.1
+         ln -sv /tools/lib/ld-linux-aarch64.so.1 $LFS/usr/lib/ld-linux-aarch64.so.1
 esac
 }
