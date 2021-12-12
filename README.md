@@ -11,7 +11,7 @@ Grat-OS
 
 ```
 cards install cards.devel git
-wget https://raw.githubusercontent.com/Grat-OS/base-sysd/master/scripts/install-grat-os.in -O install-grat-os
+wget https://raw.githubusercontent.com/Grat-OS/base-sysd/development/scripts/install-grat-os.in -O install-grat-os
 ```
 
 ## You can continue
