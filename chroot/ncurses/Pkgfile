@@ -4,9 +4,9 @@ source=(ftp://invisible-island.net/ncurses/ncurses-$version.tar.gz)
 build() {
 mkdir -pv build-progs && cd build-progs
 
-sed -i s/mawk// ../$name-$version/configure
+sed -i s/mawk// ../ncurses-$version/configure
 
-../$name-$version/configure
+../ncurses-$version/configure
   make -C include
   make -C progs tic
 
