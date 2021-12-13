@@ -13,7 +13,7 @@ makedepends=(grat-os)
 name=kernel-515
 alias=(linux-515)
 
-version=5.15.6
+version=5.15.7
 release=1
 _version=${version:0:4}
 
