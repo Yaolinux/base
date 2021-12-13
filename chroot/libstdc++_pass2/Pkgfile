@@ -14,8 +14,7 @@ mkdir -pv ../build && cd ../build
     --prefix=/tools                 \
     --disable-multilib              \
     --disable-nls                   \
-    --disable-libstdcxx-pch         \
-    --with-gxx-include-dir=/tools/$LFS_TARGET/include/c++/$version
+    --disable-libstdcxx-pch
 
 make
 make install
