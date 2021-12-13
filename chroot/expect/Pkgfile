@@ -7,8 +7,10 @@ cd expect$version
 cp configure{,.orig}
 sed 's:/usr/local/bin:/bin:' configure.orig > configure
 
-./configure --prefix=/tools --with-tcl=/tools/lib \
- --with-tclinclude=/tools/include
+./configure --prefix=/tools \
+            --with-tcl=/tools/lib \
+            --build=$(uname -m)-unknown-linux-gnu \
+            --with-tclinclude=/tools/include
 
 make
 make SCRIPTS="" install
