@@ -13,6 +13,7 @@ sed -i s/mawk// ../ncurses-$version/configure
 mkdir ../build && cd ../build
 
 ../ncurses-$version/configure --prefix=/tools \
+            --host=$LFS_TARGET \
             --with-shared \
             --without-debug \
             --without-ada \
