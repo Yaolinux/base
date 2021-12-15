@@ -8,7 +8,7 @@ makedepends=(expat systemd)
 
 name=dbus
 version=1.12.20
-release=3
+release=4
 
 source=(http://dbus.freedesktop.org/releases/dbus/dbus-$version.tar.gz)
 
