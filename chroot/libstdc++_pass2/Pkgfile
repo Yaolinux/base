@@ -10,12 +10,12 @@ ln -s gthr-posix.h libgcc/gthr-default.h
 mkdir -pv ../build && cd ../build
 
 ../gcc-$version/libstdc++-v3/configure           \
-    --host=$LFS_TARGET              \
+    CXXFLAGS="-g -O2 -D_GNU_SOURCE" \
     --prefix=/tools                 \
     --disable-multilib              \
     --disable-nls                   \
     --disable-libstdcxx-pch         \
-    --with-gxx-include-dir=/tools/$LFS_TARGET/include/c++/$version
+    --with-toolexeclibdir=/tools
 
 make
 make install

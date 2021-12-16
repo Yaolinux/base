@@ -14,8 +14,8 @@ make pkgadd
 make pkgmk
 install -m755 src/pkgadd /tools/bin/pkgadd
 install -m755 scripts/pkgmk /tools/bin/pkgmk
-ln -sv pkgadd /tools/bin/pkginfo
-ln -sv pkgadd /tools/bin/pkgrm
+ln -svf pkgadd /tools/bin/pkginfo
+ln -svf pkgadd /tools/bin/pkgrm
 
 sed -i "s/profile/noprofile/" /tools/bin/pkgmk
 

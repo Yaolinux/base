@@ -8,5 +8,5 @@ cd dejagnu-$version
 
 make install
 
-make check
+#make check
 }
