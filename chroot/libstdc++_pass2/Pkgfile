@@ -14,8 +14,12 @@ mkdir -pv ../build && cd ../build
     --prefix=/tools                 \
     --disable-multilib              \
     --disable-nls                   \
+<<<<<<< HEAD
     --disable-libstdcxx-pch         \
     --with-toolexeclibdir=/tools
+=======
+    --disable-libstdcxx-pch
+>>>>>>> 4afc8f587d3a12d7e526ca5b7bac4c765531b902
 
 make
 make install
