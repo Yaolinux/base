@@ -108,8 +108,7 @@ EOF
   # Compatibility symlink for non ld-linux-armhf awareness
   case $(uname -m) in
       aarch64)
-            ln -sv ld-2.30.so $PKG/lib/ld-linux.so.3
-            unlink /lib/ld-linux-aarch64.so.1
+            ln -sv ld-${version}.so $PKG/lib/ld-linux.so.3
       ;;
   esac
 }
