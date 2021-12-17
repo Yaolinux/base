@@ -31,7 +31,7 @@ source=($url/pub/linux/kernel/v5.x/linux-${_version}.tar.xz
 ## Time to build everything
 #
 
-build() {
+x86_build() {
 
   bsdtar -p -o -C $SRC -xf linux-${_version}.tar.xz
 
@@ -121,7 +121,25 @@ else
 fi" >> $PKGMK_ROOT/$name.post-install
 }
 
-devel() {
+build() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_build
+  ;;
+  armhf|armel|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    mkdir $PKG/usr
+    cat > $PKGMK_ROOT/$name.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
+}
+
+x86_devel() {
 
   cd $PKG
   #rm -r usr/src/linux-${_version}/{tools,ipc,init,drivers,fs,mm,samples,security,sound,virt}
@@ -140,7 +158,24 @@ devel() {
 
 }
 
-doc() {
+devel() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_devel
+  ;;
+  arm|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    cat > $PKGMK_ROOT/$name.devel.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
+}
+
+x86_doc() {
 
   cd $PKG
   mkdir -p usr/share/doc
@@ -153,4 +188,21 @@ doc() {
 
   rm -r usr
 
+}
+
+doc() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_doc
+  ;;
+  armhf|armel|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    cat > $PKGMK_ROOT/$name.doc.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
 }
