@@ -23,16 +23,24 @@ _version=${version:0:4}
 ## Download all the sources
 #
 
-source=($url/pub/linux/kernel/v5.x/linux-${_version}.tar.xz
-  config_64
-  fix_virtualbox.patch)
-
-[ -z $patchname ] || source+=" $url/pub/linux/kernel/v5.x/$patchname"
+case $(uname -m) in
+  i686|x86_64)
+    source=($url/pub/linux/kernel/v5.x/linux-${_version}.tar.xz
+            config_64
+            fix_virtualbox.patch)
+    [ -z $patchname ] || source+=" $url/pub/linux/kernel/v5.x/$patchname"
+  ;;
+  arm*|aarch64)
+    PKGMK_IGNORE_UNPACK="no"
+    _version=1.20211118 # May not be the real $version
+    source=(https://github.com/raspberrypi/firmware/archive/refs/tags/${_version}.tar.gz)
+  ;;
+esac
 
 ## Time to build everything
 #
 
-build() {
+x86_build() {
 
   bsdtar -p -o -C $SRC -xf linux-${_version}.tar.xz
 
@@ -123,7 +131,35 @@ else
 fi" >> $PKGMK_ROOT/$name.post-install
 }
 
-devel() {
+arm_build() {
+
+cd firmware-${_version}
+
+cp -r boot $PKG/
+
+mkdir -pv $PKG/lib
+cp -r modules $PKG/lib/
+
+pushd hardfp
+cp -rv opt $PKG
+popd
+
+
+}
+
+build() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_build
+  ;;
+  armhf|armel|aarch64)
+    arm_build
+  ;;
+esac
+}
+
+x86_devel() {
 
   cd $PKG
   #rm -r usr/src/linux-${_version}/{tools,ipc,init,drivers,fs,mm,samples,security,sound,virt}
@@ -142,7 +178,24 @@ devel() {
 
 }
 
-doc() {
+devel() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_devel
+  ;;
+  arm|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    cat > $PKGMK_ROOT/$name.devel.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
+}
+
+x86_doc() {
 
   cd $PKG
   mkdir -p usr/share/doc
@@ -155,4 +208,21 @@ doc() {
 
   rm -r usr
 
+}
+
+doc() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_doc
+  ;;
+  armhf|armel|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    cat > $PKGMK_ROOT/$name.doc.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
 }
