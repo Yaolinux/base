@@ -15,7 +15,7 @@ release=3
 
 source=(https://github.com/rhboot/$name/archive/${_commit}.tar.gz)
 
-build() {
+x86_build() {
 cd $name-${_commit}
 
 sed -e '/extern int efi_set_verbose/d' -i "src/efibootmgr.c"
@@ -27,4 +27,22 @@ make DESTDIR="${PKG}" \
      sbindir='/usr/bin' \
      EFIDIR='/boot/efi' \
      install
+}
+
+build() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_build
+  ;;
+  arm*|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    mkdir -pv $PKG/usr
+    cat > $PKGMK_ROOT/$name.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
 }
