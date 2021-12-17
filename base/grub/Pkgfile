@@ -22,7 +22,7 @@ unset CXXFLAGS
 unset LDFLAGS
 unset MAKEFLAGS
 
-build() {
+x86_build() {
 
   cp -a grub-$version grub-efi-$version
 
@@ -61,4 +61,22 @@ build() {
 
   cp ../unicode.pf2 $PKG/usr/share/grub/
 
+}
+
+build() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_build
+  ;;
+  arm*|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    mkdir -pv $PKG/usr
+    cat > $PKGMK_ROOT/$name.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
 }
