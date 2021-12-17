@@ -1,4 +1,4 @@
-description="GNU compiler collection, which includes the C, C++, fortran and objc compilers."
+description="GNU compiler collection, which includes the C, C++, fortran,go,d and objc compilers."
 url="http://gcc.gnu.org"
 
 packager="Grat-OS Team"
@@ -9,8 +9,19 @@ version=11.2.0
 
 source=(http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz)
 
+PKGMK_IGNORE_UNPACK='yes'
+
+prepare() {
+
+tar xf gcc-$version.tar.xz
+}
+
 build() {
 cd gcc-$version
+
+sed -e '/static.*SIGSTKSZ/d' \
+    -e 's/return kAltStackSize/return SIGSTKSZ * 4/' \
+    -i libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp
 
 case $(uname -m) in
   x86_64)
@@ -28,13 +39,11 @@ esac
 mkdir -v build
 cd build
 
-SED=sed CC="gcc -isystem /usr/include -m64" \
-CXX="g++ -isystem /usr/include -m64" \
-LDFLAGS="-Wl,-rpath-link,/usr/lib:/lib" \
+SED=sed \
 ../configure --prefix=/usr \
-    LD=/usr/bin/ld \
+    LD=ld \
     --libdir=/usr/lib \
-    --enable-languages=c,c++,objc,obj-c++,fortran,go \
+    --enable-languages=c,c++,objc,obj-c++,fortran,d,go \
     --disable-multilib \
     --disable-bootstrap \
     --with-system-zlib \
