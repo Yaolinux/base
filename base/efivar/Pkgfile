@@ -10,10 +10,10 @@ version=37
 _commit=cff88dd96b9d43e2c5875a24ba6180b196890ded
 release=4
 
-source=(http://yaolinux.mesfichiers.eu/sources/efivar-37.1.patch
+source=(http://repo.grat-os.fr/files/efivar-37.1.patch
         https://github.com/rhboot/efivar/archive/${_commit}.tar.gz)
 
-build() {
+x86_build() {
 
 unset MAKEFLAGS
 cd $name-${_commit}
@@ -48,4 +48,22 @@ make -j1 V=1 \
      includedir=/usr/include/
 
 install -v -D -m0755 src/test/tester ${PKG}/usr/bin/efivar-tester
+}
+
+build() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_build
+  ;;
+  arm*|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    mkdir -pv $PKG/usr
+    cat > $PKGMK_ROOT/$name.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
 }
