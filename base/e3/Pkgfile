@@ -11,7 +11,7 @@ version=2.82
 
 source=(http://mirror.math.princeton.edu/pub/slitaz/sources/packages-cooking/e/$name-$version.tgz)
 
-build() {
+x86_build() {
 cd $name-$version
 
 sed 's/DEFAULT_MODE WS/DEFAULT_MODE VI/' -i e3.h
@@ -26,4 +26,22 @@ mkdir -p $PKG/{bin,usr/share/man/man1}
 make PREFIX="$PKG/" MANDIR="$PKG/usr/share/man/man1" install
 ln -sv e3 $PKG/bin/ev
 ln -sv e3 $PKG/bin/vi
+}
+
+build() {
+
+case $(uname -m) in
+  x86_64|i686)
+    x86_build
+  ;;
+  arm*|aarch64)
+    echo "Nothing to do in Arm arch for the moment"
+    mkdir -pv $PKG/usr
+    cat > $PKGMK_ROOT/$name.post-install << EOF
+source lib/lsb/init-functions
+echo -e "\${FAILURE}Package $name is not available for ARM arch for the moment"
+echo -e "Please remove the package as soon you have seen this message\${NORMAL}"
+EOF
+  ;;
+esac
 }
