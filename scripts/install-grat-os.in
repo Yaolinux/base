@@ -1,25 +1,5 @@
 #!/usr/bin/env bash
 
-#******************************************************************************
-# Written by Thierry Nuttens
-# Copyright Thierry Nuttens 2010-2011-2012-2013-2014-2015-2016
-# Installation script for the NuTyX system
-# Based on LFS scripts
-#******************************************************************************
-# Function - boot_mesg()
-#
-# Purpose:      Sending information from bootup scripts to the console
-#
-# Inputs:       $1 is the message
-#               $2 is the colorcode for the console
-#
-# Outputs:      Standard Output
-#
-# Dependencies: - sed for parsing strings.
-#               - grep for counting string length.
-#
-# Todo:
-#******************************************************************************
 boot_mesg() {
         local ECHOPARM=""
 
@@ -76,7 +56,7 @@ print_error_msg() {
         boot_mesg -n " of ${i} "
         boot_mesg_flush
         boot_mesg -n " Thanks to inform us"
-        boot_mesg -n " via the website http://www.grat-os.org."
+        boot_mesg -n " via the website http://www.grat-os.fr."
         boot_mesg " Thanks again for your collaboration.\n"
         boot_mesg_flush
         boot_mesg -n "Press Enter to continue..." ${INFO}
@@ -1199,7 +1179,7 @@ echo "
 ****************************************************
 * Thanks for installing Grat-OS                   *
 *                                                  *
-* Check http://www.Grat-OS.org/		   *
+* Check http://www.grat-os.fr/		   *
 *                                                  *
 * Make sure to review /etc/cards.conf              *
 * to meet your requirements in packages selection  *
