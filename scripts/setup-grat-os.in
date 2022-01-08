@@ -944,8 +944,8 @@ SETUP_CONFIG_LANGUAGE="no"
 setup_keymap ()
 {
 	cat > ${CONSOLE} << "EOF"
-FONT="LatGrkCyr-8x16"
-UNICODE="1"
+FONT=LatGrkCyr-8x16
+UNICODE=1
 EOF
 	cat > ${XORGKB} << "EOF"
 Section "InputClass"
