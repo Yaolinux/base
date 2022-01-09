@@ -2,7 +2,7 @@ description="Connect your computer to a network which uses DHCP to assign networ
 url="http://roy.marples.name/projects/dhcpcd"
 
 name=dhcpcd
-version=9.4.0
+version=9.4.1
 release=2
 
 makedepends=(systemd)
