@@ -5,7 +5,7 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=expat
-version=2.4.1
+version=2.4.2
 
 source=(http://prdownloads.sourceforge.net/$name/$name-$version.tar.xz)
 
