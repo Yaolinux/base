@@ -4,7 +4,7 @@ url="http://www.vim.org/"
 packager="Grat-OS Team"
 
 name=vim
-version=8.2.3582
+version=8.2.3890
 
 source=(https://github.com/vim/vim/archive/v$version/vim-$version.tar.gz)
 
