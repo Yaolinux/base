@@ -4,7 +4,7 @@ url="http://www.kernel.org/pub/linux/libs/security/linux-privs/"
 packager="Grat-OS Team"
 
 name=libcap
-version=2.61
+version=2.62
 
 source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-$version.tar.xz)
 
