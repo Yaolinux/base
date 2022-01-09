@@ -7,7 +7,7 @@ makedepends=(perl perl-digest-hmac perl-net-ip perl-io-socket-inet6 perl-socket6
 run=(perl)
 
 name=perl-net-dns
-version=1.32
+version=1.33
 
 source=(https://cpan.metacpan.org/authors/id/N/NL/NLNETLABS/Net-DNS-$version.tar.gz)
 
