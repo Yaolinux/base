@@ -1,3 +1,5 @@
+makedepends=(sqlite libffi)
+
 description="Next generation of the python high-level scripting language"
 url="http://www.python.org"
 
@@ -7,11 +9,9 @@ maintainer="rems"
 PKGMK_GROUPS=(devel man doc)
 PKGMK_IGNORE_UNPACK="yes"
 
-makedepends=(sqlite libffi)
-
 name=python
 version=3.9.9
-release=1
+release=2
 
 alias=(python3 Python)
 
