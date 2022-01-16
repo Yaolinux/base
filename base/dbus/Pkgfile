@@ -8,7 +8,7 @@ makedepends=(expat systemd)
 
 name=dbus
 version=1.12.20
-release=4
+release=5
 
 source=(http://dbus.freedesktop.org/releases/dbus/dbus-$version.tar.gz)
 
@@ -26,8 +26,7 @@ cd $name-$version
             --with-console-auth-dir=/run/console \
             --with-system-pid-file=/run/dbus/pid \
             --with-system-socket=/run/dbus/system_bus_socket \
-            --with-systemdsystemunitdir=/lib/systemd/system \
-            --enable-systemd
+            --with-systemdsystemunitdir=/lib/systemd/system
 
 make
 make DESTDIR=$PKG install
