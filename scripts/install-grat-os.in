@@ -777,8 +777,10 @@ export HISTSIZE=1000
 export HISTIGNORE="&:[bf]g:exit"
 
 # Set some defaults for graphical systems
-export XDG_DATA_DIRS=/usr/share/
-export XDG_CONFIG_DIRS=/etc/xdg/
+# DISABLED because systemd handles it well
+#export XDG_DATA_DIRS=/usr/share/
+#export XDG_CONFIG_DIRS=/etc/xdg/
+#export XDG_RUNTIME_DIR=/tmp/xdg-$USER
 
 # Set some defaults for certificates
 export GIO_USE_TLS=gnutls-pkcs11
