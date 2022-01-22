@@ -7,11 +7,12 @@ gccversion=11.2.0
 
 name=glibc
 version=2.34
-release=3
+release=4
 
 source=(http://www.linuxfromscratch.org/patches/downloads/$name/glibc-$version-fhs-1.patch
 	http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	 glibc.locales.supported )
+	glibc.locales.supported
+        clone3-syscall-optional.patch)
 
 build() {
 
@@ -22,6 +23,8 @@ build() {
 
   # Some of the Glibc programs use the non-FHS compilant /var/db directory to store their runtime data. Apply the following patch to make such programs store their runtime data in the FHS-compliant locations
   patch -Np1 -i ../glibc-$version-fhs-1.patch
+
+  patch -Np1 -i ../clone3-syscall-optional.patch
 
   case $(uname -m) in
     i?86)
