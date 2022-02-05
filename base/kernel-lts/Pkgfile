@@ -13,7 +13,7 @@ makedepends=(grat-os)
 name=kernel-lts
 alias=(linux-lts)
 
-version=4.19.225
+version=4.19.227
 _version=${version%.*}
 
 run=(grat-os)
