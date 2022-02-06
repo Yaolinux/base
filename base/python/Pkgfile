@@ -11,7 +11,7 @@ PKGMK_IGNORE_UNPACK="yes"
 
 name=python
 version=3.9.9
-release=2
+release=3
 
 alias=(python3 Python)
 
