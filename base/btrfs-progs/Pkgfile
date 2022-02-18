@@ -6,7 +6,7 @@ packager="Grat-OS Team"
 makedepends=(lzo python)
 
 name=btrfs-progs
-version=5.15.1
+version=5.16.2
 
 source=(https://www.kernel.org/pub/linux/kernel/people/kdave/$name/$name-v$version.tar.xz)
 
