@@ -6,7 +6,7 @@ packager="Grat-OS Team"
 makedepends=(libaio systemd)
 
 name=lvm2
-version=2.03.14
+version=2.03.15
 
 source=(https://sourceware.org/ftp/lvm2/LVM2.$version.tgz)
 
