@@ -6,7 +6,7 @@ packager="Grat-OS Team"
 makedepends=(pam)
 
 name=sudo
-version=1.9.8p2
+version=1.9.9
 
 source=($url/sudo/dist/$name-$version.tar.gz)
 
