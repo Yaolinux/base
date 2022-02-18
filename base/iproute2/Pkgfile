@@ -6,7 +6,7 @@ packager="Grat-OS Team"
 PKGMK_GROUPS=(devel man doc)
 
 name=iproute2
-version=5.15.0
+version=5.16.0
 
 source=($url/iproute2-$version.tar.xz)
 
