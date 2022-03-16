@@ -8,7 +8,7 @@ packager="Grat-OS Team"
 name=iptables
 version=1.8.7
 
-grat_os_version=-1.0-RC1
+grat_os_version=1.0-RC1
 
 source=(http://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2
         https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz)
