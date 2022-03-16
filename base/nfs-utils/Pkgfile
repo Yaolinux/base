@@ -7,7 +7,7 @@ makedepends=(libtirpc rpcbind libcap sqlite lvm2 rpcsvc-proto systemd libevent k
 run=(rpcbind)
 
 name=nfs-utils
-version=2.5.4
+version=2.6.1
 release=2
 
 grat_os_version=1.0-RC1
