@@ -4,7 +4,7 @@ maintainer="rems"
 packager="Grat-OS Team"
 
 name=findutils
-version=4.8.0
+version=4.9.0
 
 source=(https://ftp.gnu.org/pub/gnu/findutils/${name}-${version}.tar.xz)
 
