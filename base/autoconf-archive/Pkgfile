@@ -6,6 +6,6 @@ packager="Grat-OS Team"
 makedepends=(autoconf)
 
 name=autoconf-archive
-version=2021.02.19
+version=2022.02.11
 
 source=(https://ftpmirror.gnu.org/${name}/${name}-${version}.tar.xz)
