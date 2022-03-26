@@ -6,8 +6,7 @@ packager="Grat-OS Team"
 gccversion=11.2.0
 
 name=glibc
-version=2.34
-release=4
+version=2.35
 
 source=(http://www.linuxfromscratch.org/patches/downloads/$name/glibc-$version-fhs-1.patch
 	http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
