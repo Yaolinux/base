@@ -6,11 +6,22 @@ maintainer="rems"
 
 name=gcc
 version=11.2.0
+release=3
 
-source=(http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz)
+#source=(http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz)
+
+prepare() {
+wget http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz
+
+tar xf gcc-$version.tar.xz
+}
 
 build() {
 cd gcc-$version
+
+sed -e '/static.*SIGSTKSZ/d' \
+    -e 's/return kAltStackSize/return SIGSTKSZ * 4/' \
+    -i libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp
 
 case $(uname -m) in
   x86_64)
@@ -28,11 +39,8 @@ esac
 mkdir -v build
 cd build
 
-SED=sed CC="gcc -isystem /usr/include -m64" \
-CXX="g++ -isystem /usr/include -m64" \
-LDFLAGS="-Wl,-rpath-link,/usr/lib:/lib" \
 ../configure --prefix=/usr \
-    LD=/usr/bin/ld \
+    LD=ld \
     --libdir=/usr/lib \
     --enable-languages=c,c++,objc,obj-c++,fortran,go \
     --disable-multilib \
