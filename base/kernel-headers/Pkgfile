@@ -5,7 +5,8 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name="kernel-headers"
-version="5.10.104"
+version="5.10.108"
+release=2
 
 source=(http://www.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz)
 
