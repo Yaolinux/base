@@ -4,7 +4,7 @@ url="http://www.gnu.org/software/libc/"
 packager="Grat-OS Team"
 
 name=tzdata
-version=2021e
+version=2022a
 
 source=(http://www.iana.org/time-zones/repository/releases/$name$version.tar.gz)
 
