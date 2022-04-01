@@ -6,7 +6,7 @@ packager="Grat-OS Team"
 makedepends=(git)
 
 name=linux-firmware
-version=20220209
+version=20220310
 
 build() {
 
