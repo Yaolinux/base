@@ -4,7 +4,7 @@ url="http://mesonbuild.com/"
 packager="Grat-OS Team"
 
 name=meson
-version=0.61.3
+version=0.62.0
 
 source=(https://github.com/mesonbuild/$name/releases/download/$version/$name-$version.tar.gz)
 
