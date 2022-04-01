@@ -7,16 +7,12 @@ maintainer="rems"
 makedepends=(gnutls)
 
 name=wget
-version=1.21.2
-release=7
+version=1.21.3
 
-source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
-        remove_ssl_init_msg.patch) 
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
 
 build() {
   cd $name-$version
-
-  patch -Np1 -i ../remove_ssl_init_msg.patch
 
   ./configure --prefix=/usr \
               --sysconfdir=/etc \
