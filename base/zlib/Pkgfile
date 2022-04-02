@@ -7,7 +7,7 @@ maintainer="rems"
 PKGMK_GROUPS=(devel man)
 
 name=zlib
-version=1.2.11
+version=1.2.12
 
 source=(${url}zlib-$version.tar.xz)
 
