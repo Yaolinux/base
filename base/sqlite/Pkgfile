@@ -7,7 +7,7 @@ maintainer="rems"
 _amalgamationver=3360000
 
 name=sqlite
-version=3.37.2
+version=3.38.2
 
 source=(http://www.sqlite.org/2021/sqlite-autoconf-${_amalgamationver}.tar.gz)
 
