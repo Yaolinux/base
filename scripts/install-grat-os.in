@@ -210,7 +210,7 @@ end() {
 #
 # Dependencies: - curl
 #
-# Output:       PackageFileName= cpio1414074943i686.cards.tar.xz
+# Output:       PackageFileName= cpio1414074943i686.crads.tar.xz
 #
 #******************************************************************************
 getPackageFileName() {
@@ -986,23 +986,23 @@ if [ -f "/etc/bashrc" ] ; then
 fi
 if [ $EUID -eq 0 ] ; then
         alias nu='setup-grat-os -cu'
-        alias del='cards remove'
-        alias get='cards install'
-        alias up='cards install -u'
-        alias check='cards sync;cards diff'
+        alias del='crads remove'
+        alias get='crads install'
+        alias up='crads install -u'
+        alias check='crads sync;crads diff'
 else
         alias nu='sudo setup-grat-os -cu'
-        alias del='sudo cards remove'
-        alias get='sudo cards install'
-        alias up='sudo cards install -u'
-        alias check='sudo cards sync;sudo cards diff'
+        alias del='sudo crads remove'
+        alias get='sudo crads install'
+        alias up='sudo crads install -u'
+        alias check='sudo crads sync;sudo crads diff'
 fi
-alias search='cards search'
+alias search='crads search'
 alias ll='ls -l'
 alias l='ls -alh'
 alias duh='du -h --max-depth=1'
 alias dfh='df -h'
-alias pkgfind='cards list | grep -i'
+alias pkgfind='crads list | grep -i'
 
 # End ~/.bashrc
 EOF
@@ -1064,9 +1064,9 @@ if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
   ${FOLDER}/etc/$FILE
 fi
 }
-generate_cards_conf() {
+generate_crads_conf() {
 local FILE
-FILE="cards.conf"
+FILE="crads.conf"
 [ -f ${FOLDER}/etc/$FILE ] && return
 [ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
 if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
@@ -1150,7 +1150,7 @@ base ${DEPOT}/base
 # base ${DEPOT}/cli-extra
 # base ${DEPOT}/gui
 # base ${DEPOT}/gui-extra
-# base ${DEPOT}/..." > ${FOLDER}/etc/cards.conf
+# base ${DEPOT}/..." > ${FOLDER}/etc/crads.conf
 }
 generate_grat-os_version() {
 local FILE
@@ -1182,7 +1182,7 @@ echo "
 *                                                  *
 * Check http://www.grat-os.fr/		   *
 *                                                  *
-* Make sure to review /etc/cards.conf              *
+* Make sure to review /etc/crads.conf              *
 * to meet your requirements in packages selection  *
 *                                                  *
 ****************************************************
@@ -1195,7 +1195,7 @@ check_variables() {
 if [ -z "$CHROOT_LIST" ]; then
 	CHROOT_LIST="grat-os acl attr bash bzip2 coreutils curl \
 expat gcc readline ncurses lzo glibc gmp xz zstd zlib \
-libarchive mpc mpfr openssl ca-certificates cards util-linux \
+libarchive mpc mpfr openssl ca-certificates crads util-linux \
 libtasn1 nettle gnutls p11-kit libffi kmod"
 fi
 
@@ -1362,18 +1362,18 @@ download_pkgadd() {
 
 		PKGADD="/bin/pkgadd"
 
-		getPackageFileName cards
+		getPackageFileName crads
 
 		if [ ! -f $TMP/$PKGADD ]; then
 			cd $TMP
 			PackageFileName=""
-			getPackageFileName cards
+			getPackageFileName crads
 			if [ "$PackageFileName" == "" ]; then
 				error "variable 'PackageFileName' is not set"
 			fi
-			download_pkg cards
-			echo "Extraction of cards ..."
-			bsdtar -xf $FOLDER/$DEPOT/$BASE/cards/${PackageFileName} || print_error_msg
+			download_pkg crads
+			echo "Extraction of crads ..."
+			bsdtar -xf $FOLDER/$DEPOT/$BASE/crads/${PackageFileName} || print_error_msg
 			echo_ok
 		fi
 	fi
@@ -1384,8 +1384,8 @@ check_mountfolder() {
 generate_setupfile() {
 echo "#!/bin/bash
 source /etc/profile
-cards sync
-cards install kbd pam \
+crads sync
+crads install kbd pam \
 shadow gdbm e2fsprogs \
 gzip binutils \
 diffutils file grep bc \
@@ -1395,7 +1395,7 @@ gettext procps-ng psmisc \
 sed sudo tzdata inetutils \
 iproute2 libelf iana-etc \
 less groff man-db \
-cards.fr cards.man grat-os.man \
+crads.fr crads.man grat-os.man \
 lvm2 libaio dialog cpio squashfs \
 lsb-release \
 $KERNEL \
@@ -1407,7 +1407,7 @@ chroot ${FOLDER} /usr/bin/env $LINUX_ARCH /bin/bash -c "$SETUP_FILE"
 unmountall
 }
 install_configuration_files() {
-	generate_cards_conf
+	generate_crads_conf
 	generate_pkgmk_conf
 	generate_fstab
 	generate_passwd
