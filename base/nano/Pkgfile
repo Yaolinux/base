@@ -6,7 +6,7 @@ maintainer="rems"
 
 name=nano
 version=6.2
-release=5
+release=6
 
 source=(http://www.nano-editor.org/dist/v${version:0:1}/$name-$version.tar.xz)
 
