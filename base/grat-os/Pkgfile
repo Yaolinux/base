@@ -10,7 +10,7 @@ PKGMK_KEEP_SOURCES="no"
 
 name=grat-os
 version=1.0-RC1
-release=1
+release=2
 
 patchname=""
 
