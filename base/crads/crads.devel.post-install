@@ -18,10 +18,10 @@ do
 destination=/usr/ports/$i
 version=$VERSION
 collection=$i" > etc/ports/$i.crads
-      log_success_msg "${WARNING} /etc/ports/$i.crads created ${NORMAL}"
-      log_warning_msg "${WARNING} Double check /etc/ports/$i and adapted to your needs ${NORMAL}"
+      #log_success_msg "${WARNING} /etc/ports/$i.crads created ${NORMAL}"
+      #log_warning_msg "${WARNING} Double check /etc/ports/$i and adapted to your needs ${NORMAL}"
    else
-      log_warning_msg "${WARNING} Double check /etc/ports/$i and adapted to this version of Grat-OS ${NORMAL}"
+      #log_warning_msg "${WARNING} Double check /etc/ports/$i and adapted to this version of Grat-OS ${NORMAL}"
    fi
 done
 if [ ! -f etc/crads.conf ]; then
@@ -34,6 +34,6 @@ if [ ! -f etc/pkgmk.conf ]; then
    if [ -f etc/pkgmk.conf.example ]; then
 	cp etc/pkgmk.conf.example etc/pkgmk.conf
 	log_success_msg "${WARNING} /etc/pkgmk.conf.example copied as /etc/pkgmk.conf ${NORMAL}"
-	log_warning_msg "${WARNING} Double check /etc/pkgmk.conf and adapted to your needs ${NORMAL}"
+	#log_warning_msg "${WARNING} Double check /etc/pkgmk.conf and adapted to your needs ${NORMAL}"
    fi
 fi
