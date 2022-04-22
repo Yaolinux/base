@@ -8,6 +8,7 @@ PKGMK_GROUPS=(devel man)
 
 name=zlib
 version=1.2.12
+release=4
 
 source=(${url}zlib-$version.tar.xz)
 
@@ -71,9 +72,24 @@ cd zlib-$version
 
 make
 
+#Make minizip
+pushd contrib/minizip
+
+  cp Makefile Makefile.orig
+  cp ../README.contrib readme.txt
+  autoreconf --install
+  ./configure --prefix=/usr --enable-static=no
+  make
+popd
+
 make check
 
 make prefix=$PKG/usr install
+
+#Install minizip
+pushd contrib/minizip
+make install DESTDIR="${PKG}"
+popd
 
 mkdir -p $PKG/lib
 mv -v $PKG/usr/lib/libz.so.* $PKG/lib
@@ -84,6 +100,6 @@ devel () {
 cd $PKG
 bsdtar -cf \
 $PKGMK_PACKAGE_DIR/${name}.devel${PKGMK_BUILDVER}`uname -m`.$PKGMK_PACKAGE_EXT \
-usr/lib usr/include
-rm -rvf usr/lib usr/include
+usr/lib/pkgconfig usr/include
+rm -rvf usr/lib/pkgconfig usr/include
 }
