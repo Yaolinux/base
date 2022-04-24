@@ -5,13 +5,13 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=gcc
-version=11.2.0
-release=3
+version=11.3.0
 
-#source=(http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz)
+PKGMK_IGNORE_UNPACK='yes'
+
+source=(http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz)
 
 prepare() {
-wget http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz
 
 tar xf gcc-$version.tar.xz
 }
