@@ -7,12 +7,10 @@ maintainer="Dania"
 makedepends=(bash dosfstools efibootmgr gnu-efi openssl)
 
 name=refind
-version=0.13.2
+version=0.13.3.1
 _arch=x64
 
-source=(https://sourceforge.net/projects/refind/files/$version/$name-src-$version.tar.gz
-        refind-0.13.2-gnuefi-3.0.14.patch
-        makefile.patch)
+source=(https://sourceforge.net/projects/refind/files/$version/$name-src-$version.tar.gz)
 
 prepare() {
 cd $name-$version
@@ -23,16 +21,14 @@ cd $name-$version
   # hardcode RefindDir, so that refind-install can find refind_x64.efi
   sed -e 's|RefindDir=\"\$ThisDir/refind\"|RefindDir="/usr/share/refind/"|g' \
       -i refind-install
-
-patch -Np1 -i ../makefile.patch
-patch -Np1 -i ../refind-0.13.2-gnuefi-3.0.14.patch
 }
 
 build() {
 cd $name-$version
   make
   make gptsync
-  make fs
+  # NOTE: build can not be parallelized
+  make fs -j1
 }
 
 package() {
