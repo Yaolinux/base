@@ -7,21 +7,21 @@ maintainer="rems"
 makedepends=(lz4 lzo xz zlib zstd)
 
 name=squashfs
-version=4.5
+version=4.5.1
 
 PKGMK_KEEP_SOURCE="no"
 
-source=(http://gratos.mesfichiers.eu/files/$name-$version.tar.gz)
+source=(https://github.com/plougher/${name}-tools/archive/refs/tags/${version}.tar.gz)
 
 build() {
-cd squashfs-tools-$version/squashfs-tools
+  cd ${name}-tools-$version/squashfs-tools
 
-make XZ_SUPPORT=1 \
-     LZO_SUPPORT=1 \
-     LZMA_XZ_SUPPORT=1 \
-     ZSTD_SUPPORT=1 \
-     LZA_SUPPORT=1 \
-     XATTR_SUPPORT=1
+  make XZ_SUPPORT=1 \
+    LZO_SUPPORT=1 \
+    LZMA_XZ_SUPPORT=1 \
+    ZSTD_SUPPORT=1 \
+    LZA_SUPPORT=1 \
+    XATTR_SUPPORT=1
 
-make INSTALL_DIR=$PKG/bin install
+  make INSTALL_DIR=$PKG/bin install
 }
