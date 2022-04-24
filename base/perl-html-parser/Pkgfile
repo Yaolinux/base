@@ -7,7 +7,7 @@ makedepends=(perl perl-html-tagset )
 run=(perl)
 
 name=perl-html-parser
-version=3.76
+version=3.78
 
 source=(https://www.cpan.org/authors/id/O/OA/OALDERS/HTML-Parser-$version.tar.gz)
 
