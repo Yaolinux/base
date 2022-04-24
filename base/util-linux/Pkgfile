@@ -7,7 +7,7 @@ maintainer="rems"
 makedepends=(systemd)
 
 name=util-linux
-version=2.37.2
+version=2.38
 
 source=(https://www.kernel.org/pub/linux/utils/util-linux/v${version:0:4}/util-linux-$version.tar.xz)
 
