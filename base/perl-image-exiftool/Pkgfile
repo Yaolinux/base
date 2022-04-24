@@ -7,7 +7,7 @@ makedepends=(perl)
 run=(perl)
 
 name=perl-image-exiftool
-version=12.30
+version=12.40
 
 source=(https://exiftool.org/Image-ExifTool-$version.tar.gz)
 
