@@ -5,7 +5,7 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=coreutils
-version=9.0
+version=9.1
 
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	http://www.linuxfromscratch.org/patches/downloads/$name/$name-$version-i18n-1.patch)
