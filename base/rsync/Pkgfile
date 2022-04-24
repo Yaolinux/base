@@ -7,27 +7,27 @@ maintainer="rems"
 makedepends=(lz4 zstd)
 
 name=rsync
-version=3.2.3
-release=2
+version=3.2.4
+release=1
 
 source=(https://rsync.samba.org/ftp/$name/$name-$version.tar.gz
 	rsync.driver )
 
 build() {
-cd $name-$version
+  cd $name-$version
 
-./configure --prefix=/usr \
-            -mandir=/usr/share/man \
-            --without-included-zlib \
-            --disable-xxhash \
-            --infodir=/usr/share/info \
-            --disable-lz4
+  ./configure --prefix=/usr \
+    -mandir=/usr/share/man \
+    --without-included-zlib \
+    --disable-xxhash \
+    --infodir=/usr/share/info \
+    --disable-lz4
 
-make
-make DESTDIR=$PKG install
+  make
+  make DESTDIR=$PKG install
 
-# drivers
-mkdir -p $PKG/var/lib/pkg/drivers
-install -m 755 ..//rsync.driver \
-$PKG/var/lib/pkg/drivers/rsync
+  # drivers
+  mkdir -p $PKG/var/lib/pkg/drivers
+  install -m 755 ..//rsync.driver \
+  $PKG/var/lib/pkg/drivers/rsync
 }
