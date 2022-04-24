@@ -5,12 +5,12 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=python-markupsafe
-version=2.0.1
+version=2.1.1
 
 source=(http://gratos.mesfichiers.eu/files/$name-$version.tar.gz)
 
 build() {
-cd markupsafe-$version
+cd MarkupSafe-$version
 
 python3 setup.py build
 
