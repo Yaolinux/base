@@ -7,7 +7,7 @@ maintainer="rems"
 makedepends=(libtasn1 nettle p11-kit)
 
 name=gnutls
-version=3.7.2
+version=3.7.4
 release=3
 
 source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v${version:0:3}/${name}-${version}.tar.xz)
@@ -24,5 +24,4 @@ cd $name-$version
 
 make
 make DESTDIR=$PKG install
-make -C doc/reference DESTDIR=$PKG install-data-local
 }
