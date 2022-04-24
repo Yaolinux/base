@@ -2,21 +2,21 @@ description="Contains the rcpsvc protocol.x files and headers"
 packager="Grat-OS Team"
 
 name=rpcsvc-proto
-version=1.4.2
+version=1.4.3
 
 PKGMK_KEEP_SOURCES="no"
 
 source=(https://github.com/thkukuk/rpcsvc-proto/archive/v$version.tar.gz)
 
 build() {
-cd $name-$version
+  cd $name-$version
 
-which xz
+  which xz
 
-autoreconf -fiv
+  autoreconf -fiv
 
-./configure --sysconfdir=/etc
+  ./configure --sysconfdir=/etc
 
-make
-make DESTDIR=$PKG install
+  make
+  make DESTDIR=$PKG install
 }
