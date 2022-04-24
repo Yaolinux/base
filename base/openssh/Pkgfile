@@ -7,7 +7,7 @@ maintainer="rems"
 makedepends=(libedit)
 
 name=openssh
-version=8.9p1
+version=9.0p1
 
 source=(http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz)
 
