@@ -5,6 +5,6 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=libmnl
-version=1.0.4
+version=1.0.5
 
 source=(http://www.netfilter.org/projects/$name/files/$name-$version.tar.bz2)
