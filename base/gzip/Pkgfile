@@ -5,7 +5,7 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=gzip
-version=1.11
+version=1.12
 release=2
 
 source=(http://ftp.gnu.org/gnu/gzip/gzip-$version.tar.xz)
