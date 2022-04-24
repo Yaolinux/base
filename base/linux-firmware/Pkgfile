@@ -6,11 +6,11 @@ packager="Grat-OS Team"
 makedepends=(git)
 
 name=linux-firmware
-version=20220310
+version=20220411
 
 build() {
 
-  git clone -b $version git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git \
+  git clone --depth 1 -b $version git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git \
   $name-$version
 
   cd $name-$version
