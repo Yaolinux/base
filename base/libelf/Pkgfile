@@ -5,21 +5,21 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=libelf
-version=0.185
+version=0.186
 
 source=(https://sourceware.org/elfutils/ftp/${version}/elfutils-${version}.tar.bz2)
 
 build() {
-cd elfutils-$version
+  cd elfutils-$version
 
-./configure --prefix=/usr \
-            --disable-debuginfod         \
-            --enable-libdebuginfod=dummy \
-            --disable-static
+  ./configure --prefix=/usr \
+              --disable-debuginfod         \
+              --enable-libdebuginfod=dummy \
+              --disable-static
 
-make
-make -C libelf DESTDIR=$PKG install
+  make
+  make -C libelf DESTDIR=$PKG install
 
-mkdir -pv $PKG/usr/lib/pkgconfig
-install -vm644 config/libelf.pc $PKG/usr/lib/pkgconfig/
+  mkdir -pv $PKG/usr/lib/pkgconfig
+  install -vm644 config/libelf.pc $PKG/usr/lib/pkgconfig/
 }
