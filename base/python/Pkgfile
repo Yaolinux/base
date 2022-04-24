@@ -10,17 +10,17 @@ PKGMK_GROUPS=(devel man doc)
 PKGMK_IGNORE_UNPACK="yes"
 
 name=python
-version=3.9.9
-release=3
+version=3.9.12
+release=2
 
 alias=(python3 Python)
 
-source=(http://www.python.org/ftp/python/$version/Python-$version.tar.xz
-        https://docs.python.org/ftp/python/doc/$version/python-$version-docs-html.tar.bz2
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz
+        https://www.python.org/ftp/python/doc/$version/python-$version-docs-html.tar.bz2
         python.png)
 
 prepare() {
-	tar -xf $SRC/Python-$version.tar.xz --no-overwrite-dir
+	tar -xf Python-$version.tar.xz --no-overwrite-dir
 }
 
 build() {
@@ -31,13 +31,13 @@ build() {
               --enable-shared \
               --with-system-expat \
               --with-system-ffi \
-        --with-ensurepip=yes
+              --with-ensurepip=yes
 
   make
   make DESTDIR=$PKG install
 
   chmod -v 755 $PKG/usr/lib/libpython3.9.so
-  chmod -v 755 $PKG//usr/lib/libpython3.so
+  chmod -v 755 $PKG/usr/lib/libpython3.so
 
   # Install all HTML Docs files with desktop menu integration
   install -v -dm755 $PKG/usr/share/doc/$name-$version/html
@@ -70,7 +70,6 @@ Name[fr]=Documentation Python" > $PKG/usr/share/applications/$name.desktop
 
 doc() {
   cd $PKG
-  bsdtar -cf \
   bsdtar -cf \
   $PKGMK_PACKAGE_DIR/$name.doc${PKGMK_BUILDVER}any.cards.tar \
   usr/share/doc/$name-$version \
