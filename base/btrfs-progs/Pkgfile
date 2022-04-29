@@ -6,27 +6,27 @@ packager="Grat-OS Team"
 makedepends=(lzo python)
 
 name=btrfs-progs
-version=5.16.2
+version=5.17
 
 source=(https://www.kernel.org/pub/linux/kernel/people/kdave/$name/$name-v$version.tar.xz)
 
 build(){
-cd $name-v$version
+  cd $name-v$version
 
-./configure --prefix=/usr \
-            --libdir=/lib \
-            --bindir=/bin \
-            --disable-zstd \
-            --disable-documentation
+  ./configure --prefix=/usr \
+              --libdir=/lib \
+              --bindir=/bin \
+              --disable-zstd \
+              --disable-documentation
 
 
-make
-make DESTDIR=$PKG install
+  make
+  make DESTDIR=$PKG install
 
-# Binaries should be available in case of mounting /usr
-mkdir -p $PKG/{sbin,usr/lib}
-ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfs.so) $PKG/usr/lib/libbtrfs.so
-ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfsutil.so) $PKG/usr/lib/libbtrfsutil.so &&
-rm -fv $PKG/lib/libbtrfs.{a,so} $PKG/lib/libbtrfsutil.{a,so}
-mv -v $PKG/bin/{mkfs,fsck}.btrfs $PKG/sbin
+  # Binaries should be available in case of mounting /usr
+  mkdir -p $PKG/{sbin,usr/lib}
+  ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfs.so) $PKG/usr/lib/libbtrfs.so
+  ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfsutil.so) $PKG/usr/lib/libbtrfsutil.so &&
+  rm -fv $PKG/lib/libbtrfs.{a,so} $PKG/lib/libbtrfsutil.{a,so}
+  mv -v $PKG/bin/{mkfs,fsck}.btrfs $PKG/sbin
 }
