@@ -5,20 +5,20 @@ packager="Grat-OS Team"
 maintainer="Rems"
 
 name=libinih
-version=53
+version=55
 
 source=(https://github.com/benhoyt/inih/archive/r$version.tar.gz)
 
 build() {
 
-mkdir -p build && cd build
+  mkdir -p build && cd build
 
-meson --prefix=/usr \
-      -Ddefault_library=shared \
-      -Ddistro_install=true \
-      -Dwith_INIReader=true \
-      ../inih-r"${version}"
+  meson --prefix=/usr \
+    -Ddefault_library=shared \
+    -Ddistro_install=true \
+    -Dwith_INIReader=true \
+    ../inih-r"${version}"
 
-ninja
-DESTDIR=$PKG ninja install
+  ninja
+  DESTDIR=$PKG ninja install
 }
