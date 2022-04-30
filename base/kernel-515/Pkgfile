@@ -14,7 +14,7 @@ name=kernel-515
 alias=(linux-515)
 
 version=5.15.35
-release=1
+release=2
 _version=${version:0:4}
 
 # Linux patch version
