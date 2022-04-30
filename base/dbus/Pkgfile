@@ -8,9 +8,9 @@ makedepends=(expat systemd)
 
 name=dbus
 version=1.14.0
-release=1
+release=2
 
-source=(http://dbus.freedesktop.org/releases/dbus/dbus-$version.tar.xz)
+source=(https://dbus.freedesktop.org/releases/dbus/dbus-$version.tar.xz)
 
 build() {
   cd $name-$version
@@ -37,7 +37,7 @@ build() {
 
   mv -v $PKG/usr/lib/libdbus-1.so.* $PKG/lib
   ln -sfv ../../lib/$(readlink $PKG/usr/lib/libdbus-1.so) $PKG/usr/lib/libdbus-1.so
-  ln -sv $PKG/etc/machine-id $PKG/var/lib/dbus
+  ln -svf /etc/machine-id $PKG/var/lib/dbus
   chown -v root:messagebus $PKG/usr/libexec/dbus-daemon-launch-helper
   chmod -v 4750 $PKG/usr/libexec/dbus-daemon-launch-helper
 }
