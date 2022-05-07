@@ -1,0 +1,27 @@
+makedepends=(perl)
+run=( perl )
+
+description="JSON (JavaScript Object Notation) encoder/decoder"
+url="https://search.cpan.org/dist/JSON"
+
+packager="Grat-OS Team"
+maintainer="gratos"
+
+name=perl-json
+version=4.05
+
+source=(https://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/JSON-$version.tar.gz)
+
+build() {
+  cd JSON-$version
+
+  PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+
+  make
+  make DESTDIR=$PKG install
+
+  find $PKG \
+    -name '*.bs' -or \
+    -name '.packlist' -or \
+    -name '*.pod' -delete
+}
