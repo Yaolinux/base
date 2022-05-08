@@ -210,7 +210,7 @@ end() {
 #
 # Dependencies: - curl
 #
-# Output:       PackageFileName= cpio1414074943i686.crads.tar.xz
+# Output:       PackageFileName= cpio1414074943i686.cards.tar.xz
 #
 #******************************************************************************
 getPackageFileName() {
@@ -986,18 +986,18 @@ if [ -f "/etc/bashrc" ] ; then
 fi
 if [ $EUID -eq 0 ] ; then
         alias nu='setup-grat-os -cu'
-        alias del='crads remove'
-        alias get='crads install'
-        alias up='crads install -u'
-        alias check='crads sync;crads diff'
+        alias del='cards remove'
+        alias get='cards install'
+        alias up='cards install -u'
+        alias check='cards sync;cards diff'
 else
         alias nu='sudo setup-grat-os -cu'
-        alias del='sudo crads remove'
-        alias get='sudo crads install'
-        alias up='sudo crads install -u'
-        alias check='sudo crads sync;sudo crads diff'
+        alias del='sudo cards remove'
+        alias get='sudo cards install'
+        alias up='sudo cards install -u'
+        alias check='sudo cards sync;sudo cards diff'
 fi
-alias search='crads search'
+alias search='cards search'
 alias ll='ls -l'
 alias l='ls -alh'
 alias duh='du -h --max-depth=1'
