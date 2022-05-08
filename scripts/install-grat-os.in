@@ -1002,7 +1002,7 @@ alias ll='ls -l'
 alias l='ls -alh'
 alias duh='du -h --max-depth=1'
 alias dfh='df -h'
-alias pkgfind='crads list | grep -i'
+alias pkgfind='cards list | grep -i'
 
 # End ~/.bashrc
 EOF
@@ -1064,9 +1064,9 @@ if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
   ${FOLDER}/etc/$FILE
 fi
 }
-generate_crads_conf() {
+generate_cards_conf() {
 local FILE
-FILE="crads.conf"
+FILE="cards.conf"
 [ -f ${FOLDER}/etc/$FILE ] && return
 [ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
 if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
@@ -1150,7 +1150,7 @@ base ${DEPOT}/base
 # base ${DEPOT}/cli-extra
 # base ${DEPOT}/gui
 # base ${DEPOT}/gui-extra
-# base ${DEPOT}/..." > ${FOLDER}/etc/crads.conf
+# base ${DEPOT}/..." > ${FOLDER}/etc/cards.conf
 }
 generate_grat-os_version() {
 local FILE
@@ -1182,7 +1182,7 @@ echo "
 *                                                  *
 * Check http://www.grat-os.fr/		   *
 *                                                  *
-* Make sure to review /etc/crads.conf              *
+* Make sure to review /etc/cards.conf              *
 * to meet your requirements in packages selection  *
 *                                                  *
 ****************************************************
@@ -1195,7 +1195,7 @@ check_variables() {
 if [ -z "$CHROOT_LIST" ]; then
 	CHROOT_LIST="grat-os acl attr bash bzip2 coreutils curl \
 expat gcc readline ncurses lzo glibc gmp xz zstd zlib \
-libarchive mpc mpfr openssl ca-certificates crads util-linux \
+libarchive mpc mpfr openssl ca-certificates cards util-linux \
 libtasn1 nettle gnutls p11-kit libffi kmod"
 fi
 
@@ -1362,18 +1362,18 @@ download_pkgadd() {
 
 		PKGADD="/bin/pkgadd"
 
-		getPackageFileName crads
+		getPackageFileName cards
 
 		if [ ! -f $TMP/$PKGADD ]; then
 			cd $TMP
 			PackageFileName=""
-			getPackageFileName crads
+			getPackageFileName cards
 			if [ "$PackageFileName" == "" ]; then
 				error "variable 'PackageFileName' is not set"
 			fi
-			download_pkg crads
-			echo "Extraction of crads ..."
-			bsdtar -xf $FOLDER/$DEPOT/$BASE/crads/${PackageFileName} || print_error_msg
+			download_pkg cards
+			echo "Extraction of cards ..."
+			bsdtar -xf $FOLDER/$DEPOT/$BASE/cards/${PackageFileName} || print_error_msg
 			echo_ok
 		fi
 	fi
@@ -1384,8 +1384,8 @@ check_mountfolder() {
 generate_setupfile() {
 echo "#!/bin/bash
 source /etc/profile
-crads sync
-crads install kbd pam \
+cards sync
+cards install kbd pam \
 shadow gdbm e2fsprogs \
 gzip binutils \
 diffutils file grep bc \
@@ -1395,7 +1395,7 @@ gettext procps-ng psmisc \
 sed sudo tzdata inetutils \
 iproute2 libelf iana-etc \
 less groff man-db \
-crads.fr crads.man grat-os.man \
+cards.fr cards.man grat-os.man \
 lvm2 libaio dialog cpio squashfs \
 lsb-release \
 $KERNEL \
@@ -1407,7 +1407,7 @@ chroot ${FOLDER} /usr/bin/env $LINUX_ARCH /bin/bash -c "$SETUP_FILE"
 unmountall
 }
 install_configuration_files() {
-	generate_crads_conf
+	generate_cards_conf
 	generate_pkgmk_conf
 	generate_fstab
 	generate_passwd

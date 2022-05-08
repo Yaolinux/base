@@ -37,7 +37,7 @@ _msgfmt() {
 	local L C
 	L=`echo ${1}|cut -d "_" -f1`
 	C=`echo ${1}|cut -d "_" -f2`
-	echo "group ${L}" >> ${CRADS}
+	echo "group ${L}" >> ${CARDS}
 	localedef -i ${1} -f UTF-8 ${1}.UTF-8
 	if [ -f /lib/services/setup-grat-os/setup-grat-os.${L} ]; then
 		mkdir -p $TEXTDOMAINDIR/${L}/LC_MESSAGES
@@ -620,7 +620,7 @@ fi
 REPLY=$(cat $TMP/language.check)
 break
 done
-sed -i "/group/d" /etc/crads.conf
+sed -i "/group/d" /etc/cards.conf
 case ${REPLY} in
  "United Arab Emirates")
 	_msgfmt ar_AE
@@ -1545,7 +1545,7 @@ install_grat-os() {
 	etc/systemd/network/* \
 	etc/hostname \
 	etc/adjtime \
-	etc/crads.conf \
+	etc/cards.conf \
 	etc/fstab \
 	etc/network \
 	etc/resolv.conf \
@@ -2579,7 +2579,7 @@ if [ ! -z "$IWCONFIG" ];then
 fi
 
 SETUP_LOG="setup-grat-os-log"
-CRADS="/etc/crads.conf"
+CARDS="/etc/cards.conf"
 XORGKB="/etc/X11/xorg.conf.d/20-keyboard.conf"
 WAYLKB="/etc/profile.d/keyboard.sh"
 CONSOLE="/etc/vconsole.conf"
