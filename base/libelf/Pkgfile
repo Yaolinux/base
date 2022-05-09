@@ -5,7 +5,7 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=libelf
-version=0.186
+version=0.187
 
 source=(https://sourceware.org/elfutils/ftp/${version}/elfutils-${version}.tar.bz2)
 
