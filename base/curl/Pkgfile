@@ -2,36 +2,35 @@ description="Utility for transferring files with URL syntax to many protocols"
 url="http://curl.haxx.se"
 
 packager="Grat-OS Team"
-maintainer="rems"
+maintainer="Grat-OS Team"
 
 makedepends=(gnutls zstd)
 
 name=curl
-version=7.82.0
+version=7.83.0
 
 source=(http://curl.haxx.se/download/$name-$version.tar.xz)
 
 PKGMK_GROUPS=(devel doc man)
 
 build() {
-cd $name-$version
+  cd $name-$version
 
-./configure --prefix=/usr \
-            --bindir=/bin  \
-            --with-ca-bundle=/etc/pki/tls/certs/ca-bundle.crt \
-            --enable-threaded-resolver \
-	    --without-ssl \
-	    --with-gnutls
+  ./configure --prefix=/usr \
+              --bindir=/bin  \
+              --with-ca-bundle=/etc/pki/tls/certs/ca-bundle.crt \
+              --enable-threaded-resolver \
+              --without-ssl \
+              --with-gnutls
 
-make
-make DESTDIR=$PKG install
+  make
+  make DESTDIR=$PKG install
 
-find docs \( -name Makefile\* \
-          -o -name \*.1       \
-          -o -name \*.3 \)    \
-          -exec rm {} \;
+  find docs \( -name Makefile\* \
+            -o -name \*.1       \
+            -o -name \*.3 \)    \
+            -exec rm {} \;
 
-install -v -d -m755 $PKG/usr/share/doc/curl-$version
-cp -v -R docs/* \
-$PKG/usr/share/doc/curl-$version
+  install -v -d -m755 $PKG/usr/share/doc/curl-$version
+  cp -v -R docs/* $PKG/usr/share/doc/curl-$version
 }
