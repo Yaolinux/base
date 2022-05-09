@@ -5,14 +5,14 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=iana-etc
-version=20220325
+version=20220504
 
 source=(https://github.com/Mic92/iana-etc/releases/download/$version/$name-$version.tar.gz)
 
 build() {
-cd iana-etc-$version
+  cd iana-etc-$version
 
-mkdir -pv $PKG/etc
+  mkdir -pv $PKG/etc
 
-cp services protocols $PKG/etc
+  cp services protocols $PKG/etc
 }
