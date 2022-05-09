@@ -10,9 +10,9 @@ version=1.10
 release=1
 
 source=(https://github.com/lfs-book/make-ca/releases/download/v$version/make-ca-$version.tar.xz
-	http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt
-	http://www.cacert.org/certs/root.crt
-        http://www.cacert.org/certs/class3.crt)
+  http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt
+  http://www.cacert.org/certs/root.crt
+  http://www.cacert.org/certs/class3.crt)
 
 build() {
 
