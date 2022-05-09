@@ -5,7 +5,7 @@ packager="Grat-OS Team"
 maintainer="rems"
 
 name=openssl
-version=1.1.1n
+version=1.1.1o
 
 source=(https://www.openssl.org/source/${name}-${version}.tar.gz)
 
