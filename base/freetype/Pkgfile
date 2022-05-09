@@ -6,7 +6,7 @@ packager="Grat-OS Team"
 makedepends=(libpng)
 
 name=freetype
-version=2.12.0
+version=2.12.1
 
 source=(https://downloads.sourceforge.net/freetype/$name-$version.tar.xz)
 
