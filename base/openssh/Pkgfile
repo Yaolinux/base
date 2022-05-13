@@ -1,13 +1,13 @@
 description="Free version of the SSH connectivity tools"
 url="http://www.openssh.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(libedit)
 
 name=openssh
-version=8.7p1
+version=9.0p1
 
 source=(http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz)
 

@@ -1,7 +1,7 @@
 description="The Kmod package contains libraries and utilities for loading kernel modules."
 url="http://www.kernel.org/pub/linux/kernel/people/rusty/modules"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 PKGMK_GROUPS=(devel doc man)
 

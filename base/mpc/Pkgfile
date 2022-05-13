@@ -1,7 +1,7 @@
 description="Library for the arithmetic of complex numbers with arbitrarily high precision."
 url="http://www.multiprecision.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=mpc

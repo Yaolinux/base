@@ -1,7 +1,7 @@
 description="Commands for Manipulating POSIX Access Control Lists."
 url="http://savannah.nongnu.org/projects/acl"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=acl
 version=2.3.1

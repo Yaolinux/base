@@ -3,88 +3,97 @@ makedepends=(python-jinja2)
 description="Init system to control boot, execution and halt of a linux system"
 url="http://www.freedesktop.org/wiki/Software/systemd/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=systemd
-version=249
+version=250
+release=2
+
+grat_os_version=1.0-RC1
 
 PKGMK_KEEP_SOURCES="no"
 PKGMK_IGNORE_RUNTIMEDEPS="yes"
 
 source=(https://github.com/systemd/systemd/archive/v$version/$name-$version.tar.gz
-        https://www.linuxfromscratch.org/patches/lfs/development/$name-$version-upstream_fixes-1.patch)
+  systemd-250-upstream_fixes-1.patch)
+
+prepare() {
+  cd $name-$version
+
+  patch -Np1 -i ../systemd-250-upstream_fixes-1.patch
+
+}
 
 build () {
-cd $name-$version
 
-patch -Np1 -i ../systemd-$version-upstream_fixes-1.patch
+  cd $name-$version
 
-sed -i -e 's/GROUP="render"/GROUP="video"/' \
-       -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
+  sed -i -e 's/GROUP="render"/GROUP="video"/' \
+        -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 
-[ -d /tools ] && \
-for file in /tools/lib/lib{blkid,mount,uuid}.so*; do
-    ln -svf $file /usr/lib/
-done
+  [ -d /tools ] && \
+  for file in /tools/lib/lib{blkid,mount,uuid}.so*; do
+      ln -svf $file /usr/lib/
+  done
 
-mkdir -pv ../build
-cd ../build
+  mkdir -pv ../build
+  cd ../build
 
-PKG_CONFIG_PATH="/usr/lib/pkgconfig:/tools/lib/pkgconfig" \
-LANG=en_US.UTF-8                   \
-CFLAGS+=" -Wno-format-overflow"     \
-meson --prefix=/usr                \
-      --sysconfdir=/etc            \
-      --localstatedir=/var         \
-      -Dblkid=true                 \
-      -Dbuildtype=release          \
-      -Ddefault-dnssec=no          \
-      -Dfirstboot=false            \
-      -Dinstall-tests=false        \
-      -Dldconfig=false             \
-      -Dmount-path=/bin/mount      \
-      -Dsulogin-path=/sbin/sulogin \
-      -Dumount-path=/bin/umount    \
-      -Dkmod-path=/bin/kmod        \
-      -Drootprefix=                \
-      -Drootlibdir=/lib            \
-      -Dsplit-usr=true             \
-      -Dsysusers=false             \
-      -Db_lto=false                \
-      -Dgnutls=false               \
-      -Dman=false                  \
-      -Dhtml=false                 \
-      -Drpmmacrosdir=no            \
-      -Dhomed=false                \
-      -Duserdb=false               \
-      -Dpamconfdir=/etc/pam.d      \
-      ../$name-$version
+  PKG_CONFIG_PATH="/usr/lib/pkgconfig:/tools/lib/pkgconfig" \
+  LANG=en_US.UTF-8                   \
+  CFLAGS+=" -Wno-format-overflow"     \
+  meson --prefix=/usr                \
+        --sysconfdir=/etc            \
+        --localstatedir=/var         \
+        -Dblkid=true                 \
+        -Dbuildtype=release          \
+        -Ddefault-dnssec=no          \
+        -Dfirstboot=false            \
+        -Dinstall-tests=false        \
+        -Dldconfig=false             \
+        -Dmount-path=/bin/mount      \
+        -Dsulogin-path=/sbin/sulogin \
+        -Dumount-path=/bin/umount    \
+        -Dkmod-path=/bin/kmod        \
+        -Drootprefix=                \
+        -Drootlibdir=/lib            \
+        -Dsplit-usr=true             \
+        -Dsysusers=false             \
+        -Db_lto=false                \
+        -Dgnutls=false               \
+        -Dman=false                  \
+        -Dhtml=false                 \
+        -Drpmmacrosdir=no            \
+        -Dhomed=false                \
+        -Duserdb=false               \
+        -Dpamconfdir=/etc/pam.d      \
+        ../$name-$version
 
-LANG="en_US.utf8" ninja
-DESTDIR=$PKG LANG="en_US.utf8" ninja install
+  LANG="en_US.utf8" ninja
+  DESTDIR=$PKG LANG="en_US.utf8" ninja install
 
-rm -fv /usr/bin/xsltproc
+  rm -fv /usr/bin/xsltproc
 
-# Disable service systemd-networkd
-#unlink $PKG/etc/systemd/system/dbus-org.freedesktop.network1.service
-#unlink $PKG/etc/systemd/system/multi-user.target.wants/systemd-networkd.service
-#unlink $PKG/etc/systemd/system/sockets.target.wants/systemd-networkd.socket
-#unlink $PKG/etc/systemd/system/network-online.target.wants/systemd-networkd-wait-online.service
+  # Disable service systemd-networkd
+  #unlink $PKG/etc/systemd/system/dbus-org.freedesktop.network1.service
+  #unlink $PKG/etc/systemd/system/multi-user.target.wants/systemd-networkd.service
+  #unlink $PKG/etc/systemd/system/sockets.target.wants/systemd-networkd.socket
+  #unlink $PKG/etc/systemd/system/network-online.target.wants/systemd-networkd-wait-online.service
 
-# Disable service systemd-resolved
-#unlink $PKG/etc/systemd/system/dbus-org.freedesktop.resolve1.service
-#unlink $PKG/etc/systemd/system/multi-user.target.wants/systemd-resolved.service
+  # Disable service systemd-resolved
+  #unlink $PKG/etc/systemd/system/dbus-org.freedesktop.resolve1.service
+  #unlink $PKG/etc/systemd/system/multi-user.target.wants/systemd-resolved.service
 
-rm -f $PKG/usr/lib/tmpfiles.d/systemd-nologin.conf
+  rm -f $PKG/usr/lib/tmpfiles.d/systemd-nologin.conf
 
-chmod 755 $PKG/lib/systemd/systemd-user-sessions
+  chmod 755 $PKG/lib/systemd/systemd-user-sessions
 
-rm $PKG/usr/lib/tmpfiles.d/home.conf
+  rm $PKG/usr/lib/tmpfiles.d/home.conf
 
-rm -f $PKG/usr/lib/sysctl.d/50-pid-max.conf
+  rm -f $PKG/usr/lib/sysctl.d/50-pid-max.conf
 
-cat > $PKG/etc/pam.d/systemd-user << "EOF"
+  cat > $PKG/etc/pam.d/systemd-user << "EOF"
 # Begin /etc/pam.d/systemd-user
 
 account  required pam_access.so
@@ -103,21 +112,22 @@ password required pam_deny.so
 # End /etc/pam.d/systemd-user
 EOF
 
-cat > $PKG/usr/lib/os-release <<EOF
+  cat > $PKG/usr/lib/os-release <<EOF
 # Begin /etc/os-release
 
-NAME=YaoLinuX
-VERSION=$yao_version
-ID=yaolinux
-VERSION_ID=$yao_version
-PRETTY_NAME="YaoLinuX $yao_version"
+NAME=Grat-OS
+VERSION=$grat_os_version
+ID=grat-os
+VERSION_ID=$grat_os_version
+PRETTY_NAME="Grat-OS $grat_os_version"
 ANSI_COLOR="0;34"
-CPE_NAME="cpe:/o:YaoLinuX_project:yaolinux:$yao_version"
-HOME_URL="http://www.yaolinux.org/"
-BUG_REPORT_URL="https://bugs.yaolinux.org"
+CPE_NAME="cpe:/o:Grat-OS_project:grat-os:$grat_os_version"
+HOME_URL="https://www.grat-os.fr/"
+BUG_REPORT_URL="https://code.grat-os.fr/Grat-OS/"
 
 # End /etc/os-release
 EOF
 
-if [ -d /tools ]; then rm -fv /usr/lib/lib{blkid,uuid,mount}.so*; fi
+  if [ -d /tools ]; then rm -fv /usr/lib/lib{blkid,uuid,mount}.so*; fi
+
 }

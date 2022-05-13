@@ -1,30 +1,27 @@
 description="Squashfs is a compressed read-only filesystem for Linux."
 url="http://squashfs.sourceforge.net/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(lz4 lzo xz zlib zstd)
 
 name=squashfs
-version=4.4
+version=4.5.1
 
 PKGMK_KEEP_SOURCE="no"
 
-source=(http://dania.on86.net/sources/development/$name-$version.tar.gz
-        http://dania.on86.net/sources/development/squashfs-tools-4.4-fno-common.patch)
+source=(https://github.com/plougher/${name}-tools/archive/refs/tags/${version}.tar.gz)
 
 build() {
-cd squashfs-tools-$version/squashfs-tools
+  cd ${name}-tools-$version/squashfs-tools
 
-patch -Np2 -i ../../squashfs-tools-4.4-fno-common.patch
+  make XZ_SUPPORT=1 \
+    LZO_SUPPORT=1 \
+    LZMA_XZ_SUPPORT=1 \
+    ZSTD_SUPPORT=1 \
+    LZA_SUPPORT=1 \
+    XATTR_SUPPORT=1
 
-make XZ_SUPPORT=1 \
-     LZO_SUPPORT=1 \
-     LZMA_XZ_SUPPORT=1 \
-     ZSTD_SUPPORT=1 \
-     LZA_SUPPORT=1 \
-     XATTR_SUPPORT=1
-
-make INSTALL_DIR=$PKG/bin install
+  make INSTALL_DIR=$PKG/bin install
 }

@@ -1,7 +1,7 @@
 description="A getaddrinfo/getnameinfo support module"
 url="http://search.cpan.org/dist/Socket6/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

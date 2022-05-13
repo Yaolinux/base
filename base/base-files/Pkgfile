@@ -1,0 +1,60 @@
+description="Base files for Grat-OS system"
+url="https://repo.grat-os.fr"
+
+packager="Grat-OS team"
+maintainer="Rems"
+
+name=base-files
+version=1.0-RC1
+
+source=(etc.bashrc
+        etc.rcsite
+        etc.udevretry
+        etc.createfiles
+        etc.modules
+        etc.mouse
+        etc.inputrc
+        etc.shells
+        etc.umask
+        etc.readline
+        etc.extrapaths
+        etc.dircolors
+        etc.profile
+        etc.group
+        etc.passwd
+        etc.fstab
+        skel.bashrc
+        skel.bashprofile)
+
+build() {
+
+  # Create primary folders
+  install -vdm755 $PKG/etc/{sysconfig,profile.d,skel}
+  install -vdm750 $PKG/root
+
+  #Move first files of Grat-Os in the correct places
+  mv etc.bashrc $PKG/etc/bashrc
+  mv etc.rcsite $PKG/etc/sysconfig/rc.site
+  mv etc.udevretry $PKG/etc/sysconfig/udev_retry
+  mv etc.createfiles $PKG/etc/sysconfig/createfiles
+  mv etc.modules $PKG/etc/sysconfig/modules
+  mv etc.mouse $PKG/etc/sysconfig/mouse
+  mv etc.inputrc $PKG/etc/inputrc
+  mv etc.shells $PKG/etc/shells
+  mv etc.umask $PKG/etc/profile.d/umask.sh
+  mv etc.readline $PKG/etc/profile.d/readline.sh
+  mv etc.extrapaths $PKG/etc/profile.d/extrapath.sh
+  mv etc.dircolors $PKG/etc/profile.d/dircolors.sh
+  mv etc.profile $PKG/etc/profile
+  mv etc.group $PKG/etc/group
+  mv etc.passwd $PKG/etc/passwd
+  mv etc.fstab $PKG/etc/fstab
+  
+  #Place files for user's skeleton
+  mv skel.bashrc $PKG/etc/skel/.bashrc
+  mv skel.bashprofile $PKG/etc/skel/.bash_profile
+  
+  # Copy files for very important root user in his home
+  cp $PKG/etc/skel/.bashrc $PKG/root/
+  cp $PKG/etc/skel/.bash_profile $PKG/root/
+}

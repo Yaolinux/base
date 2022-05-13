@@ -1,6 +1,6 @@
 # gettext initialization
 # 
-export TEXTDOMAIN='setup-nutyx'
+export TEXTDOMAIN='setup-grat-os'
 export TEXTDOMAINDIR='/etc/rc.d/init.d/locale'
 . gettext.sh
 

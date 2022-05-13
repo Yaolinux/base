@@ -1,26 +1,26 @@
-Yaolinux
+Grat-OS
 ======
 
-## Yaolinux, some ISOs are available here
+## Grat-OS, some ISOs are available here
 
 `http://yaolinux.mesfichiers.eu/Isos/`
 
-## Yaolinux, please following these commands to install the base
+## Grat-OS, please following these commands to install the base
 
-## on a normal Yaolinux in root
+## on a normal Grat-OS in root
 
 ```
 cards install cards.devel git
-wget https://raw.githubusercontent.com/YaoLinux/base-sysd/master/scripts/install-nutyx.in -O install-nutyx
+wget https://raw.githubusercontent.com/Grat-OS/base/master/scripts/install-grat-os.in -O install-grat-os
 ```
 
 ## You can continue
 ```
-chmod -v 755 install-nutyx
-mv -v install-nutyx /usr/bin/install-nutyx
+chmod -v 755 install-grat-os
+mv -v install-grat-os /usr/bin/install-grat-os
 ```
 
-## If you've already make the installation process, you have to remove the LFS user from the nutyx base by
+## If you've already make the installation process, you have to remove the LFS user from the Grat-OS base by
 ```
 userdel lfs
 rm -r /home/lfs
@@ -99,11 +99,11 @@ source ~/.bashrc
 
 ## You are in the LFS user, now continue the installation with
 ```
-git clone https://github.com/yaolinux/base-sysd.git development
+git clone https://code.grat-os.fr/Grat-OS/base development
 ```
 ### in case of development branch, you have to specify it
 ```
-git clone -b development https://github.com/yaolinux/base-sysd.git development
+git clone -b development https://code.grat-os.fr/Grat-OS/base development
 ```
 ```
 cd development
@@ -140,7 +140,7 @@ chown -R root:root $LFS
 install -dv -m0750  $LFS/root
 ln -sv development/scripts $LFS/root/bin
 mv /home/lfs/development $LFS/root/
-cd $LFS/root/development/base/yaolinux
+cd $LFS/root/development/base/grat-os
 ```
 
 ## make the first package
@@ -150,8 +150,8 @@ cd $LFS/root/development/base/yaolinux
 
 ## install it
 ```
-/tools/bin/pkgadd -r $LFS yaolinux1*
-/tools/bin/pkgadd -r $LFS yaolinux.man1*
+/tools/bin/pkgadd -r $LFS grat-os1*
+/tools/bin/pkgadd -r $LFS grat-os.man1*
 ```
 
 ## check if it's present
@@ -160,12 +160,12 @@ cd $LFS/root/development/base/yaolinux
 ```
 
 ## It's have to return 
-"(base) yaolinux 1.0-RC1-1... \
-(base) nutyx.man 1.0-RC1-1..."
+"(base) grat-os 1.0-RC1-1... \
+(base) grat-os.man 1.0-RC1-1..."
 
 ## make the configuration
 ```
-VERSION="development" install-nutyx -ic
+VERSION="development" install-grat-os -ic
 ```
 
 ## We mount the folders
@@ -206,7 +206,7 @@ chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" PS1='\u:\w\$ ' \
 ### Way 2
 
 ```
-install-nutyx -ec
+install-grat-os -ec
 ```
 
 ## Some "command not found" will appears, but not important here
@@ -256,7 +256,7 @@ pass
 ## After that use the "mybld" script to continue automated compilation, need to complete that
 ## Commit it later, no need to continue next commands
 
-## Now, follow few commands to configure your nutyx-systemd
+## Now, follow few commands to configure your grat-os-systemd
 `exit` \
 `echo $LFS`
 
@@ -283,20 +283,20 @@ set default=0 \
 set timeout=5 \
 insmod ext2 \
 set root=(hd0,2) \
-menuentry "GNU/Linux, NuTyX-systemd" { \
+menuentry "Grat-OS" { \
         linux   /boot/kernel root=/dev/sda2 ro \
 } \
 EOF
 
 ## make a /etc/hostname
-echo "nutyx-systemd" > /etc/hostname
+echo "grat-os-systemd" > /etc/hostname
 
 ## make a /etc/hosts like that if you have a network with DHCP
 cat > /etc/hosts << "EOF" \
 #Begin /etc/hosts \
 \
 127.0.0.1 localhost \
-127.0.1.1 nutyx-systemd.home nutyx-systemd \
+127.0.1.1 grat-os-systemd.home grat-os-systemd \
 ::1       localhost ip6-localhost ip6-loopback \
 ff02::1   ip6-allnodes \
 ff02::2   ip6-allrouters \
@@ -349,10 +349,10 @@ EOF
 
 ## make a /etc/os-release
 cat > /etc/os-release << "EOF" \
-NAME="Linux From Scratch" \
-VERSION="nutyx-systemd" \
+NAME="Grat-OS" \
+VERSION="grat-os" \
 ID=lfs \
-PRETTY_NAME="nutyx-systemd" \
+PRETTY_NAME="grat-os" \
 VERSION_CODENAME="<your name here>" \
 EOF 
 
@@ -369,4 +369,4 @@ and \
 unmount the filesystems \
 ```umount /mnt/lfs/{run,proc,sys,dev/pts,dev,}```
 
-## After that you will normally have to reboot on your new NuTyX-systemd and enjoy to start a build-collection
+## After that you will normally have to reboot on your new Grat-OS and enjoy to start a build-collection

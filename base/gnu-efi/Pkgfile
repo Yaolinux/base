@@ -1,0 +1,41 @@
+description="Develop EFI applications using the GNU toolchain and the EFI development environment"
+url="https://sourceforge.net/projects/gnu-efi/"
+
+packager="Grat-OS Team"
+maintainer="Dania"
+
+name=gnu-efi
+version=3.0.14
+
+source=(https://download.sourceforge.net/$name/$name-$version.tar.bz2
+        $name-3.0.12-ldflags.patch)
+
+prepare() {
+  cd $name-$version
+  # -Werror, not even once
+  sed -e 's/-Werror//g' -i Make.defaults
+  # insert LDFLFAGS into custom linker for apps
+  patch -Np1 -i "../$name-3.0.12-ldflags.patch"
+}
+
+build() {
+  cd $name-$version
+  # fat-lto-objects is required for non-mangled (static) object files
+  CFLAGS+=" -ffat-lto-objects"
+  make
+  make -C lib
+  make -C gnuefi
+  make -C inc
+  # unset LDFLAGS for custom linker used in apps, as we have patched our
+  # LDFLAGS in manually in prepare()
+  LDFLAGS=""
+  make -C apps
+}
+
+package() {
+  cd $name-$version
+  make INSTALLROOT="$PKG/" PREFIX='/usr' install
+  install -vDm 644 apps/*.efi -t $PKG/usr/share/$name/apps/$(uname -m)
+  install -vDm 644 README.efilib -t $PKG/usr/share/licenses/$name
+  install -vDm 644 {ChangeLog,README.{gnuefi,git,elilo}} -t $PKG/usr/share/doc/$name
+}

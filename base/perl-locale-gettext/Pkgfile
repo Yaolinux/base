@@ -1,7 +1,7 @@
 description="Permits access from Perl to the gettext() family of functions"
 url="http://search.cpan.org/dist/gettext/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(gettext perl)
 run=(perl)

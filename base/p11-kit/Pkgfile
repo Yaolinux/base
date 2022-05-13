@@ -1,13 +1,14 @@
 description="provides a way to load and enumerate PKCS11 modules"
 url=" https://github.com/p11-glue/p11-kit"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(libtasn1 libffi systemd)
 
 name=p11-kit
-version=0.24.0
+version=0.24.1
+release=2
 
 source=(https://github.com/p11-glue/p11-kit/releases/download/$version/p11-kit-$version.tar.xz)
 

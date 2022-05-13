@@ -1,7 +1,7 @@
 description="The popt libraries which are used by some programs to parse command-line options."
 url="http://freshmeat.net/projects/popt/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 PKGMK_GROUPS=(devel man doc)

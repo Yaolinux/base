@@ -1,7 +1,7 @@
 description="Tool to modify UEFI Firmware Boot Manager Variables"
 url="https://github.com/rhinstaller/efibootmgr"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(efivar pciutils dosfstools)
 run=(dosfstools)

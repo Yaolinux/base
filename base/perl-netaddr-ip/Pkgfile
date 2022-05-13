@@ -1,7 +1,7 @@
 description="Perl module to manage IP addresses and subnets"
 url="http://search.cpan.org/dist/NetAddr-IP/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

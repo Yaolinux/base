@@ -1,13 +1,13 @@
 description="Generates and rewritten exif info in the raw files"
 URL="http://search.cpan.org/~exiftool/Image-ExifTool/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)
 
 name=perl-image-exiftool
-version=12.30
+version=12.40
 
 source=(https://exiftool.org/Image-ExifTool-$version.tar.gz)
 

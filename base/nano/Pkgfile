@@ -1,0 +1,35 @@
+description="A simple text editor which aims to replace Pico, the default editor in the Pine package."
+url="http://www.nano-editor.org/"
+
+packager="Grat-OS Team"
+maintainer="rems"
+
+name=nano
+version=6.3
+release=1
+
+source=(http://www.nano-editor.org/dist/v${version:0:1}/$name-$version.tar.xz)
+
+build() {
+  cd $name-$version
+
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc/nano \
+              --enable-color \
+              --enable-utf8 \
+              --enable-multibuffer \
+              --docdir=/usr/share/doc/nano-$version \
+              --disable-x
+
+  make
+  make DESTDIR=$PKG install
+
+  install -DTm644 ../${name}-${version}/doc/sample.nanorc ${PKG}/etc/nano/nanorc
+
+  sed -i \
+    -e 's%# set tabsize 8%set tabsize 2%' \
+    -e 's%# set tabstospaces%set tabstospaces%' \
+    -e 's%# include "/usr/share/nano/\*.nanorc"%include "/usr/share/nano/\*.nanorc"%' \
+    ${PKG}/etc/nano/nanorc
+
+}

@@ -1,13 +1,13 @@
 description="File path utility"
 url="https://metacpan.org/pod/Path::Tiny"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=( perl )
 
 name=perl-path-tiny
-version=0.118
+version=0.122
 
 source=(https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-$version.tar.gz)
 

@@ -1,7 +1,7 @@
 description="Checks if the documentation of a module is comprehensive"
 url="http://search.cpan.org/dist/Pod-Coverage"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl-devel-symdump)
 run=(perl)

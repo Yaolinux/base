@@ -1,35 +1,64 @@
-description="The GRUB package contains the GRand Unified Bootloader."
+description="The GRUB package contains the GRand Unified Bootloader, EFI version"
 url="http://www.gnu.org/software/grub/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=grub
-version=2.04
-release=3
+version=2.06
+release=2
+
+makedepends=(efibootmgr efivar freetype)
+run=(efivar)
 
 source=(http://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
-	grub.cfg)
+        https://repo.grat-os.fr/files/unicode.pf2
+        grub.cfg)
 
 PKGMK_GROUPS=(man locale)
 
+unset CFLAGS
+unset CPPFLAGS
+unset CXXFLAGS
+unset LDFLAGS
+unset MAKEFLAGS
+
 build() {
-cd grub-$version
 
-sed "s/gold-version/& -R .note.gnu.property/" \
-    -i Makefile.in grub-core/Makefile.in
+  cp -a grub-$version grub-efi-$version
 
-./configure --prefix=/usr \
-	    --sysconfdir=/etc \
-	    --sbindir=/sbin \
-	    --disable-grub-emu-usb \
-	    --disable-efiemu \
-	    --infodir=/usr/share/info \
-	    --disable-werror
+  #grub
+  cd grub-$version
 
-make
-make DESTDIR=$PKG install
+  ./configure --prefix=/usr \
+        --sysconfdir=/etc \
+        --sbindir=/sbin \
+        --enable-grub-mkfont \
+        --disable-grub-emu-usb \
+        --enable-efiemu \
+        --infodir=/usr/share/info \
+        --disable-werror
 
-install -d $PKG/boot/grub
-install -Dm644 ../grub.cfg \
-$PKG/boot/grub/grub.cfg.exemple
+  make
+  make DESTDIR=$PKG install
+
+  install -d $PKG/boot/grub
+  install -Dm644 ../grub.cfg \
+  $PKG/boot/grub/grub.cfg.example
+
+
+  #grub-efi
+  cd $SRC/grub-efi-$version
+
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --sbindir=/sbin \
+              --disable-efiemu \
+              --with-platform=efi \
+              --disable-werror
+
+  make
+  make DESTDIR=$PKG install
+
+  cp ../unicode.pf2 $PKG/usr/share/grub/
+
 }

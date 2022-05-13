@@ -1,7 +1,7 @@
 description="Choose a variant to serve"
 url="http://search.cpan.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-http-message)
 run=(perl)

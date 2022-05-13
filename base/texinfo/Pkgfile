@@ -1,7 +1,7 @@
 description="Texinfo is the official documentation format of the GNU project."
 url="http://www.gnu.org/software/texinfo"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=texinfo

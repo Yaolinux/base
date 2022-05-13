@@ -1,39 +1,39 @@
 description="The Vim package contains a powerful text editor."
 url="http://www.vim.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=vim
-version=8.2.3340
+version=8.2.4827
 
 source=(https://github.com/vim/vim/archive/v$version/vim-$version.tar.gz)
 
 build() {
-cd $name-$version
+  cd $name-$version
 
-echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
+  echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 
-./configure --prefix=/usr \
-            --with-features=huge \
-            --with-tlib=ncursesw \
-            --enable-gui=no \
-            --with-x=no \
-            --disable-gpm
+  ./configure --prefix=/usr \
+              --with-features=huge \
+              --with-tlib=ncursesw \
+              --enable-gui=no \
+              --with-x=no \
+              --disable-gpm
 
-make
+  make
 
-mkdir -p $PKG/usr/share/locale
+  mkdir -p $PKG/usr/share/locale
 
-make DESTDIR=$PKG DEST_HELP=$PKG/usr/share/doc/vim-$version \
-LANGSUBLOC=/usr/share/locale install
+  make DESTDIR=$PKG DEST_HELP=$PKG/usr/share/doc/vim-$version \
+  LANGSUBLOC=/usr/share/locale install
 
-ln -sv vim $PKG/usr/bin/vi
-for L in $PKG/usr/share/man/{,*/}man1/vim.1; do
-        ln -sv vim.1 $(dirname $L)/vi.1
-done
+  ln -sv vim $PKG/usr/bin/vi
+  for L in $PKG/usr/share/man/{,*/}man1/vim.1; do
+    ln -sv vim.1 $(dirname $L)/vi.1
+  done
 
-ln -snfv ../vim/vim${version/./}/doc $PKG/usr/share/doc/vim-$version
+  ln -snfv ../vim/vim${version/./}/doc $PKG/usr/share/doc/vim-$version
 
-rm -rf $PKG/usr/share/applications
-rm -rf $PKG/usr/share/icons
+  rm -rf $PKG/usr/share/applications
+  rm -rf $PKG/usr/share/icons
 }

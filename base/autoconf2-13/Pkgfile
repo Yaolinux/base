@@ -1,7 +1,7 @@
 description="A GNU tool for automatically configuring source code (Legacy 2.1x version)"
 url="http://www.gnu.org/software/autoconf/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=autoconf2-13
 version=2.13

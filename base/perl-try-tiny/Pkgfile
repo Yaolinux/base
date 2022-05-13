@@ -1,13 +1,13 @@
 description="Minimal try/catch with proper localization of $@"
 url="http://search.cpan.org/dist/Try-Tiny/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=( perl )
 
 name=perl-try-tiny
-version=0.30
+version=0.31
 
 source=(http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/Try-Tiny-$version.tar.gz)
 

@@ -1,7 +1,7 @@
 description="unit testing framework for C"
 url="http://check.sourceforge.net/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=check

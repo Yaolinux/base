@@ -1,6 +1,6 @@
 binutils_pass1
 gcc_pass1
-linux-header
+kernel-headers
 glibc
 libstdc++
 binutils_pass2

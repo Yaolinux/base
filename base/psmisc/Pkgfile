@@ -1,7 +1,7 @@
 description="Set of some small useful utilities that use the proc filesystem."
 url="http://psmisc.sourceforge.net/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=psmisc

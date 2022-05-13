@@ -1,7 +1,7 @@
 description="The Bc package contains an arbitrary precision numeric processing language."
 url="http://ftp.gnu.org/gnu/bc/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=bc
 version=5.0.0

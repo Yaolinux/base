@@ -1,7 +1,7 @@
 description="The Groff package contains programs for processing and formatting text."
 url="http://www.gnu.org/software/groff/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=groff

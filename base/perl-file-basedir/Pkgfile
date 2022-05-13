@@ -1,7 +1,7 @@
 description="Use the Freedesktop.org base directory specification"
 url="http://search.cpan.org/dist/File-BaseDir/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl-ipc-system-simple perl-module-build)
 run=(perl  perl-ipc-system-simple)

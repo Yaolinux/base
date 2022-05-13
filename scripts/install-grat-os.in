@@ -1,0 +1,934 @@
+#!/usr/bin/env bash
+
+boot_mesg() {
+        local ECHOPARM=""
+
+        while true
+        do
+                case "${1}" in
+                        -n)
+                                ECHOPARM=" -n "
+                                shift 1
+                                ;;
+                        -*)
+                                echo "Unknown Option: ${1}"
+                                return 1
+                                ;;
+                        *)
+                                break
+                                ;;
+                esac
+        done
+
+        ## Figure out the length of what is to be printed to be used
+        ## for warning messages.
+        STRING_LENGTH=$((${#1} + 1))
+
+        # Print the message to the screen
+        ${ECHO} ${ECHOPARM} -e "${2}${1}"
+
+}
+boot_mesg_flush() {
+        # Reset STRING_LENGTH for next message
+        STRING_LENGTH="0"
+}
+echo_ok() {
+        ${ECHO} -n -e "${CURS_UP}${SET_COL}${BRACKET}[${SUCCESS}  OK  ${BRACKET}]"
+        ${ECHO} -e "${NORMAL}"
+        boot_mesg_flush
+}
+echo_info() {
+        ${ECHO} -n -e "${CURS_UP}${SET_COL}${BRACKET}[${INFO} INFO ${BRACKET}]"
+        ${ECHO} -e "${NORMAL}"
+        boot_mesg_flush
+}
+echo_failure() {
+        ${ECHO} -n -e "${CURS_UP}${SET_COL}${BRACKET}[${FAILURE} FAIL ${BRACKET}]"
+        ${ECHO} -e "${NORMAL}"
+        boot_mesg_flush
+}
+print_error_msg() {
+        echo_failure
+	ERREUR="yes"
+        # $i is inherited by the rc script
+        boot_mesg -n " FAILURE:\n\n You should not read this error.\n\n" ${FAILURE}
+        boot_mesg -n " It means something went wrong with the installation"
+        boot_mesg -n " of ${i} "
+        boot_mesg_flush
+        boot_mesg -n " Thanks to inform us"
+        boot_mesg -n " via the website http://www.grat-os.fr."
+        boot_mesg " Thanks again for your collaboration.\n"
+        boot_mesg_flush
+        boot_mesg -n "Press Enter to continue..." ${INFO}
+        boot_mesg "" ${NORMAL}
+        read ENTER
+        end
+	exit 1
+}
+#******************************************************************************
+# Function - unmountall
+#
+# Purpose:	unmount all the mounted disks and partitions
+#
+# Inputs:	$1 the full path of the Distro
+#
+# Outputs:	Standard Output
+#
+# Dependencies: chroot
+#
+#******************************************************************************
+unmountall() {
+if [ -d "$DEPOT_CD/depot" ]; then
+	umount ${FOLDER}/${DEPOT}
+	umount  $(cat /tmp/depot)
+fi
+[ ! -z $MOUNT ] && umount ${FOLDER}/${DEPOT}
+umount ${FOLDER}/run
+umount ${FOLDER}/dev/shm
+umount ${FOLDER}/dev/pts
+umount ${FOLDER}/dev
+umount ${FOLDER}/proc
+umount ${FOLDER}/sys
+}
+#******************************************************************************
+# Function - setup_chroot
+#
+# Purpose:	Enter the Grat-OS Distribution
+#
+# Inputs:	$1 the full path of the Distro
+#
+# Outputs:	Standard Output
+#
+# Dependencies: chroot
+#
+#******************************************************************************
+setup_chroot() {
+cp /etc/resolv.conf ${FOLDER}/etc/resolv.conf
+mount --bind /dev ${FOLDER}/dev
+mount -t devpts devpts ${FOLDER}/dev/pts
+mount -t proc proc ${FOLDER}/proc
+mount -t sysfs sysfs ${FOLDER}/sys
+mount -t tmpfs tmpfs ${FOLDER}/run
+mount -t tmpfs tmpfs ${FOLDER}/dev/shm
+
+if [ -h ${FOLDER}/dev/shm ]; then
+   mkdir -p ${FOLDER}/$(readlink ${FOLDER}/dev/shm)
+fi
+}
+enter_chroot() {
+echo "
+******************************
+Chroot path: $DEVICE
+******************************"
+chroot ${FOLDER} /usr/bin/env -i \
+HOME=/root \
+EUID=0 \
+TERM="$TERM" \
+PS1='\u:\w\$ ' \
+$LINUX_ARCH \
+/bin/bash --login
+}
+#******************************************************************************
+# Function - download_pkg()
+#
+# Purpose:      Download the selected package
+#
+# Inputs:       $1 is the package
+#
+# Dependencies: - curl
+#
+# Todo:
+#******************************************************************************
+download_pkg() {
+	getPackageFileName ${1}
+	if [ ! -f $FOLDER/$DEPOT/$BASE/${1}/$PackageFileName ]; then
+		boot_mesg "Downloading $1..."
+		echo_info
+		curl -LC - -# --create-dirs \
+		${DEPOT_BASE}/${1}/$PackageFileName -o $FOLDER/$DEPOT/$BASE/${1}/$PackageFileName || \
+		error "Cannot download ${DEPOT_BASE}/${1}/$PackageFileName ..., check URL"
+		chmod -R 755 $FOLDER/$DEPOT
+		echo_ok
+	fi
+}
+#******************************************************************************
+# Function - install_pkg()
+#
+# Purpose:      Install the selected package
+#
+# Inputs:       $1 is the package
+#               $2 is the group
+#		$3 Option to install, normally nothing except for grub
+# Outputs:      Standard Output
+#
+# Dependencies: - boot_mesg
+#               - pkgadd
+# Todo:
+#******************************************************************************
+install_pkg() {
+	getPackageFileName ${1}
+	if $TMP/$(dirname $PKGADD)/pkginfo -r $FOLDER -i| grep "^$1 " > /dev/null; then
+		boot_mesg "$1 is already install on $DEVICE..."
+		echo_info
+	fi
+	if [ -f $FOLDER/$DEPOT/$BASE/${1}/$PackageFileName ]; then
+		# Installing the package
+		$TMP/$PKGADD -r $FOLDER -i $FOLDER/$DEPOT/$BASE/${1}/$PackageFileName || print_error_msg
+		rm -f $FOLDER/.{PRE,POST,README}
+		echo_ok
+	else
+		error "$PackageFileName not found"
+	fi
+}
+error() {
+	echo ""
+	echo " $1"
+	echo ""
+	ERREUR="yes"
+	end
+	exit 1
+}
+end() {
+	if [ "$ERREUR" == "yes" ]; then
+		if [ ! -f $TMP/depot ]; then
+			umount ${FOLDER}/${DEPOT} || rm -r ${FOLDER}/${DEPOT}
+			boot_mesg "Cleaning up temporary files.."
+			boot_mesg "Please correct and start again"
+		fi
+	fi
+	cd ~
+	unmountall $FOLDER > /dev/null 2>&1
+
+	rm -rf $TMP
+}
+#******************************************************************************
+# Function getPackageFileName
+# 
+# Purpose:	Get the fullname of the package
+#		directory
+# Inputs:	$1 is the package name
+#
+# Dependencies: - curl
+#
+# Output:       PackageFileName= cpio1414074943i686.cards.tar.xz
+#
+#******************************************************************************
+getPackageFileName() {
+	local BUILD_DATE EXT HEAD
+	if [ ! -f $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO ]; then
+		if ! ($(which curl > /dev/null)); then
+			error " Command 'curl' not found, please install curl programm"
+		fi
+		curl -LC - -sS --create-dirs \
+		${DEPOT_BASE}/${1}/.PKGREPO -o $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO || \
+		error "Cannot download ${DEPOT_BASE}/${1}/.PKGREPO ..., check URL"
+		chmod -R 755 $FOLDER/$DEPOT
+	fi
+	if [ $(wc -l $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO|cut -d " " -f1) -eq 0 ]; then
+		error "${DEPOT_BASE}/${1} not reacheable.."
+	fi
+	HEAD=$(head -1 $FOLDER/$DEPOT/$BASE/${1}/.PKGREPO)
+	if [ "${HEAD:10:1}" == "#" ]; then
+		BUILD_DATE="$(echo $HEAD|cut -d "#" -f1)"
+		EXT="$(echo $HEAD|cut -d "#" -f2)"
+		PackageFileName="${1}${BUILD_DATE}${ARCH}${EXT}"
+	fi
+}
+
+download_base() {
+for i in $CHROOT_LIST
+do
+        download_pkg "$i"
+done
+}
+install_base() {
+for i in $CHROOT_LIST
+do 
+	install_pkg "$i"
+done
+}
+generate_etc_bashrc() {
+local FILE
+FILE="bashrc"
+[ -f ${FOLDER}/etc/$FILE ] && return
+[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+  ${FOLDER}/etc/$FILE
+  return
+fi
+}
+
+generate_rc_site() {
+local FILE
+FILE="rc.site"
+[ -f ${FOLDER}/etc/sysconfig/$FILE ] && return
+[ ! -d ${FOLDER}/etc/sysconfig ] && mkdir -pv ${FOLDER}/etc/sysconfig
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+  ${FOLDER}/etc/sysconfig/$FILE
+  return
+fi
+}
+
+generate_udev_retry() {
+local FILE
+FILE="udev_retry"
+[ -f ${FOLDER}/etc/sysconfig/$FILE ] && return
+[ ! -d ${FOLDER}/etc/sysconfig ] && mkdir -pv ${FOLDER}/etc/sysconfig
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/sysconfig/$FILE \
+   ${FOLDER}/etc/sysconfig/$FILE
+   return
+fi
+}
+
+generate_createfiles() {
+local FILE
+FILE="createfiles"
+[ -f ${FOLDER}/etc/sysconfig/$FILE ] && return
+[ ! -d ${FOLDER}/etc/sysconfig ] && mkdir -pv ${FOLDER}/etc/sysconfig
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/sysconfig/$FILE
+   return
+fi
+}
+
+generate_modules() {
+local FILE
+FILE="modules"
+[ -f ${FOLDER}/etc/sysconfig/$FILE ] && return
+[ ! -d ${FOLDER}/etc/sysconfig ] && mkdir -pv ${FOLDER}/etc/sysconfig
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/sysconfig/$FILE
+   return
+fi
+}
+
+generate_mouse() {
+local FILE
+FILE="mouse"
+[ -f ${FOLDER}/etc/$FILE ] && return
+[ ! -d ${FOLDER}/etc/sysconfig ] && mkdir -pv ${FOLDER}/etc/sysconfig
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/sysconfig/$FILE
+   return
+fi
+}
+
+generate_inputrc() {
+local FILE
+FILE="inputrc"
+[ -f ${FOLDER}/etc/$FILE ] && return
+[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/$FILE
+   return
+fi
+}
+
+generate_shells() {
+local FILE
+FILE="shells"
+[ -f ${FOLDER}/etc/$FILE ] && return
+[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+  cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+  ${FOLDER}/etc/$FILE
+  return
+fi
+}
+
+generate_umask_sh() {
+local FILE
+FILE="umask.sh"
+[ -f ${FOLDER}/etc/profile.d/$FILE ] && return
+[ ! -d ${FOLDER}/etc/profile.d ] && mkdir -pv ${FOLDER}/etc/profile.d
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/profile.d/$FILE
+   return
+fi
+}
+
+generate_readline_sh() {
+local FILE
+FILE="readline.sh"
+[ -f ${FOLDER}/etc/profile.d/$FILE ] && return
+[ ! -d ${FOLDER}/etc/profile.d ] && mkdir -pv ${FOLDER}/etc/profile.d
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/profile.d/$FILE
+   return
+fi
+}
+
+generate_extrapaths_sh() {
+local FILE
+FILE="extrapaths.sh"
+[ -f ${FOLDER}/etc/profile.d/$FILE ] && return
+[ ! -d ${FOLDER}/etc/profile.d ] && mkdir -pv ${FOLDER}/etc/profile.d
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/profile.d/$FILE
+   return
+fi
+}
+
+generate_dircolors_sh() {
+local FILE
+FILE="dircolors.sh"
+[ -f ${FOLDER}/etc/profile.d/$FILE ] && return
+[ ! -d ${FOLDER}/etc/profile.d ] && mkdir -pv ${FOLDER}/etc/profile.d
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/profile.d/$FILE
+   return
+fi
+}
+
+generate_profile() {
+local FILE
+FILE="profile"
+[ -f ${FOLDER}/etc/$FILE ] && return
+[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/$FILE
+   return
+fi
+}
+
+generate_group() {
+[ -f ${FOLDER}/etc/group ] && return
+[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+}
+
+generate_passwd() {
+[ -f ${FOLDER}/etc/passwd ] && return
+[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+}
+
+generate_fstab() {
+local FILE
+FILE="fstab"
+[ -f ${FOLDER}/etc/$FILE ] && return
+[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/$FILE
+   return
+fi
+}
+
+generate_bashrc() {
+local FILE
+FILE=".bashrc"
+[ -f ${FOLDER}/etc/skel/$FILE ] && return
+[ ! -d ${FOLDER}/etc/skel ] && mkdir -pv ${FOLDER}/etc/skel
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/skel/$FILE
+   return
+fi
+[ -f ${FOLDER}/root/$FILE ] && return
+[ ! -d ${FOLDER}/root ] && install -dv -m0750 ${FOLDER}/root
+cp -v ${FOLDER}/etc/skel/$FILE \
+${FOLDER}/root
+}
+
+generate_bash_profile() {
+local FILE
+FILE=".bash_profile"
+[ -f ${FOLDER}/etc/skel/$FILE ] && return
+[ ! -d ${FOLDER}/etc/skel ] && mkdir -pv ${FOLDER}/etc/skel
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/skel/$FILE
+   return
+fi
+[ ! -d ${FOLDER}/root ] && install -dv -m0750 ${FOLDER}/root
+[ -f ${FOLDER}/root/$FILE ] && return
+cp -v ${FOLDER}/etc/skel/$FILE \
+${FOLDER}/root
+}
+
+generate_pkgmk_conf() {
+local FILE
+FILE="pkgmk.conf"
+[ -f ${FOLDER}/etc/$FILE ] && return
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+  [ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+  cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+  ${FOLDER}/etc/$FILE
+fi
+}
+
+generate_cards_conf() {
+local FILE
+FILE="cards.conf"
+[ -f ${FOLDER}/etc/$FILE ] && return
+[ ! -d ${FOLDER}/etc ] && mkdir -pv ${FOLDER}/etc
+if [ -f /etc/${INSTALL_COMMAND}.conf.d/$FILE ]; then
+   cp /etc/${INSTALL_COMMAND}.conf.d/$FILE \
+   ${FOLDER}/etc/$FILE
+   return
+fi
+
+echo "
+# Default server URL
+url ${URL}
+#
+## For nos
+# Comment following line
+# If you don't want to install Non Open source/Not compiled packages
+#
+dir ${DEPOT}/nos
+#
+## For lxde
+# Comment following 2 lines
+# if you don't want to install lxde
+#
+dir ${DEPOT}/lxde-extra
+dir ${DEPOT}/lxde
+#
+## For Gnome
+# Comment following 2 lines
+# if you don't want to install gnome
+#
+dir ${DEPOT}/gnome-desktops-extra
+dir ${DEPOT}/gnome-desktops
+#
+## For mate
+# Comment following 2 lines
+# if you don't want to install mate
+#
+dir ${DEPOT}/mate-extra
+dir ${DEPOT}/mate
+#
+## For kde5
+# Comment following 2 lines
+# if you don't want to install kde5
+#
+dir ${DEPOT}/kde5-desktops-extra
+dir ${DEPOT}/kde5-desktops
+#
+## For xfce4
+# Comment following 2 lines
+# if you don't want to install xfce4
+#
+dir ${DEPOT}/xfce4-extra
+dir ${DEPOT}/xfce4
+#
+#
+## Normally everything under this line
+# are needed stuffs
+#
+## For all the graphical applications
+dir ${DEPOT}/gui-extra
+#
+## For a minimal graphical interface
+dir ${DEPOT}/gui
+#
+## For all the console applications
+dir ${DEPOT}/cli-extra
+#
+## For a minimal console interface
+dir ${DEPOT}/cli
+#
+## Chroot system without reboot possibilities for a chroot
+dir ${DEPOT}/base
+#
+## Normaly you want to keep base and
+base ${DEPOT}/base
+#
+#
+## If you want to keep more collections remove comments below
+# Adjust to your needs
+#
+# base ${DEPOT}/cli
+# base ${DEPOT}/cli-extra
+# base ${DEPOT}/gui
+# base ${DEPOT}/gui-extra
+# base ${DEPOT}/..." > ${FOLDER}/etc/cards.conf
+}
+generate_grat-os_version() {
+local FILE
+FILE="grat-os-version"
+[ -f ${FOLDER}/var/lib/pkg/$FILE ] && return
+[ ! -d ${FOLDER}/var/lib/pkg ] && mkdir -pv ${FOLDER}/var/lib/pkg
+echo "name ${CODE_NAME}
+version $VERSION" > ${FOLDER}/var/lib/pkg/$FILE
+}
+generate_lsb() {
+echo "DISTRIB_ID=\"Grat-OS\"
+DISTRIB_DESCRIPTION=\"Grat-OS GNU/Linux\"
+DISTRIB_CODENAME=\"${CODE_NAME}\"
+DISTRIB_RELEASE=\"$VERSION\"
+LSB_VERSION=\"1.4-1\"" > ${FOLDER}/etc/lsb-release
+}
+install_resolv_conf() {
+[ -f /etc/resolv.conf ] && cp /etc/resolv.conf ${FOLDER}/etc
+}
+successfull_installation () {
+echo "
+****************************************************
+      Installation of Grat-OS $VERSION installed
+      in $LFS sucessfully
+****************************************************
+
+****************************************************
+* Thanks for installing Grat-OS                   *
+*                                                  *
+* Check http://www.grat-os.fr/		   *
+*                                                  *
+* Make sure to review /etc/cards.conf              *
+* to meet your requirements in packages selection  *
+*                                                  *
+****************************************************
+"
+}
+check_root() {
+[ "$UID" != "0" ] && error " You are not root, cannot continue"
+}
+check_variables() {
+if [ -z "$CHROOT_LIST" ]; then
+	CHROOT_LIST="base-files grat-os acl attr bash bzip2 coreutils curl \
+expat gcc readline ncurses lzo glibc gmp xz zstd zlib \
+libarchive mpc mpfr openssl ca-certificates cards util-linux \
+libtasn1 nettle gnutls p11-kit libffi kmod"
+fi
+
+[ -z "$URL" ] && URL="http://repo.grat-os.fr"
+
+[ -z "$VERSION" ] && VERSION="1.0-RC1"
+
+if [ "$VERSION" == "development" ]; then
+	CODE_NAME="$(date +%Y%m%d)"
+	INIT="sysd"
+else
+	CODE_NAME="EternalRolling"
+fi
+
+[ -z "$DEPOT" ] && DEPOT="/var/lib/pkg/depot"
+[ -z "$FOLDER" ] && FOLDER="/mnt/hd"
+
+[ -z $INIT ] && INIT="sysd"
+[ "$INIT" = "sysv" ] && INIT="eudev sysklogd sysvinit"
+[ "$INIT" = "sysd" ] && INIT="systemd dbus"
+
+if [ -z "$KERNEL" ]; then
+   if [ "$ARCH" = "i686" -a "$HOST_ARCH" = "x86_64" ]; then
+      KERNEL=$INIT
+   else
+      KERNEL="linux-firmware $INIT reiserfsprogs nano \
+grub lz4 mdadm jfsutils xfsprogs btrfs-progs dhcpcd kernel-lts"
+   fi
+fi
+[ "$KERNEL" == "NONE" ] && KERNEL=""
+[ "$KERNEL" == "none" ] && KERNEL=""
+
+[ -z $LFS ] && LFS=$FOLDER
+
+HOMEPAGE="${URL}"                      ## http://repo.grat-os.fr
+INSTALL_BASE="$ARCH/$VERSION"          ## x86_64/1.0-RCx
+DEPOT_ROOT="$HOMEPAGE/${INSTALL_BASE}" ## http://repo.grat-os.fr/x86_64/1.0-RCx
+DEPOT_BASE="$DEPOT_ROOT/$BASE"         ## http://repo.grat-os.fr/x86_64/1.0-RCx/base
+
+LOCAL_DEPOT_PACKAGES="$DEPOT/$BASE"
+DEPOT_CD="/media/cdrom"
+
+SETUP_FILE=/tmp/setup
+
+}
+config() {
+HOST_ARCH=$(uname -m)
+[ -z "$ARCH" ] && ARCH=$(uname -m)
+[ "$ARCH" = "i686" -a "$HOST_ARCH" = "x86_64" ] && LINUX_ARCH="linux32" || LINUX_ARCH=""
+
+# Number of seconds between STOPSIG and FALLBACK when stopping processes
+KILLDELAY="3"
+
+## Screen Dimensions
+# Find current screen size
+
+if [ -z "${COLUMNS}" ]; then
+        COLUMNS=$(stty size)
+        COLUMNS=${COLUMNS##* }
+fi
+
+# When using remote connections, such as a serial port, stty size returns 0
+if [ "${COLUMNS}" = "0" ]; then
+        COLUMNS=80
+fi
+
+## Measurements for positioning result messages
+COL=$((${COLUMNS} - 8))
+WCOL=$((${COL} - 2))
+
+## Provide an echo that supports -e and -n
+# If formatting is needed, $ECHO should be used
+case "$(echo -e -n test)" in
+        -[en]*)
+                ECHO=/bin/echo
+                ;;
+        *)
+                ECHO=echo
+                ;;
+esac
+
+## Set Cursor Position Commands, used via $ECHO
+SET_COL="\\033[${COL}G"      # at the $COL char
+SET_WCOL="\\033[${WCOL}G"    # at the $WCOL char
+CURS_UP="\\033[1A\\033[0G"   # Up one line, at the 0'th char
+
+## Set color commands, used via $ECHO
+# Please consult `man console_codes for more information
+# under the "ECMA-48 Set Graphics Rendition" section
+#
+# Warning: when switching from a 8bit to a 9bit font,
+# the linux console will reinterpret the bold (1;) to
+# the top 256 glyphs of the 9bit font.  This does
+# not affect framebuffer consoles
+NORMAL="\\033[0;39m"         # Standard console grey
+SUCCESS="\\033[1;32m"        # Success is green
+WARNING="\\033[1;33m"        # Warnings are yellow
+FAILURE="\\033[1;31m"        # Failures are red
+INFO="\\033[1;36m"           # Information is light cyan
+BRACKET="\\033[1;34m"        # Brackets are blue
+
+STRING_LENGTH="0"   # the length of the current message
+}
+check_lfs() {
+# LFS is set ?
+if [ ! -z "${LFS}" ]; then
+        DEVICE=${LFS}
+	FOLDER=${LFS}
+else
+
+        DEVICE=${FOLDER}
+fi
+}
+check_mountpoint() {
+[ -z $FOLDER ] && error "Variable FOLDER not define"
+}
+mount_depot() {
+if [ ! -z $MOUNT ]; then
+	mkdir -p $FOLDER/$DEPOT
+	mount --bind $MOUNT  $FOLDER/$DEPOT || error "cannot mount $MOUNT on $FOLDER/$DEPOT"
+fi
+}
+check_arch() {
+if [ "$ARCH" != "x86_64" ] && [ "$ARCH" != "i686" ] && [ "$ARCH" != "aarch64" ]; then
+        boot_mesg "
+ >>> This arch ($ARCH) is not supported"
+	echo_failure
+	exit 1
+fi
+}
+create_database() {
+[ ! -d ${FOLDER}/var/lib/pkg/DB ] && mkdir -p ${FOLDER}/var/lib/pkg/DB
+}
+create_locale_link() {
+[ ! -d ${FOLDER}/etc/locale ] && mkdir -p ${FOLDER}/etc/locale
+if [ -d ${FOLDER}/usr/lib/locale ]; then
+   rm -r ${FOLDER}/usr/lib/locale
+   ln -sv /etc/locale/ ${FOLDER}/usr/lib/locale
+fi
+}
+make_directories() {
+mkdir ${FOLDER}/{dev,sys,proc,run,tmp,srv,mnt}
+mkdir -p ${FOLDER}/var/tmp
+mkdir -p ${FOLDER}/usr/{,local/}lib
+
+chmod 1777 ${FOLDER}/{,var/}tmp
+
+mkdir -v ${FOLDER}/var/{mail,spool}
+mkdir -pv ${FOLDER}/var/run/lock
+
+mknod -m 600 ${FOLDER}/dev/console c 5 1
+mknod -m 666 ${FOLDER}/dev/null c 1 3
+}
+download_pkgadd() {
+	PKGADD="$(which pkgadd)"
+	if [ "$PKGADD" != "" ];then
+		mkdir -p $TMP/$(dirname $PKGADD)
+		cp  $PKGADD $TMP/$(dirname $PKGADD)/
+		ln -s $TMP/$(dirname $PKGADD)/pkgadd  $TMP/$(dirname $PKGADD)/pkginfo
+	else
+		if ! ($(which bsdtar > /dev/null)); then
+			error " Command 'bsdtar' not found, please install libarchive"
+		fi
+
+		PKGADD="/bin/pkgadd"
+
+		getPackageFileName cards
+
+		if [ ! -f $TMP/$PKGADD ]; then
+			cd $TMP
+			PackageFileName=""
+			getPackageFileName cards
+			if [ "$PackageFileName" == "" ]; then
+				error "variable 'PackageFileName' is not set"
+			fi
+			download_pkg cards
+			echo "Extraction of cards ..."
+			bsdtar -xf $FOLDER/$DEPOT/$BASE/cards/${PackageFileName} || print_error_msg
+			echo_ok
+		fi
+	fi
+}
+check_mountfolder() {
+	[ ! -d $FOLDER ] && mkdir -p $FOLDER
+}
+generate_setupfile() {
+echo "#!/bin/bash
+source /etc/profile
+cards sync
+cards install kbd pam \
+shadow gdbm e2fsprogs \
+gzip binutils \
+diffutils file grep bc \
+libpipeline \
+findutils flex libcap \
+gettext procps-ng psmisc \
+sed sudo tzdata inetutils \
+iproute2 libelf iana-etc \
+less groff man-db \
+cards.fr cards.man grat-os.man \
+lvm2 libaio dialog cpio squashfs \
+lsb-release \
+$KERNEL \
+$DEVEL
+exit" > $FOLDER/$SETUP_FILE
+chmod 177 $FOLDER/$SETUP_FILE
+setup_chroot
+chroot ${FOLDER} /usr/bin/env $LINUX_ARCH /bin/bash -c "$SETUP_FILE"
+unmountall
+}
+install_configuration_files() {
+	generate_cards_conf
+	generate_pkgmk_conf
+	generate_fstab
+	generate_passwd
+	generate_group
+	generate_bash_profile
+	generate_bashrc
+	generate_inputrc
+	generate_shells
+	generate_dircolors_sh
+	generate_extrapaths_sh
+	generate_readline_sh
+	generate_umask_sh
+	generate_profile
+	generate_inputrc
+	generate_modules
+	generate_createfiles
+	generate_mouse
+	generate_udev_retry
+	generate_rc_site
+	generate_etc_bashrc
+	generate_lsb
+	generate_grat-os_version
+}
+print_help() {
+	echo "
+usage: $(basename ${INSTALL_COMMAND}) [options]
+options
+
+  -ec,  --enter-chroot    will enter in the chroot if exist
+  -ic,  --install-config  will install all the configuration files only
+   -h,  --help            print help and exit
+   -v,  --version         print the version and exit
+"
+
+}
+
+parse_options() {
+	while [ "$1" ]; do
+		case $1 in
+			-h|--help)
+				print_help
+				exit 0;;
+			-ec|--enter-chroot)
+				check_lfs "$@"
+				check_root
+				setup_chroot
+				enter_chroot
+				unmountall
+				exit 0;;
+			-ic|--install-config)
+				check_variables
+				check_lfs "$@"
+				check_root
+				check_mountfolder
+				check_mountpoint
+				make_directories
+				create_locale_link
+				install_configuration_files
+				exit 0;;
+			-v|--version)
+				echo "$(basename $INSTALL_COMMAND) $VERSION-$RELEASE"
+				exit 0;;
+			/*)
+				boot_mesg "
+ >>> Do not use arguments anymore ...
+"
+				exit 1;;
+			*)
+				echo "$(basename $0): invalid option $1"
+				exit 1 ;;
+		esac
+		shift
+	done
+}
+main() {
+	config
+	if [ -f /etc/$(basename $INSTALL_COMMAND).conf ]; then
+		source /etc/$(basename $INSTALL_COMMAND).conf
+	fi
+	check_variables  "$@"
+	parse_options "$@"
+	check_arch
+	check_lfs "$@"
+	mount_depot
+
+	echo "LFS        : $LFS
+DEVICE     : $DEVICE
+URL        : $URL
+VERSION    : $VERSION
+KERNEL     : $KERNEL
+DEPOT      : $DEPOT
+MOUNT      : $MOUNT
+FOLDER     : $FOLDER
+DEPOT_BASE : $DEPOT_BASE
+DEVEL      : $DEVEL
+CHROOT_LIST: $CHROOT_LIST"
+	check_root
+	TMP=$(mktemp -d)
+	check_mountfolder
+	check_mountpoint
+
+	download_pkgadd
+	create_database
+	download_base
+	install_base
+
+	create_locale_link
+
+	make_directories
+	install_configuration_files
+	install_resolv_conf
+	generate_setupfile
+	end
+	successfull_installation
+}
+
+readonly BASE="base"
+readonly RELEASE=1
+INSTALL_COMMAND="$(basename $0)"
+main "$@"

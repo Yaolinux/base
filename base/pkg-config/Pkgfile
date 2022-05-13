@@ -1,7 +1,7 @@
 description="A system for managing library compile/link flags."
 url="http://pkgconfig.freedesktop.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 PKGMK_GROUPS=(man doc)

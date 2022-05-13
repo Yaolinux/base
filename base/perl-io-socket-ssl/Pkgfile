@@ -1,13 +1,13 @@
 description="Nearly transparent SSL encapsulation for IO::Socket::INET"
 url="http://search.cpan.org/dist/IO-Socket-SSL/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-net-ssleay perl-uri)
 run=(perl)
 
 name=perl-io-socket-ssl
-version=2.072
+version=2.074
 
 source=(http://www.cpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-$version.tar.gz)
 

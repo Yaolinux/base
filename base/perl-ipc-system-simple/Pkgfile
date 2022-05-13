@@ -1,7 +1,7 @@
 description="Run commands simply, with detailed diagnostics"
 url="http://search.cpan.org/dist/IPC-System-Simple"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

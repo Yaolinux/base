@@ -1,7 +1,7 @@
 description="A Post-Processor for SGMLS and NSGMLS"
 url="http://search.cpan.org/dist/SGMLSpm"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

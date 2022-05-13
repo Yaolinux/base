@@ -1,18 +1,16 @@
 description="The GDBM package contains the GNU Database Manager."
 url="http://www.gnu.org/software/gdbm/gdbm.html"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=gdbm
-version=1.20
+version=1.23
 
 source=(http://ftp.gnu.org/gnu/gdbm/gdbm-$version.tar.gz)
 
 build() {
 cd gdbm-$version
-
-sed -r -i '/^char.*parseopt_program_(doc|args)/d' src/parseopt.c
 
 ./configure --prefix=/usr \
             --disable-static \

@@ -1,0 +1,23 @@
+description="userspace RCU (read-copy-update) library."
+url="https://lttng.org/urcu"
+
+packager="Grat-OS Team"
+
+name=liburcu
+version=0.13.1
+
+source=( https://lttng.org/files/urcu/userspace-rcu-$version.tar.bz2)
+
+build() {
+
+  cd userspace-rcu-$version
+
+  ./configure --prefix=/usr \
+    --mandir=/usr/share/man \
+    --infodir=/usr/share/info \
+    --disable-static
+
+  make
+
+  make DESTDIR=$PKG install
+}

@@ -1,7 +1,7 @@
 description="Provides informations about LSB status (Linux Standards Base) of the distribution."
 url="http://www.linuxbase.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=lsb-release

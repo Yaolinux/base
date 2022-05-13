@@ -1,38 +1,37 @@
 description="The linux kernel firmware set of files. More and more hardware requires this package"
 url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(git)
 
 name=linux-firmware
-version=20210818
+version=20220411
 
 build() {
 
-git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git \
-$name-$version
+  git clone --depth 1 -b $version git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git \
+  $name-$version
 
-cd $name-$version
-git checkout $version
+  cd $name-$version
 
-find . -name '*.c' \
--or -name '*.h' \
--or -name '*.asm' \
--or -name 'Makefile' \
--or -name 'configure' \
--or -name '*.S' \
--or -name "README" \
--or -name '*.pl' \
--or -name '*.pst' \
--or -name '*.txt' -delete
+  find . -name '*.c' \
+  -or -name '*.h' \
+  -or -name '*.asm' \
+  -or -name 'Makefile' \
+  -or -name 'configure' \
+  -or -name '*.S' \
+  -or -name "README" \
+  -or -name '*.pl' \
+  -or -name '*.pst' \
+  -or -name '*.txt' -delete
 
-find . \( -type d -and -empty \) -delete
-rm -rvf cis/src
-rm -rvf usbdux
-rm -rvf carl9170fw
-rm -rvf .git
+  find . \( -type d -and -empty \) -delete
+  rm -rvf cis/src
+  rm -rvf usbdux
+  rm -rvf carl9170fw
+  rm -rvf .git
 
-mkdir $PKG/lib
-cp -a . $PKG/lib/firmware
+  mkdir $PKG/lib
+  cp -a . $PKG/lib/firmware
 }

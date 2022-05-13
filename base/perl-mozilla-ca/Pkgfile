@@ -1,7 +1,7 @@
 description="Mozilla's CA cert bundle in PEM format"
 url="http://search.cpan.org/dist/Mozilla-CA/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

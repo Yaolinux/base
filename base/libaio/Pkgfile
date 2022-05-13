@@ -1,13 +1,13 @@
 description="The Linux-native asynchronous I/O facility (aio) library"
 url="http://lse.sourceforge.net/io/aio.html"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=libaio
-version=0.3.112
+version=0.3.113
 CARCH=$(uname -m)
 
-source=(http://ftp.de.debian.org/debian/pool/main/liba/$name/${name}_${version}.orig.tar.xz)
+source=(http://ftp.de.debian.org/debian/pool/main/liba/$name/${name}_${version}.orig.tar.gz)
 
 build() {
 cd $name-$version

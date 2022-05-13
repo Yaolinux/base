@@ -1,13 +1,13 @@
 description="A simple http server class"
 url="http://www.cpan.org"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl perl-http-date perl-http-message perl-lwp-mediatypes)
 run=(perl)
 
 name=perl-http-daemon
-version=6.06
+version=6.14
 
 source=(https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Daemon-${version}.tar.gz)
 

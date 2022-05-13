@@ -1,7 +1,7 @@
 description="The Tar package contains an archiving program."
 url="http://www.gnu.org/software/tar/tar.html"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=tar

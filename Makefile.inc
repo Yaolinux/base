@@ -1,24 +1,3 @@
-#
-#  nutyx
-#
-#  Copyright (c) 2016 - 2017 by NuTyX team (http://nutyx.org)
-#
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software
-#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
-#  USA.
-#
-
 
 DESTDIR =
 
@@ -37,13 +16,11 @@ ROOTDIR=${DESTDIR}/root
 VARDIR=${DESTDIR}/var
 EXTDIR=${ETCDIR}
 
-VERSION = 1.0-RC4
+VERSION = 1.0-RC1
 
-NAME = yaolinux-$(VERSION)
+NAME = grat-os-$(VERSION)
 
 MODE = 755
 FILEMODE = 754
 DIRMODE = 755
 CONFMODE = 644
-
-# End of file

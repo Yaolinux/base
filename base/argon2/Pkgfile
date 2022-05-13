@@ -1,7 +1,7 @@
 description="A password-hashing function (reference C implementation)"
 url="https://github.com/P-H-C/phc-winner-argon2"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=argon2

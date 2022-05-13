@@ -1,13 +1,13 @@
 description="Interface to OpenSSL RSA methods"
 url="http://search.cpan.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl-crypt-openssl-bignum perl-crypt-openssl-random)
 run=(perl)
 
 name=perl-crypt-openssl-rsa
-version=0.31
+version=0.32
 
 source=(http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/Crypt-OpenSSL-RSA-$version.tar.gz)
 

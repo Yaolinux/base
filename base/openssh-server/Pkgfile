@@ -1,19 +1,19 @@
 description="Free version of the SSH connectivity tools - Server"
 url="http://www.openssh.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
-makedepends=(openssh)
+run=(openssh)
 
 name=openssh-server
-version=8.7p1
-yaolinux_version=1.0-RC3
+version=8.9p1
+grat_os_version=1.0-RC1
 
-source=(http://dania.on86.net/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+source=(https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz)
 
 build() {
-cd yaolinux-${yaolinux_version}
+  cd grat-os-${grat_os_version}
 
-make DESTDIR=$PKG install-sshd
+  make DESTDIR=$PKG install-sshd
 }

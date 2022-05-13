@@ -1,11 +1,11 @@
 description="The Bison package contains a parser generator"
 url="http://www.gnu.org/software/bison/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=bison
-version=3.7.6
+version=3.8.2
 
 source=(https://ftp.gnu.org/gnu/bison/${name}-${version}.tar.xz)
 

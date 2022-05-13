@@ -1,0 +1,83 @@
+description="An EFI boot manager"
+url="https://www.rodsbooks.com/refind/"
+
+packager="Grat-OS Team"
+maintainer="Dania"
+
+makedepends=(bash dosfstools efibootmgr gnu-efi openssl)
+
+name=refind
+version=0.13.3.1
+_arch=x64
+
+source=(https://sourceforge.net/projects/refind/files/$version/$name-src-$version.tar.gz)
+
+prepare() {
+cd $name-$version
+
+  # remove the path prefix from the css reference, so that the css can live
+  # in the same directory
+  sed -e 's|../Styles/||g' -i "docs/$name/"*.html
+  # hardcode RefindDir, so that refind-install can find refind_x64.efi
+  sed -e 's|RefindDir=\"\$ThisDir/refind\"|RefindDir="/usr/share/refind/"|g' \
+      -i refind-install
+}
+
+build() {
+cd $name-$version
+  make
+  make gptsync
+  # NOTE: build can not be parallelized
+  make fs -j1
+}
+
+package() {
+cd $name-$version
+
+  # the install target calls refind-install, therefore we install things
+  # manually
+
+  # efi binaries
+  install -vDm 644 refind/*.efi -t "$PKG/usr/share/$name"
+  install -vDm 644 drivers_*/*.efi \
+    -t "$PKG/usr/share/refind/drivers_${_arch}"
+  install -vDm 644 gptsync/*.efi \
+    -t "$PKG/usr/share/$name/tools_${_arch}"
+  # sample config
+  install -vDm 644 "$name.conf-sample" -t "$PKG/usr/share/$name"
+  # keys
+  install -vDm 644 keys/*{cer,crt} -t "$PKG/usr/share/$name/keys"
+  # keysdir
+  install -vdm 700 "$PKG/etc/refind.d/keys"
+  # fonts
+  install -vDm 644 fonts/*.png \
+    -t "$PKG/usr/share/$name/fonts"
+  # icons
+  install -vDm 644 icons/*.png \
+    -t "$PKG/usr/share/$name/icons"
+  install -vDm 644 icons/svg/*.svg \
+    -t "$PKG/usr/share/$name/icons/svg"
+  # scripts
+  install -vDm 755 {refind-{install,mkdefault},mkrlconf,mvrefind} \
+    -t "$PKG/usr/bin"
+  install -vDm 755 fonts/mkfont.sh "$PKG/usr/bin/$name-mkfont"
+  # man pages
+  install -vDm 644 docs/man/*.8 -t "$PKG/usr/share/man/man8"
+  # docs
+  install -vDm 644 {CREDITS,NEWS,README}.txt \
+    -t "$PKG/usr/share/doc/$name"
+  install -vDm 644 fonts/README.txt \
+    "$PKG/usr/share/doc/$name/README.$name-mkfont.txt"
+  install -vDm 644 icons/README \
+    "$PKG/usr/share/doc/$name/README.icons.txt"
+  install -vDm 644 keys/README.txt \
+    "$PKG/usr/share/doc/$name/README.keys.txt"
+  install -vDm 644 "docs/$name/"*.{html,png,svg,txt} \
+    -t "$PKG/usr/share/doc/$name/html"
+  install -vDm 644 docs/Styles/*.css \
+    -t "$PKG/usr/share/doc/$name/html"
+  install -vDm 644 images/$name-banner.{png,svg} \
+    -t "$PKG/usr/share/doc/$name/html"
+  # license
+  install -vDm 644 LICENSE.txt -t "$PKG/usr/share/licenses/$name"
+}

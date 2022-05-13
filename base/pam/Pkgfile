@@ -1,10 +1,10 @@
 description="Pluggable Authentication Modules to choose how applications authenticate users."
 url="http://www.kernel.org/pub/libs/pam"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 name=pam
-version=1.5.1
+version=1.5.2
 
 source=(https://github.com/linux-pam/linux-pam/releases/download/v$version/Linux-PAM-$version.tar.xz)
 

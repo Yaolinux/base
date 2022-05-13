@@ -1,7 +1,7 @@
 description="Perl symbol table access and dumping"
 url="http://search.cpan.org/dist/Devel-Symdump"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

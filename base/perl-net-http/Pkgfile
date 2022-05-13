@@ -1,13 +1,13 @@
 description="Low-level HTTP connection (client)"
 url="http://search.cpan.org/dist/Net-HTTP/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)
 
 name=perl-net-http
-version=6.21
+version=6.22
 
 source=(http://cpan.metacpan.org/authors/id/O/OA/OALDERS/Net-HTTP-$version.tar.gz)
 

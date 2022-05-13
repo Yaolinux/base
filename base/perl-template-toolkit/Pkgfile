@@ -1,13 +1,13 @@
 description="Perl template processing system"
 url="http://search.cpan.org/dist/Template-Toolkit/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl-appconfig)
 run=(perl-appconfig)
 
 name=perl-template-toolkit
-version=3.009
+version=3.010
 
 source=(http://search.cpan.org/CPAN/authors/id/A/AT/ATOOMIC/Template-Toolkit-$version.tar.gz)
 

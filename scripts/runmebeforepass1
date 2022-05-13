@@ -6,7 +6,7 @@ color_mesg
 
 version="development"
 #[ -z "${URL}" ] && URL="http://rems.6admin.net"
-[ -z "${URL}" ] && URL="http://yaolinux.fabienwang.fr"
+[ -z "${URL}" ] && URL="http://repo.grat-os.fr"
 echo
 msg "$(gettext "This script will run some pre-checks and")"
 msg "$(gettext "download missing sources...")"
@@ -81,7 +81,7 @@ echo
 msg "$(gettext "Downloading sources...")"
 echo
 
-for i in $(cat scripts/wget_nutyx_list|grep -v ^#|sed "s@  @|@")
+for i in $(cat scripts/wget_grat-os_list|grep -v ^#|sed "s@  @|@")
 do
 	FILE=$(echo $i|cut -d "|" -f2)
 	MD5SUM=$(echo $i|cut -d "|" -f1)

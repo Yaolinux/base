@@ -1,7 +1,7 @@
 description="The Kbd package contains key-table files, console fonts, and keyboard utilities"
 url="ftp://devel.altlinux.org/legion/kbd/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(check)
@@ -9,7 +9,7 @@ makedepends=(check)
 name=kbd
 version=2.4.0
 
-source=(http://ftp.altlinux.com/pub/people/legion/kbd/kbd-$version.tar.xz \
+source=(https://www.kernel.org/pub/linux/utils/kbd/kbd-$version.tar.xz \
 	http://www.linuxfromscratch.org/patches/downloads/$name/$name-$version-backspace-1.patch)
 
 build() {

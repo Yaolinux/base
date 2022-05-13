@@ -1,7 +1,7 @@
 description="Generic namespace helpers (ported from SAX2)"
 url="http://search.cpan.org/dist/XML-NamespaceSupport"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

@@ -1,7 +1,7 @@
 description="Perl/CPAN Module Parse::Yapp : Generates OO LALR parser modules"
 url="http://search.cpan.org/dist/Parse-Yapp"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

@@ -1,7 +1,7 @@
 description="Data tables useful in parsing HTML"
 url="http://search.cpan.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

@@ -3,7 +3,7 @@ makedepends=(python-markupsafe)
 description="A simple pythonic template language written in python 2&3"
 url="http://jinja.pocoo.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=python-jinja2

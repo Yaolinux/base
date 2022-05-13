@@ -1,7 +1,7 @@
 description="Build, test, and install Perl modules"
 url="https://github.com/dagolden/inc-latest"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

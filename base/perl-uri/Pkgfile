@@ -1,13 +1,13 @@
 description="Uniform Resource Identifiers Perl (absolute and relative)"
 url="http://search.cpan.org/dist/URI/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)
 
 name=perl-uri
-version=5.09
+version=5.10
 
 source=(https://www.cpan.org/authors/id/O/OA/OALDERS/URI-$version.tar.gz)
 

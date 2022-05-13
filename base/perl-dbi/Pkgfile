@@ -1,7 +1,7 @@
 description="Database independent interface for Perl"
 url="https://metacpan.org/pod/DBI"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=( perl )

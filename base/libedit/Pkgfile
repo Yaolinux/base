@@ -1,11 +1,11 @@
 description="Command line editor library providing generic line editing, history, and tokenization functions."
 url="http://thrysoee.dk/editline/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=libedit
-version=20210714-3.1
+version=20210910-3.1
 
 source=(https://thrysoee.dk/editline/libedit-${version}.tar.gz)
 

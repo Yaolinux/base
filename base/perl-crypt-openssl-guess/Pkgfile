@@ -1,13 +1,13 @@
 description="Interface to OpenSSL PRNG methods"
 url="https://metacpan.org/pod/Crypt::OpenSSL::Guess"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl openssl)
 run=(perl)
 
 name=perl-crypt-openssl-guess
-version=0.13
+version=0.15
 
 source=(http://search.cpan.org/CPAN/authors/id/A/AK/AKIYM/Crypt-OpenSSL-Guess-$version.tar.gz)
 

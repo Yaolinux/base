@@ -1,41 +1,43 @@
 description="Certificate Authority certificates, the Public Key Infrastructure."
 url="http://mxr.mozilla.org/mozilla/source/security/nss/lib/ckfw/builtins/certdata.txt?raw=1"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(p11-kit)
 
 name=ca-certificates
-version=1.7
-release=3
+version=1.10
+release=1
 
-source=(https://github.com/djlucas/make-ca/releases/download/v$version/make-ca-$version.tar.xz
-	http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt
-	http://www.cacert.org/certs/root.crt
-        http://www.cacert.org/certs/class3.crt)
+source=(https://github.com/lfs-book/make-ca/releases/download/v$version/make-ca-$version.tar.xz
+  http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt
+  http://www.cacert.org/certs/root.crt
+  http://www.cacert.org/certs/class3.crt)
 
 build() {
-cd make-ca-$version
 
-make all
-make DESTDIR=$PKG install
+  cd make-ca-$version
 
-install -vdm755 $PKG/{usr/sbin,etc/ssl/local}
+  make all
+  make DESTDIR=$PKG install
 
-OPENSSL="`which openssl`"
+  install -vdm755 $PKG/{usr/sbin,etc/ssl/local}
 
-cd ..
+  OPENSSL="`which openssl`"
 
-$OPENSSL x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
-   -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
-   > $PKG/etc/ssl/local/CAcert_Class_1_root.pem
-$OPENSSL x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
-   -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
-   > $PKG/etc/ssl/local/CAcert_Class_3_root.pem
-cp certdata.txt $PKG/etc/ssl
+  cd ..
 
-cd make-ca-$version
-make DESTDIR=$PKG install
+  $OPENSSL x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
+    -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
+    > $PKG/etc/ssl/local/CAcert_Class_1_root.pem
+  $OPENSSL x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
+    -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
+    > $PKG/etc/ssl/local/CAcert_Class_3_root.pem
+  cp certdata.txt $PKG/etc/ssl
 
-$PKG/usr/sbin/make-ca -g -D $PKG
+  cd make-ca-$version
+  make DESTDIR=$PKG install
+
+  $PKG/usr/sbin/make-ca -r -D $PKG
+
 }

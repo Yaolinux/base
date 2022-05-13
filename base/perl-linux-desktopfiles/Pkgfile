@@ -1,7 +1,7 @@
 description="A very fast Perl module for parsing the Linux desktop files."
 url="https://metacpan.org/release/Linux-DesktopFiles"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

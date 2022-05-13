@@ -1,21 +1,23 @@
 description="Linker, assembler, and other tools for handling object files."
 url="http://sources.redhat.com/binutils/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 name=binutils
-version=2.37
+version=2.38
 
 source=(http://ftp.gnu.org/gnu/binutils/binutils-$version.tar.xz
-        https://www.linuxfromscratch.org/patches/lfs/development/binutils-$version-upstream_fix-1.patch)
+        https://www.linuxfromscratch.org/patches/lfs/development/binutils-$version-lto_fix-1.patch)
 
 build() {
 cd binutils-$version
 
-patch -Np1 -i ../binutils-$version-upstream_fix-1.patch
+patch -Np1 -i ../binutils-$version-lto_fix-1.patch
 
-sed -i '63d' etc/texi2pod.pl
+sed -e '/R_386_TLS_LE /i \   || (TYPE) == R_386_TLS_IE \\' \
+    -i ./bfd/elfxx-x86.h
+
 find -name \*.1 -delete
 
 mkdir -v build

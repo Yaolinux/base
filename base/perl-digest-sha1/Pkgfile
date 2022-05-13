@@ -1,7 +1,7 @@
 description="Perl interface to the SHA-1 Algorithm"
 url="http://search.cpan.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

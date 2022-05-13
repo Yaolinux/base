@@ -1,7 +1,7 @@
 description="Synchronizing files over a network by sending just the differences in the files."
 url="http://samba.anu.edu.au/rsync/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 makedepends=(rsync)
@@ -10,12 +10,12 @@ run=(rsync)
 name=rsync-server
 version=3.2.3
 release=3
-yaolinux_version=1.0-RC3
+grat_os_version=1.0-RC1
 
-source=(http://downloads.yaolinux.org/yaolinux/files/yaolinux-${yaolinux_version}.tar.xz)
+source=(https://repo.grat-os.fr/files/grat-os-${grat_os_version}.tar.xz)
 
 build() {
-cd yaolinux-${yaolinux_version}
+  cd grat-os-${grat_os_version}
 
-make DESTDIR=$PKG install-rsyncd
+  make DESTDIR=$PKG install-rsyncd
 }

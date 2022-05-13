@@ -1,7 +1,7 @@
 description="Perl version of Nilsimsa code"
 url="http://search.cpan.org/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 
 makedepends=(perl)
 run=(perl)

@@ -1,7 +1,7 @@
 description="The Make package contains a program for compiling packages."
 url="http://www.gnu.org/software/make/"
 
-packager="Yaolinux Team"
+packager="Grat-OS Team"
 maintainer="rems"
 
 PKGMK_GROUPS=(man locale)
