@@ -1596,10 +1596,21 @@ install_gratos() {
 	fi
 	# Kernel and initrd
 	cp -av ${1}/boot/kernel* ${2}/boot/ &> /dev/tty3
+  cp -av ${1}/boot/initrd* ${2}/boot/ &> /dev/tty3
 
+  if [ -f ${2}/boot/kernel-5.10* ]; then
+    ln -sf ${2}/boot/kernel-5.10* ${2}/boot/kernel-510
+  fi
+  if [ -f ${2}/boot/initrd-5.10* ]; then
+    ln -sf ${2}/boot/initrd-5.10* ${2}/boot/initrd-510
+  fi
 
-	cp -av ${1}/boot/initrd* ${2}/boot/ &> /dev/tty3
-
+  if [ -f ${2}/boot/kernel-4.19* ]; then
+    ln -sf ${2}/boot/kernel-4.19* ${2}/boot/kernel-lts
+  fi
+  if [ -f ${2}/boot/initrd-4.19* ]; then
+    ln -sf ${2}/boot/initrd-4.19* ${2}/boot/initrd-lts
+  fi
 
 	if  [ -f ${1}/boot/grub/splash.png ]; then
 		mkdir -pv ${2}/boot/grub/ &> /dev/tty3
