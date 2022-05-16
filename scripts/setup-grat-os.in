@@ -1916,7 +1916,7 @@ PATH=$PATH" >> ${GRUB_LOG_FILE}
 		#
 		# The $TMP/boot file contains the Grat-OS partition
 		#
-		Grat²="`cat $TMP/boot`"
+		GratOS_PART="`cat $TMP/boot`"
 		BOOT_FS="`print_file_system $PARTITION`"
 		GratOS_FS="`print_file_system $GratOS_PART`"
 		echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
@@ -2346,7 +2346,7 @@ check_all () {
 		SETUP_CONFIG_KEYBOARD="yes"
 		RV=$((RV+1))
 	fi
-	if [ ! -r ${NETWORK} ];then
+	if [ -z ${NETWORK} ];then
 		SETUP_CONFIG_NETWORK="yes"
 		RV=$((RV+2))
 	fi
