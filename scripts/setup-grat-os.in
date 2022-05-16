@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # gettext initialization
 #
@@ -34,7 +34,7 @@ _zoneinfo(){
 	$SETUP_LOG "setup-grat-os --config-lang" "ln -sv ${1} ${2}"
 }
 _msgfmt() {
-	local L C
+	local L C DN DF FILE
 	L=`echo ${1}|cut -d "_" -f1`
 	C=`echo ${1}|cut -d "_" -f2`
 	echo "group ${L}" >> ${CARDS}
@@ -45,9 +45,9 @@ _msgfmt() {
 		-o $TEXTDOMAINDIR/${L}/LC_MESSAGES/setup-grat-os.mo
 		TEXTDOMAINFILE=$TEXTDOMAINDIR/${L}/LC_MESSAGES/$TEXTDOMAIN.mo
 	fi
-	echo "LANG=${1}.utf8" > ${LOCALE}
-	echo "export LANG=${1}.utf8" > ${PROFILELOCALE}
-	$SETUP_LOG "setup-grat-os --config-lang" "variable LANG=${1}.utf8 saved in ${LOCALE} and ${PROFILELOCALE}"
+	echo "export LANG=${1}.utf8" > ${LOCALE}
+	echo "LANG=${1}.utf8" > ${LOCALECONF}
+	$SETUP_LOG "setup-grat-os --config-lang" "variable LANG=${1}.utf8 saved in ${LOCALE}"
 }
 calc(){
         echo "scale=2;$@"|bc
@@ -75,9 +75,9 @@ if [  `echo $NIC|wc -w` -gt 1 ];then
 			[ "$i" == "lo" ] && continue
 			#checked if only one entry.
 			if [  `echo $NIC|wc -w` -eq 2 ]; then
-	  		echo -n \""$i"\"\  \"`/sbin/udevadm info /sys/class/net/$i|grep ID_MODEL_FROM_DATABASE|cut -d "=" -f2`\" " on "
+	  			echo -n \""$i"\"\  \"`/sbin/udevadm info /sys/class/net/$i|grep ID_MODEL_FROM_DATABASE|cut -d "=" -f2`\" " on "
 			else
-  			echo -n \""$i"\"\  \"`/sbin/udevadm info /sys/class/net/$i|grep ID_MODEL_FROM_DATABASE|cut -d "=" -f2`\" " off "
+  				echo -n \""$i"\"\  \"`/sbin/udevadm info /sys/class/net/$i|grep ID_MODEL_FROM_DATABASE|cut -d "=" -f2`\" " off "
 			fi
 			done >> $TMP/list
 			dialog --file $TMP/list 2>$TMP/result
@@ -158,10 +158,14 @@ setup_password()
 		--insecure "$@" \
 		--passwordbox "$(gettext "Confirm the new password"):" 8 60 2>&1 1>&3`
 
-		if [ "$PASSWORD" == "$CONFIRM_PASSWORD" ]; then
-			RESULT="true"
+		if [ "$PASSWORD" == "" ] || [ "$CONFIRM_PASSWORD" == "" ]; then
+			dialog --msgbox "$(gettext "Password is empty, please try again")" 5 60
 		else
-			dialog --msgbox "$(gettext "Passwords are differents, please try again")" 5 60
+			if [ "$PASSWORD" == "$CONFIRM_PASSWORD" ]; then
+				RESULT="true"
+			else
+				dialog --msgbox "$(gettext "Passwords are differents, please try again")" 5 60
+			fi
 		fi
 	done
 
@@ -180,84 +184,88 @@ setup_user()
 	fi
 	local RESULT
 	USER_GROUPS=""
-	DEFAULT_GROUPS=(users disk network floppy fuse video lp lpadmin netdev tty audio cdrom scanner adm vboxusers wheel)
+	DEFAULT_GROUPS="users disk network floppy fuse video lp lpadmin netdev tty audio cdrom scanner adm vboxusers wheel"
 	# Avoid spaces troubles :)
 	OLD_IFS=$IFS
-	IFS="|
-"
+#	IFS="|
+#"
 	RESULT="user"
 	while [ "$RESULT" == "user" ];
 	do
 		exec 3>&1
-		RESULT=`dialog --title "  $(gettext "Add a user to the system")  " \
-		--inputbox  "$(gettext "Name of the user"):" 8 60 user 2>&1 1>&3`
-		RESULT="`echo "$RESULT"|sed "s/ //g"`"
+		RESULT="$(dialog --title "  $(gettext "Add a user to the system")  " \
+		--inputbox  "$(gettext "Name of the user"):" 8 60 user 2>&1 1>&3)"
+
+		RESULT="$(echo "$RESULT"|sed "s/ //g")"
 		[ "$RESULT" == "" ] && RESULT="user"
-	done
-	NAME=$RESULT
-	if [ "$NAME" == "root" ]; then
-		rm -d /home
-		setup_password
-	else
-		if [ "$RESULT" != "user" ] &&  [ "$RESULT" != "" ];then
-			RESULT="Description"
-			while [ "$RESULT" == "Description" ];
-			do
-				exec 3>&1
-				RESULT=`dialog --title "  $(gettext "Add a description for the user")  " \
-				--inputbox  "$(gettext "Name or Description of the user"):" 8 60 "Description" 2>&1 1>&3`
-				[ "`echo "$RESULT"|sed "s/ //g"`" == "" ] && RESULT="Description"
-				[ "$RESULT" == "" ] && RESULT="Description"
-			done
-			DESCRIPTION=$RESULT
+		NAME=$RESULT
+		if [ "$NAME" == "root" ]; then
+			rm -d /home
+			setup_password
+			SETUP_CONFIG_USER="no"
+			return
+		else
+			if [ "$RESULT" != "user" ] &&  [ "$RESULT" != "" ];then
+				RESULT=""
+				while [ "$RESULT" == "" ];
+				do
+					exec 3>&1
+					RESULT="$(dialog --title "  $(gettext "Add a description for the user")  " \
+					--inputbox  "$(gettext "Name or Description of the user"):" 8 60 "$(echo $NAME|sed 's/\b\(.\)/\u\1/')" 2>&1 1>&3)"
+
+					[ "$(echo "$RESULT"|sed "s/ //g")" == "" ] && RESULT="$(echo $NAME|sed 's/\b\(.\)/\u\1/')"
+					[ "$RESULT" == "" ] && RESULT="$(echo $NAME|sed 's/\b\(.\)/\u\1/')"
+
+				done
+				DESCRIPTION=$RESULT
+			fi
 		fi
 		check_user_valid $NAME $DESCRIPTION
 		ret=$?
-		while [ $ret -ne 0 ]; do
-			setup_user
-		done
-	
-		for GROUP in ${DEFAULT_GROUPS[@]};
-		do
-			check_group_exist $GROUP
-			if [ $? -eq 0 ]; then
-				continue
-			fi
-			if [ -z "$USER_GROUPS" ]; then
-				USER_GROUPS="$GROUP"
-			else
-				USER_GROUPS="$USER_GROUPS,$GROUP"
-			fi
-		done
+		[ $ret -ne 0 ] && RESULT="user"
+	done
 
-		unset RESULT
+	for GROUP in ${DEFAULT_GROUPS};
+	do
+		check_group_exist $GROUP
+		if [ $? -eq 0 ]; then
+			continue
+		fi
+		if [ -z "$USER_GROUPS" ]; then
+			USER_GROUPS="$GROUP"
+		else
+			USER_GROUPS="$USER_GROUPS,$GROUP"
+		fi
+	done
 
+	unset RESULT
+
+	if [ -d /home/"${NAME}" ];then
+		RESULT="$(/usr/sbin/useradd -c "${DESCRIPTION}" -G "$USER_GROUPS" -M "${NAME}" 2>&1)"
+	else
+		RESULT="$(/usr/sbin/useradd -c "${DESCRIPTION}" -G "$USER_GROUPS" -m "${NAME}" 2>&1)"
+	fi
+	if [ ! -z "$RESULT" ]; then
+		dialog --msgbox "$RESULT" 6 120
+		exec 3>&1
+		dialog --yesno "$(gettext "Do you want to try again") ?" 5 40
+		case $? in
+			0)
+				setup_user;;
+			*)
+				SETUP_CONFIG_USER="yes"
+				#rm -d /home
+				;;
+		esac
+	else
 		if [ -d /home/"${NAME}" ];then
-			RESULT=`/usr/sbin/useradd -c "${DESCRIPTION}" -G "$USER_GROUPS" -M "${NAME}" 2>&1`
+			chown -R ${NAME}:${NAME} /home/${NAME}
+			$SETUP_LOG "setup-grat-os --create-user" "chown -R ${NAME}:${NAME} /home/${NAME}"
+			$SETUP_LOG "setup-grat-os --create-user" "${DESCRIPTION} -G $USER_GROUPS -M ${NAME}"
 		else
-			RESULT=`/usr/sbin/useradd -c "${DESCRIPTION}" -G "$USER_GROUPS" -m "${NAME}" 2>&1`
+			$SETUP_LOG "setup-grat-os --create-user" "${DESCRIPTION} -G $USER_GROUPS -m ${NAME}"
 		fi
-		if [ ! -z "$RESULT" ]; then
-			dialog --msgbox "$RESULT" 6 120
-			exec 3>&1
-			dialog --yesno "$(gettext "Do you want to try again") ?" 5 40
-			case $? in
-				0)
-					setup_user;;
-				*)
-					SETUP_CONFIG_USER="yes"
-					rm -d /home;;
-			esac
-		else
-			if [ -d /home/"${NAME}" ];then
-				chown -R ${NAME}:${NAME} /home/${NAME}
-				$SETUP_LOG "setup-grat-os --create-user" "chown -R ${NAME}:${NAME} /home/${NAME}"
-				$SETUP_LOG "setup-grat-os --create-user" "${DESCRIPTION} -G $USER_GROUPS -M ${NAME}"
-			else
-				$SETUP_LOG "setup-grat-os --create-user" "${DESCRIPTION} -G $USER_GROUPS -m ${NAME}"
-			fi
-			setup_password
-		fi
+		setup_password
 		SETUP_CONFIG_USER="no"
 	fi
 }
@@ -325,11 +333,16 @@ setup_wireless()
 {
 	local TITLE WPA_FILE returncode WPA_TOOL ESSID KEY
 	WPA_TOOL="$(which wpa_passphrase)"
-	IWCONFIG="$(which iwconfig)"
-
-	if [ ! -z $IWCONFIG ];then
-		WIFI_NETWORK_CARD="$($IWCONFIG 2>&1|grep IEEE|cut -d " " -f1|tail -1)"
+	if [ -z "${WPA_TOOL}" ]; then
+		error "wpa-supplicant not installed"
 	fi
+	IWCONFIG="$(which iwconfig)"
+	if [ -z "${IWCONFIG}" ]; then
+		error "wireless-tools not installed"
+	fi
+
+	WIFI_NETWORK_CARD="$($IWCONFIG 2>&1|grep IEEE|cut -d " " -f1|tail -1)"
+
 	if [ -z ${WIFI_NETWORK_CARD} ];then
 		network_card_found
 		[ -z ${NETWORK_CARD} ] && return
@@ -347,7 +360,6 @@ setup_wireless()
 		--colors \
 		--inputbox "$(gettext "Choose the name of the wireless access point") (ESSID)" \
 		0 0 ""	2>&1 1>&3)
-		ESSID="$(echo "$ESSID"|sed "s/ //g")"
 	done
 
 	while [ "$KEY" == "" ];
@@ -357,7 +369,6 @@ setup_wireless()
 		--colors \
 		--inputbox "$(gettext "Enter the password of") (PASSPHRASE): \Zb\Z4$ESSID\Zn" \
 		0 0 ""  2>&1 1>&3)
-		KEY="$(echo "$KEY"|sed "s/ //g")"
 	done
 
 	WPA_FILE="/etc/wpa_supplicant.conf.${WIFI_NETWORK_CARD}"
@@ -380,6 +391,18 @@ setup_wireless()
 }
 setup_net() 
 {
+	dialog \
+	--title " $(gettext "Name of your machine") " \
+	--inputbox " $(gettext "Enter a name") : " 8 40 "$HOSTNAME" 2> $TMP/NAME
+
+	if [ "`cat $TMP/NAME`" == "" ]; then
+		interrupt
+	else
+		HOSTNAME=$(tail -n 1 $TMP/NAME)
+		echo $HOSTNAME > /etc/hostname
+	fi
+  hostname $HOSTNAME
+
 network_card_found
 NETWORK_DIR="/etc/systemd/network/"
 retval=""
@@ -883,23 +906,19 @@ case ${REPLY} in
  "Norge")
 	_msgfmt nb_NO
   _msgfmt nn_NO
-  	echo "LANG=nb_NO.UTF-8" > ${LOCALE}
-	echo "export LANG=nb_NO.UTF-8" > ${PROFILELOCALE}
+  	echo "export LANG=nb_NO.UTF-8" > ${LOCALE}
 	_zoneinfo ${ZONEINFO}Europe/Oslo ${LOCALTIME};;
  "Polski")
 	_msgfmt pl_PL
-	echo "LANG=pl_PL.UTF-8" > ${LOCALE}
-	echo "export LANG=pl_PL.UTF-8" > ${PROFILELOCALE}
+	echo "export LANG=pl_PL.UTF-8" > ${LOCALE}
 	_zoneinfo ${ZONEINFO}Europe/Warsaw ${LOCALTIME};;
  "Россия")
   _msgfmt ru_RU
-  	echo "LANG=ru_RU.UTF-8" > ${LOCALE}
-	echo "export LANG=ru_RU.UTF-8" > ${PROFILELOCALE}
+  	echo "export LANG=ru_RU.UTF-8" > ${LOCALE}
 	_zoneinfo ${ZONEINFO}Europe/Moscow ${LOCALTIME};;
  "Portugal")
 	_msgfmt pt_PT
-	echo "LANG=pt_PT.UTF-8" > ${LOCALE}
-	echo "export LANG=pt_PT.UTF-8" > ${PROFILELOCALE}
+	echo "export LANG=pt_PT.UTF-8" > ${LOCALE}
 	_zoneinfo ${ZONEINFO}Europe/Lisbon ${LOCALTIME};;
  "Brasil")
 	_msgfmt pt_BR
@@ -943,14 +962,16 @@ SETUP_CONFIG_LANGUAGE="no"
 }
 setup_keymap ()
 {
-	cat > ${CONSOLE} << "EOF"
-FONT=LatGrkCyr-8x16
-UNICODE=1
+	cat > ${VCONSOLE} << "EOF"
+FONT="LatGrkCyr-8x16"
+UNICODE="1"
+LOGLEVEL=1
 EOF
+	mkdir -p $(dirname ${XORGKB})
 	cat > ${XORGKB} << "EOF"
 Section "InputClass"
-  Identifier "Generic Keyboard"
-  MatchIsKeyboard "yes"
+  Identifier "system-keyboard"
+  MatchIsKeyboard "on"
 EOF
 while [ true ]; do
 dialog  \
@@ -1086,8 +1107,9 @@ REPLY=`cat $TMP/locale.check`
 rm -f $TMP/locale.check
 break
 done
-sed -i "/KEYMAP/d" ${CONSOLE}
-echo "KEYMAP=${REPLY}.map" >> ${CONSOLE}
+sed -i "/KEYMAP/d" ${VCONSOLE}
+echo "KEYMAP=${REPLY}" >> ${VCONSOLE}
+
 $SETUP_LOG "setup-grat-os --config-keymap" "KEYMAP=${REPLY}.map saved in ${CONSOLE}"
 loadkeys ${REPLY}.map > /dev/null 2>&1
 case $REPLY in
@@ -1106,7 +1128,8 @@ case $REPLY in
 	fr|fr-*|azerty)
 		echo '  Option "XkbLayout" "fr"' >> ${XORGKB}
 		echo 'export XKB_DEFAULT_LAYOUT="fr"' > ${WAYLKB};;
-	fr_CH*) echo '  Option "XkbLayout" "ch(fr)"' >> ${XORGKB}
+	fr_CH*) echo '  Option "XkbLayout" "ch"
+  Option "XkbVariant" "fr"' >> ${XORGKB}
 		echo 'export XKB_DEFAULT_LAYOUT="ch(fr)"' > ${WAYLKB};;
 	de_CH*) echo '  Option "XkbLayout" "ch"' >> ${XORGKB}
 		echo 'export XKB_DEFAULT_LAYOUT="ch"' > ${WAYLKB};;
@@ -1163,7 +1186,7 @@ SETUP_CONFIG_KEYBOARD="no"
 }
 
 setup_clock() {
-	local TABDATE
+	local TABDATE GOODDATE
 	HWCLOCK=$(LANG=C.utf8 hwclock -r)
 	dialog --title "   $(gettext "Coordinated Universal Time or Local Time ?")  " \
 	--yesno "$(gettext "The hardware clock is set to"):\n\n $HWCLOCK. \n\n$(gettext "Do you want to use this time as Coordinated Universal Time ?") \n\
@@ -1177,18 +1200,14 @@ $(gettext "so that the summer/winter time is changed automatically" ) " 0 0
 	esac
 
 	echo "0.0 0.0" > /etc/adjtime
-  if [ "$UTC" == "0" ];then
-		echo "0
-LOCAL" >> /etc/adjtime
-	else
-		echo "1
-REMOTE" >> /etc/adjtime
-	fi
-
 	case "${UTC}" in
 		1)
+			echo "1
+REMOTE" >> $ADJTIME
 			CLOCKPARAMS="${CLOCKPARAMS} --utc";;
 		0)
+			echo "0
+LOCAL" >> $ADJTIME
 			CLOCKPARAMS="${CLOCKPARAMS} --localtime";;
 	esac
 	
@@ -1257,6 +1276,7 @@ select_disk() {
 	fi
 }
 select_partition() {
+	echo "Entering select_partition()" > /dev/tty2
 	local retval result
 	retval=""
 	result=""
@@ -1286,6 +1306,8 @@ select_partition() {
 	fi
 }
 check_available_disk() {
+	echo "Entering check_available_disk()" > /dev/tty2
+	CHECK_HD_OK="no"
 	unset DISK_LIST
 	local DISK_FULL_LIST
 	DISK_FULL_LIST=$(lsblk -p -n -d -o NAME -e 1,3,7,11)
@@ -1304,54 +1326,99 @@ check_available_disk() {
 			DISK=$DISK_LIST
 			DISK=$(echo $DISK|sed  "s/ //")
 			echo "$DISK_LIST" > $TMP/disk
+			CHECK_SINGLE_DISK="yes"
 		fi
 		CHECK_HD_OK="yes"
 	fi
-	echo "DISK_LIST=$DISK_LIST" > /dev/tty2
+	echo "CHECK_HD_OK=$CHECK_HD_OK (${LINENO})
+DISK_LIST=$DISK_LIST (${LINENO})" > /dev/tty2
 }
 check_available_partition() {
+	echo "Entering check_available_partition()" > /dev/tty2
 	unset PARTITION_LIST
-	local PARTITION_FULL_LIST
-	if [ "$CHECK_HD_OK" == "no" ]; then
-		check_available_disk
-		 [ "$CHECK_HD_OK" == "no" ] && return
+	unset PARTITION
+	unset CHECK_SINGLE_PARTITION
+	local PARTITION_FULL_LIST MEM_TOTAL SWAP
+
+	PARTITION_LIST=`for i in $DISK_LIST; do lsblk -p -l -n -o NAME $i| tail -n +2; done`
+	if [ ! -z "$PARTITION_LIST" ];then
+		CHECK_PART_OK="yes"
+		echo "CHECK_PART_OK=$CHECK_PART_OK (${LINENO})" > /dev/tty2
+	else
+		if [ "$CHECK_SINGLE_DISK" == "yes" ];then
+			# Auto-partitionning
+			MEM_TOTAL="$(cat /proc/meminfo|grep MemTotal|sed "s/[^[:digit:]]*//g")"
+			MEM_TOTAL="$((MEM_TOTAL / 1024 / 100))"
+			[ $MEM_TOTAL -gt 4 ] && SWAP="1G"
+			[ $MEM_TOTAL -gt 8 ] && SWAP="2G"
+			[ $MEM_TOTAL -gt 15 ] && SWAP="4G"
+
+			if [ -d "$EFIVARS" ];then
+				EFI_SYS_PART="{DISK}1"
+				echo "label: gpt" >> $TMP/PARTITIONNING
+			else
+				echo "label: dos" >> $TMP/PARTITIONNING
+			fi
+			echo "device: $DISK" >> $TMP/PARTITIONNING
+			if [ -d "$EFIVARS" ];then
+				echo "
+${DISK}1: size=100M,type=uefi
+${DISK}2: size=$SWAP,type=swap
+${DISK}3: type=linux" >> $TMP/PARTITIONNING
+			else
+				echo "
+${DISK}1: size=$SWAP,type=swap
+${DISK}2: type=linux" >> $TMP/PARTITIONNING
+			fi
+			CHECK_PART_OK="new"
+			echo "CHECK_PART_OK=$CHECK_PART_OK (${LINENO})" > /dev/tty2
+			sfdisk ${DISK} < $TMP/PARTITIONNING > /dev/tty2 || CHECK_PART_OK="no"
+		fi
 	fi
-	PARTITION_LIST=$(for i in $DISK_LIST; do lsblk -p -l -n -o NAME $i| tail -n +2; done)
+	PARTITION_LIST=`for i in $DISK_LIST; do lsblk -p -l -n -o NAME $i| tail -n +2; done`
 	if [ -z "$PARTITION_LIST" ];then
 		dialog --no-cancel \
 		--title " $(gettext "No partition available") " \
 		--msgbox " $(gettext "Please create/modify yours partitions") " 0 0
-		CHECK_PART_OK="no"
+		CHECK_PART_OK="new"
+		echo "CHECK_PART_OK=$CHECK_PART_OK (${LINENO})" > /dev/tty2
 		setup_partition
 	else
-		echo "PARTITION_LIST=$PARTITION_LIST" > /dev/tty2
+		echo "PARTITION_LIST=$PARTITION_LIST (${LINENO})" > /dev/tty2
 		[ -d "$EFIVARS" ] && check_esp
 		check_swap
 		for i in ${SWAP_LIST}
 		do
-			echo "SWAP_PARTITION=$i" > /dev/tty2
-			PARTITION_LIST=$(echo ${PARTITION_LIST}| sed "s@$i@@")
+			echo "SWAP_PARTITION=$i (${LINENO})" > /dev/tty2
+			PARTITION_LIST=`echo ${PARTITION_LIST}| sed "s@$i@@"`
 		done
-		echo "PARTITION_LIST=$PARTITION_LIST" > /dev/tty2
+		echo "PARTITION_LIST=$PARTITION_LIST (${LINENO})" > /dev/tty2
 		if [ ! -z "$EFI_SYS_PART" ]; then
-			echo "EFI_SYS_PART=$EFI_SYS_PART" > /dev/tty2
-			PARTITION_LIST=$(echo ${PARTITION_LIST}| sed "s@$EFI_SYS_PART@@")
+			echo "EFI_SYS_PART=$EFI_SYS_PART (${LINENO})" > /dev/tty2
+			PARTITION_LIST=`echo ${PARTITION_LIST}| sed "s@$EFI_SYS_PART@@"`
 		fi
-		echo "PARTITION_LIST=$PARTITION_LIST" > /dev/tty2
+		echo "PARTITION_LIST=$PARTITION_LIST (${LINENO})" > /dev/tty2
 		if [ ! -z "$PARTITION_LIST" ]; then
 			# Only one partition ?
-			if [ $(echo $PARTITION_LIST|wc -w) -eq 1 ];then
+			if [ `echo $PARTITION_LIST|wc -w` -eq 1 ];then
 				# Only one disk
-				if [ $(echo $DISK_LIST|wc -w) -eq 1 ]; then
-					PARTITION=$(echo $PARTITION_LIST|sed 's/ //g')
-					echo "PARTITION=$PARTITION" > /dev/tty2
+				if [ `echo $DISK_LIST|wc -w` -eq 1 ]; then
+					PARTITION=`echo $PARTITION_LIST|sed 's/ //g'`
+					echo "PARTITION=$PARTITION (${LINENO})" > /dev/tty2
 					CHECK_SINGLE_PARTITION="yes"
-					echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION"  > /dev/tty2
+					echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION (${LINENO})"  > /dev/tty2
+				else
+					CHECK_SINGLE_PARTITION="no"
+					unset PARTITION
 				fi
+			else
+				CHECK_SINGLE_PARTITION="no"
+				unset PARTITION
 			fi
-			CHECK_PART_OK="yes"
 		fi
-		echo "PARTITION_LIST=$PARTITION_LIST" > /dev/tty2
+		[ "$CHECK_PART_OK" == "new" ] || CHECK_PART_OK="yes"
+		echo "CHECK_PART_OK=$CHECK_PART_OK (${LINENO})" > /dev/tty2
+		echo "PARTITION_LIST=$PARTITION_LIST (${LINENO})" > /dev/tty2
 	fi
 }
 setup_help() {
@@ -1364,9 +1431,6 @@ $(gettext "If not yet created/formatted, it will prompt you to do so").\n\
 \n\n$(gettext "Grat-OS goes on") \
 \Zu\Zb\Z1$(gettext "only ONE partition")\Zn\n\n\
 $(gettext "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"). \n\n\
-$(gettext "As Grat-OS users, we recommand you to install GRUB on a separate partition"):\n\n\
-$(gettext "To do so"): \
-$(gettext "Install GRUB first, then Grat-OS") \n\n\
 $(gettext "Have fun") :) \n\n\
 $(gettext "Thank you for installing Grat-OS") \
 " 0 0
@@ -1380,6 +1444,7 @@ $(gettext "It will ask you on which partition you want to install Grat-OS"). \
 $(gettext "If not yet created/formatted, it will prompt you to do so").\n\
 \n$(gettext "Grat-OS goes on") \
 \Zu\Zb\Z1$(gettext "only ONE partition")\Zn\n\n\
+$(gettext "ONE exception, GRUB can be part of it, installed on a separate partition or not installed at all"). \n\n\
 $(gettext "Make sure you reserve the first partition for ESP"): \n\n\
 $(gettext "To do so"): \
 $(gettext "At partitioning, declare the first partition as EFI System") \n\n\
@@ -1389,12 +1454,14 @@ $(gettext "Thank you for installing Grat-OS") \
 
 }	
 setup_partition() {
+	echo "Entering setup_partition()" >> /dev/tty2
 	unset DISK_LIST
 	unset PARTITION_LIST
 	unset DISK
 	local retval result
 	check_available_disk
 	[ "$CHECK_HD_OK" == "no" ] && return
+
 	retval=""
 	if [ -z $DISK ]; then
 		select_disk "$(gettext "Create all your partitions")"
@@ -1422,74 +1489,31 @@ setup_partition() {
 	check_available_partition
 }
 setup_format() {
-	local retval retval2 result
+	local retval FS
 	retval=""
-	retval2=""
-	if [ "$CHECK_HD_OK" == "no" ]; then
-		check_available_disk
-		[ "$CHECK_HD_OK" == "no" ] && return
-	fi
-	check_available_partition
+
+	[ "$CHECK_PART_OK" == "no" ] && check_available_partition
 	[ "$CHECK_PART_OK" == "no" ] && return
 	if [ -z "$PARTITION" ]; then
 		select_partition "$(gettext "Format a partition")"
 		[ "$PARTITION" == "no" ] && return
 	fi
-	dialog --title " $(gettext "Available file systems") " \
-	--colors --menu " $(gettext "Choose the file system you want to use for the partition") \
-\Zb\Z1$PARTITION\Zn" 0 0 0 \
-		"btrfs" "$(gettext "New promising file system") ($(gettext "recommended"))" \
-		"ext4" "$(gettext "Next generation of Ext3 file system") ($(gettext "recommended"))" \
-		"ext3" "$(gettext "Journaling version of Ext2 file system")"  \
-		"ext2" "$(gettext "Standard file system Ext2")" \
-		"reiserfs" "$(gettext "Very stable file system but not maintain anymore")" \
-		"xfs" "$(gettext "High performance journaling file system create by SGI")" \
-    "jfs" "$(gettext "Journaling file system create by IBM")" \
-		2> $TMP/result
-		result=$(cat $TMP/result)
-		if [ ! "$result" == "" ]; then
-			dialog --title " $(gettext "Launch the format process ?") " \
-			--colors --yesno "$(gettext "The partition") \Zb\Z1$PARTITION\Zn \
-$(gettext "will be formatted in") \Zb\Z1$result\Zn.\n\n\
-$(gettext "Are you sure you want to continue ?")" 7 60
-				retval2=$?
-		fi
-		case $retval2 in
-			0)
-				case $result in
-					ext2)
-						mkfs.ext2 -F $PARTITION > /dev/tty2 || error "mkfs.ext2 $PARTITION"
-						$SETUP_LOG "setup-grat-os" "mkfs.ext2 -F $PARTITION"
-						;;
-					ext3)
-						mkfs.ext3 -F $PARTITION > /dev/tty2 || error "mkfs.ext3 $PARTITION"
-						$SETUP_LOG "setup-grat-os" "mkfs.ext3 -F $PARTITION"
-						;;
-					ext4)
-						mkfs.ext4 -F $PARTITION > /dev/tty2 || error "mkfs.ext4 $PARTITION"
-						$SETUP_LOG "setup-grat-os" "mkfs.ext4 -F $PARTITION"
-						;;
-					reiserfs)
-						mkreiserfs -q $PARTITION > /dev/tty2 || error "mkreiserfs -q $PARTITION"
-						$SETUP_LOG "setup-grat-os" "mkreiserfs -q $PARTITION"
-						;;
-					btrfs)
-						mkfs.btrfs -f $PARTITION > /dev/tty2 || error "mkfs.btrfs -f $PARTITION"
-						$SETUP_LOG "setup-grat-os" "mkfs.btrfs -f $PARTITION"
-						;;
-					xfs)
-						mkfs.xfs -f -m crc=0 $PARTITION > /dev/tty2 || error "mkfs.xfs -f $PARTITION"
-						$SETUP_LOG "setup-grat-os" "mkfs.xfs -f -m crc=0 $PARTITION"
-						;;
-					jfs)
-						mkfs.jfs -f $PARTITION > /dev/tty2 || error "mkfs.jfs -f $PARTITION"
-						$SETUP_LOG "setup-grat-os" "mkfs.jfs -f $PARTITION"
-						;;
-				esac;;
-			1|255)
-				break;;
-		esac
-		FORMAT=$(print_file_system $PARTITION)
+
+	FS="ext4"
+	dialog --title " $(gettext "Launch the format process ?") " \
+		--colors --yesno "$(gettext "The partition") \Zb\Z1$PARTITION\Zn \
+		$(gettext "will be formatted in") \Zb\Z1$FS\Zn.\n\n\
+		$(gettext "Are you sure you want to continue ?")" 7 60
+	retval=$?
+	case $retval in
+		0)
+			mkfs.ext4 -F $PARTITION > /dev/tty2 || error "mkfs.ext4 $PARTITION"
+			$SETUP_LOG "setup-nutyx" "mkfs.ext4 -F $PARTITION"
+			;;
+		1|255)
+			break;;
+	esac
+	FORMAT="$(print_file_system $PARTITION)"
 }
 erase_grat-os() {
 	local DIR REAL
@@ -1513,32 +1537,36 @@ erase_grat-os() {
   $SETUP_LOG "setup-grat-os" "Erase Grat-OS on ${PARTITION} done"
 }
 install_grat-os() {
-	local DIR REAL FILE
+	local DIR REAL FILE VERSNAME EXT
 	setup_swap
+	touch /var/log/install.log
 
 	[ -d "$EFIVARS" ] && setup_esp
 
 	cd ${1}/boot
-	MAX=$(ls *squashfs|wc -l)
-	N=0
-	(for i in *squashfs
+	if [ -d ${2}/home ];then
+		mv ${2}/{home,.home}
+	fi
+
+	(for DIR in opt bin etc lib lib64 root run sbin usr var
 	do
-		DIR=$(echo $i|cut -d "." -f1)
-		unsquashfs -f -n -d ${2}/${DIR} ${i} >/dev/null
-		REAL=$(calc $N/$MAX *100)
-		PCT=${REAL%.*}
-		echo "$PCT"
-		N=$((N+1))
+		[ -d ${2}/$DIR ] && rm -rf ${2}/$DIR &> /dev/tty2
 	done
 
-	chmod 750 ${2}/root
-	mkdir ${2}/boot 2>/dev/null
+    echo "1"
+
+	/sbin/unsquash-nutyx -q -f -d ${2} NuTyX.squashfs) |
+	dialog --title " $(gettext "Install NuTyX") " --gauge "$(gettext "Please wait") ..." 6 50
+
+	rm -rfv ${2}/boot &> /dev/tty3
+	chmod -v 750 ${2}/root &> /dev/tty3
+	mkdir -v ${2}/boot &> /dev/tty3
 	echo "$PARTITION   /    $FORMAT  defaults     0    0" >> /etc/fstab
 	if [ -d "$EFIVARS" ]; then
 		mkdir -p ${2}/boot/efi
 		echo "efivarfs    /sys/firmware/efi/efivars    efivarfs    rw,nosuid,nodev,noexec,noatime 0 0" >> /etc/fstab
 	else
-		mkdir -p ${2}/boot
+		mkdir -pv ${2}/boot &> /dev/tty2
 	fi
 
 	for FILE in etc/profile.d/i18n.sh \
@@ -1550,41 +1578,41 @@ install_grat-os() {
 	etc/network \
 	etc/resolv.conf \
 	etc/mdadm.conf \
+	etc/vconsole.conf \
 	$TEXTDOMAINFILE
 	do
 		if [ -f /$FILE ] || [ -d /$FILE ] || [ -L /$FILE ];then
-			cp -a /$FILE  ${2}/$FILE
+			mkdir -p $(dirname ${2}/$FILE)
+			cp -av /$FILE  ${2}/$FILE &> /dev/tty3
 		fi
 	done
 	if [ -f /etc/locale/locale-archive ]; then
-		rm -f ${2}/usr/lib/locale
-		cp -a /etc/locale ${2}/usr/lib/
+		rm -fv ${2}/usr/lib/locale &> /dev/tty3
+		cp -av /etc/locale ${2}/usr/lib/ &> /dev/tty3
 	fi
-	cp -a ${1}/boot/kernel* ${2}/boot/
-	for i in /lib/modules/*
-	do
-		j=$(basename $i)
-		ke=-$(echo $j|cut -d "-" -f4)
-		[ ${#ke} == 1 ] && ke=""
-		ln -sf kernel-$j ${2}/boot/kernel$ke
-	done
+	# Kernel and initrd
+	cp -av ${1}/boot/kernel* ${2}/boot/ &> /dev/tty3
+
+
+	cp -av ${1}/boot/initrd* ${2}/boot/ &> /dev/tty3
+
+
 	if  [ -f ${1}/boot/grub/splash.png ]; then
-		mkdir -p ${2}/boot/grub/
-		cp ${1}/boot/grub/splash.png ${2}/boot/grub/
+		mkdir -pv ${2}/boot/grub/ &> /dev/tty3
+		cp -v ${1}/boot/grub/splash.png ${2}/boot/grub/ &> /dev/tty3
 	fi
 	if [ -f ${1}/boot/grub/fonts/unicode.pf2 ]; then
-		mkdir -p ${2}/boot/grub/fonts
-		cp ${1}/boot/grub/fonts/unicode.pf2 ${2}/boot/grub/fonts
+		mkdir -pv ${2}/boot/grub/fonts &> /dev/tty3
+		cp -v ${1}/boot/grub/fonts/unicode.pf2 ${2}/boot/grub/fonts &> /dev/tty3
 	fi
 	for DIR in proc sys dev srv mnt tmp
 	do
-		[ ! -d ${2}/$DIR ] &&	mkdir ${2}/$DIR
+		[ ! -d ${2}/$DIR ] &&	mkdir -v ${2}/$DIR &> /dev/tty3
 	done
-	[ -a ${2}/dev/console ] || mknod -m 640 ${2}/dev/console c 5 1
-	[ -a ${2}/dev/null ] || mknod -m 664 ${2}/dev/null    c 1 3
-	chmod 1777 ${2}/tmp
-	echo "100") |
-	dialog --title "$(gettext "Install Grat-OS")" --gauge "$(gettext "Please wait") ..." 6 50
+	[ -a ${2}/dev/console ] || mknod -m 640 ${2}/dev/console c 5 1 &> /dev/tty3
+	[ -a ${2}/dev/null ] || mknod -m 664 ${2}/dev/null    c 1 3 &> /dev/tty3
+	chmod -v 1777 ${2}/tmp &> /dev/tty2
+
 	$SETUP_LOG "setup-grat-os" "Install Grat-OS on ${PARTITION} done"
 	if [ -f /var/log/install.log ]; then
 		cp -a /var/log/install.log  ${2}/var/log/install.log
@@ -1593,22 +1621,21 @@ install_grat-os() {
 setup_erase() {
 	local MF retval
 	retval=""
-	if [ "$CHECK_HD_OK" == "no" ]; then
-		check_available_disk
-		[ "$CHECK_HD_OK" == "no" ] && return
-	fi
-	if [ "$CHECK_PART_OK" == "no" ]; then
-		check_available_partition
-		[ "$CHECK_PART_OK" == "no" ] && return
-	fi
-	echo "PARTITION=$PARTITION" > /dev/tty2
-	echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION" > /dev/tty2
+
+	[ "$CHECK_HD_OK" == "yes" ] || check_available_disk
+	[ "$CHECK_HD_OK" == "yes" ] || return
+
+	[ "$CHECK_PART_OK" == "no" ] && check_available_partition
+	[ "$CHECK_PART_OK" == "no" ] && return
+
+	echo "PARTITION=$PARTITION (1706)" > /dev/tty2
+	echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION (${LINENO})" > /dev/tty2
 	[ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
 	if [ -z $PARTITION ]; then
 		select_partition "$(gettext "Erase") Grat-OS"
 		[ "$PARTITION" == "no" ] && return
 	fi
-	echo "PARTITION=$PARTITION" > /dev/tty2
+	echo "PARTITION=$PARTITION (1713)" > /dev/tty2
 	SETUP_INSTALL="no"
 	MF=/mnt/hd
 	mkdir -p $MF
@@ -1621,30 +1648,55 @@ setup_erase() {
 	umount $PARTITION
 }
 setup_install() {
+	echo "Entering setup_install()" > /dev/tty2
+
+	[ "$CHECK_HD_OK" == "yes" ] || check_available_disk
+	[ "$CHECK_HD_OK" == "yes" ] || return
+
 	local MF retval
 	retval=""
-  if [ "$CHECK_HD_OK" == "no" ]; then
-    check_available_disk
-    [ "$CHECK_HD_OK" == "no" ] && return
-  fi
-  if [ "$CHECK_PART_OK" == "no" ]; then
-    check_available_partition
-    [ "$CHECK_PART_OK" == "no" ] && return
-  fi
-	echo "PARTITION=$PARTITION" > /dev/tty2
-	echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION" > /dev/tty2
+
+	echo "PARTITION=$PARTITION (${LINENO})
+CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION (${LINENO})
+CHECK_PART_OK=$CHECK_PART_OK (${LINENO})
+CHECK_HD_OK=$CHECK_HD_OK (${LINENO})
+PARTITION=$PARTITION (${LINENO})" > /dev/tty2
+
+	[ "$CHECK_PART_OK" == "no" ] && check_available_partition
+	[ "$CHECK_PART_OK" == "no" ] && return
+
 	[ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
+
+	echo "PARTITION=$PARTITION (${LINENO})
+CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION (${LINENO})
+CHECK_PART_OK=$CHECK_PART_OK (${LINENO})" > /dev/tty2
+
 	if [ -z $PARTITION ]; then
 		select_partition "$(gettext "Install Grat-OS")"
+		[ "$PARTITION" == "no" ] && setup_format
 		[ "$PARTITION" == "no" ] && return
 	fi
-	echo "PARTITION=$PARTITION" > /dev/tty2
-	FORMAT=`print_file_system $PARTITION`
-	echo "FORMAT=$FORMAT" > /dev/tty2
-	if [ "$FORMAT" == "no" ]; then
-		setup_format
-		[ "$FORMAT" == "no" ] && return
+
+	echo "PARTITION=$PARTITION (1806)" > /dev/tty2
+
+	if [ "$CHECK_PART_OK" == "new" ]; then
+		mkfs.ext4 -F $PARTITION > /dev/tty2 || error "mkfs.ext4 $PARTITION"
+		$SETUP_LOG "setup-grat-os" "mkfs.ext4 -F $PARTITION"
+		if [ -d "$EFIVARS" ]; then
+			mkfs.vfat  $EFI_SYS_PART > /dev/tty2 || error "mkfs.vfat $EFI_SYS_PART"
+			$SETUP_LOG "setup-grat-os" "mkfs.vfat $EFI_SYS_PART"
+		fi
 	fi
+	FORMAT="$(print_file_system $PARTITION)"
+	echo "FORMAT $PARTITION=$FORMAT (${LINENO})" > /dev/tty2
+	if [ "$FORMAT" == "ntfs" ]; then
+		setup_partition
+		return
+	fi
+
+	[ "$FORMAT" == "no" ] && setup_format
+	[ "$FORMAT" == "no" ] && return
+
 	SETUP_INSTALL="no"
 	MF=/mnt/hd
 	mkdir -p $MF
@@ -1661,7 +1713,29 @@ setup_install() {
 	SETUP_INSTALL="yes"
 	echo "$PARTITION" > /root/boot
 	echo "$PARTITION" > $TMP/boot
-	if [ ! -d "$EFIVARS" ];then
+	echo "CHECK_PART_OK=$CHECK_PART_OK (${LINENO})" > /dev/tty2
+	if [ "$CHECK_PART_OK" == "new" ]; then
+		setup_grub
+		return
+	fi
+	if [ -d "$EFIVARS" ];then
+		FORMAT="no"
+		[ ! -z $EFI_SYS_PART ] && FORMAT="$(print_file_system $EFI_SYS_PART)"
+		echo "EFI_SYS_PART=$EFI_SYS_PART (${LINENO})" > /dev/tty2
+		echo "$EFI_SYS_PART FORMAT=$FORMAT (${LINENO})" > /dev/tty2
+		if [ "$FORMAT" == "vfat" ];then
+			dialog --title "   $(gettext "Configuration of the boot of the computer") (GRUB)   " \
+			--yesno "$(gettext "Configure the boot of the PC") ? " 0 0
+			retval=$?
+			case $retval in
+				0)
+					setup_grub;;
+			esac
+		else
+			dialog --title "   Oups !!!  " \
+			--msgbox "    $(gettext "This installation won't boot again ...")" 6 60
+		fi
+	else
 		dialog --title "   $(gettext "Configuration of the boot of the computer") (GRUB)   " \
 		--yesno "$(gettext "Configure the boot of the PC") ? " 0 0
 		retval=$?
@@ -1669,33 +1743,6 @@ setup_install() {
 			0)
 				setup_grub;;
 		esac
-	else
-		FORMAT="no"
-		[ ! -z $EFI_SYS_PART ] && FORMAT=`print_file_system $EFI_SYS_PART`
-		if [ "$FORMAT" == "vfat" ];then
-			dialog --title " $(gettext "Choose your favorite Boot Manager") " \
-				--menu "$(gettext "Grub, Efibootmgr or nothing"): $result" 15 60 3 \
-			        "Grub" "$(gettext "Advanced Linux Kernel boot manager")" \
-				"Nothing" "$(gettext "To use the one used on other distro")" 2>$TMP/boot_choice
-		        retval=$?
-		        boot_choice=`cat $TMP/boot_choice`
-		        case $retval in
-		                0|2)
-				        case $boot_choice in
-						Grub)
-				                        setup_grub_efi "$MF";;
-						Nothing)
-							continue;;
-					esac
-				;;
-				1|2544)
-				break
-				;;
-			esac
-		else
-			dialog --title "   Oups !!!  " \
-			--msgbox "    $(gettext "This installation won't boot again ...")" 6 60
-		fi
 	fi
 }
 MBR_ok() {
@@ -1718,229 +1765,19 @@ $(gettext "an simplify VI editor will allow you to modify it").\n\n \
 			vi $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE;;
 	esac
 }
-
-setup_grub_efi() {
-        local GRUB_CONFIG_FILE GRUB_CONFIG_DIR GRUB_DESTINATION_DIR GRUB_LOG_FILE
-        GRUB_CONFIG_FILE="grub.cfg"
-        GRUB_CONFIG_DIR=""
-        GRUB_DESTINATION_DIR=""
-        GRUB_LOG_FILE=$TMP/grub.log
-        if [ "$CHECK_HD_OK" == "no" ]; then
-                check_available_disk
-                [ "$CHECK_HD_OK" == "no" ] && return
-        fi
-        if [ "$CHECK_PART_OK" == "no" ]; then
-                check_available_partition
-                [ "$CHECK_PART_OK" == "no" ] && return
-        fi
-        if [ -z $DISK ]; then
-                select_disk "$(gettext "Configure the boot of the PC")"
-                [ "$DISK" == "no" ] && return
-        fi
-        if [ "$SETUP_INSTALL" != "yes" ]; then
-                [ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
-        fi
-        if [ -z $PARTITION ]; then
-                select_partition "$(gettext "Configure the boot of the PC")"
-                [ "$PARTITION" == "no" ] && return
-        fi
-        FORMAT=`print_file_system $PARTITION`
-        if [ "$FORMAT" == "no" ]; then
-                setup_format
-                [ "$FORMAT" == "no" ] && return
-        fi
-        # We saved the current MBR if no yet saved
-#       dd if=$DISK of=$TMP/MBR bs=512 count=1 2>/dev/null
-        # Copy all the necessary files
-        mkdir $TMP/boot_partition
-        mount $PARTITION $TMP/boot_partition
-        echo "$PARTITION" > $TMP/boot_part
-        if [ -d $TMP/boot_partition/boot ]; then
-                # Grat-OS is installed means we install GRUB after install
-                GRUB_DESTINATION_DIR="boot/"
-        fi
-        GRUB_CONFIG_DIR="$TMP/boot_partition/${GRUB_DESTINATION_DIR}grub"
-        mkdir $GRUB_CONFIG_DIR 2> /dev/null
-
-	local SPNR OPTIONS
-        OPTIONS=$(cat /proc/cmdline|sed "s@BOOT_IMAGE=/boot/kernel\ @@")
-        SPNR=$(echo $PARTITION|sed "s@^/dev/[a-z]*@@")
-        mount -t efivarfs efivarfs /sys/firmware/efi/efivars
-        mkdir -p $TMP/boot_partition/boot/efi
-        mount "$EFI_SYS_PART" $TMP/boot_partition/boot/efi
-        mkdir -p $TMP/boot_partition/boot/efi/EFI
-        rm -f $TMP/boot_partition/boot/efi/EFI/BOOT/$SPNR/* 2>/dev/null
-
-#       if [ -f $GRUB_CONFIG_DIR/MBR.original ]; then
-#               dialog --title " !!! Oups !!!! " \
-#               --msgbox " $(gettext "You already have a copy of the original MBR, I will not make a backup of it") " \
-#               6 50
-#       else
-#               cp $TMP/MBR $GRUB_CONFIG_DIR/MBR.original
-#               dialog --title " $(gettext "Good to know") " \
-#               --msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your Grat-OS. It will then be possible to restore it if need") " 10 60
-#       fi
-        if [ ! -f $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE ]; then
-                cat > $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE << "EOF"
-# Begin grub.cfg
-# By default boot the first menu entry.
-set default=0
-# Allow 5 seconds before booting the default.
-set timeout=5
-
-insmod all_video
-if loadfont /boot/grub/fonts/unicode.pf2; then
- set gfxmode=800x600
- insmod efi_gop
- insmod efi_uga
- insmod video_bochs
- insmod video_cirrus
- insmod gfxterm
- insmod png
- terminal_output gfxterm
-fi
-
-if background_image /boot/grub/splash.png; then
-  set color_normal=light-gray/black
-  set color_highlight=white/black
-else
-  set color_normal=cyan/blue
-  set color_highlight=white/blue
-fi
-
-EOF
-        fi
-        # Writing of NEW MBR
-        BOOT_FS="$(print_file_system $PARTITION)"
-        LANG=C /sbin/grub-install --recheck --force --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} --target=x86_64-efi ${DISK} > ${GRUB_LOG_FILE} 2>&1
-        if ! (grep finished ${GRUB_LOG_FILE} > /dev/null); then
-                echo "/sbin/grub-install --recheck --force --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} --target=x86_64-efi [`echo $DISK`]" >> ${GRUB_LOG_FILE}
-                mount >> ${GRUB_LOG_FILE}
-                echo "DISK=${DISK}" >> ${GRUB_LOG_FILE}
-                echo "GRUB_DESTINATION_DIR=${GRUB_DESTINATION_DIR}" >> ${GRUB_LOG_FILE}
-                echo "GRUB_CONFIG_DIR=${GRUB_CONFIG_DIR}" >> ${GRUB_LOG_FILE}
-                echo "GratOS_PART=${GratOS_PART}" >> ${GRUB_LOG_FILE}
-                echo "BOOT_FS=${BOOT_FS}" >> ${GRUB_LOG_FILE}
-                echo "GratOS_FS=${GratOS_FS}" >> ${GRUB_LOG_FILE}
-                echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
-                env >> ${GRUB_LOG_FILE}
-                # Restore MBR
-                dd if=$TMP/MBR of=$DISK bs=512 count=1 > 2/dev/null
-                dialog --title " $(gettext "Something went wrong probably the file system is not supported") " \
-                --msgbox "$(cat ${GRUB_LOG_FILE})" 30 70
-		umount $TMP/boot_partition/boot/efi
-                umount $TMP/boot_partition
-                umount /mnt/hd 2>/dev/null
-                error "Sorry, I cannot install GRUB" # die now
-        fi
-        if [ -f $TMP/boot ]; then
-                #
-                # The $TMP/boot file contains the Grat-OS partition
-                #
-                GratOS_PART="$(cat $TMP/boot)"
-                BOOT_FS="$(print_file_system $PARTITION)"
-                GratOS_FS="$(print_file_system $GratOS_PART)"
-                echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${GratOS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"Grat-OS LTS Verbose ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "  linux /${GRUB_DESTINATION_DIR}kernel-lts root=${GratOS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " "  >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"Grat-OS ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " linux /${GRUB_DESTINATION_DIR}kernel root=${GratOS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo " " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "menuentry \"Grat-OS Verbose ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "  linux /${GRUB_DESTINATION_DIR}kernel root=${GratOS_PART} ro " >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "#  initrd /${GRUB_DESTINATION_DIR}initrd" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-                echo "}" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
-
-        else
-                #
-                # Grat-OS is not yet installed
-                #
-                cat >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}  << "EOF"
-#################################################################
-#                                                               #
-#               Example of a menuentry:                         #
-#                                                               #
-#   The Grat-OS distribution to boot from is located:          #
-#      on the SECOND harddisk ( HDD 2 ) AND                     #
-#      the second harddisk has THREE partitions.                #
-#      Grat-OS IS installed on the third partition.            #
-#                                                               #
-# NOTE:                                                         #
-# -----                                                         #
-#                                                               #
-#  ==>>>    Harddisk start AT ZERO                              #
-#  ==>>>    Partition start AT ONE                              #
-#                                                               #
-# We need to inform GRUB that we use the kernel on              #
-# the Partition Number 3 of Harddisk Number 2                   #
-#                                                               #
-#  ======>  set root=(hd1,3)                                    #
-#                                                               #
-# And we need to inform the kernel to look at the right place:  #
-#                                                               #
-#  ======>  root=/dev/sdb3                                      #
-#                                                               #
-#           Below the menuentry of this example:                #
-#       ( adjust to your needs and remove the '#' )             #
-#                                                               #
-#################################################################
-#
-#menuentry  "Harddisk number 2 and partition number 3" {
-#   set root=(hd1,3)
-#   linux /boot/kernel-lts root=/dev/sdb3 ro quiet verbose=no
-#}
-#
-# The same one for debug purpose:
-#
-#menuentry  "Harddisk number 2 and partition number 3 verbose mode" {
-#   set root=(hd1,3)
-#   linux /boot/kernel-lts root=/dev/sdb3 ro
-#}
-#
-# An other one with initrd and rootdelay (to use with USB stick for ex)
-#
-#menuentry  "Harddisk number 2 and partition number 1 with initrd" {
-#   set root=(hd1,1)
-#   linux /boot/kernel-lts root=/dev/sdb1 ro rootdelay=5
-#   initrd /boot/initrd-lts
-#}
-#
-EOF
-                if [ ! -f $TMP/boot_partition/${GRUB_DESTINATION_DIR}initrd ]; then
-                        cp /media/cdrom/boot/initrd \
-                        $TMP/boot_partition/${GRUB_DESTINATION_DIR}initrd 2> /dev/null
-                        cp /media/cdrom/boot/kernel \
-                        $TMP/boot_partition/${GRUB_DESTINATION_DIR}kernel 2> /dev/null
-                fi
-                MBR_ok
-        fi
-	umount "$EFI_SYS_PART"
-        umount $PARTITION
-}
-
 setup_grub() {
-	local GRUB_CONFIG_FILE GRUB_CONFIG_DIR GRUB_DESTINATION_DIR GRUB_LOG_FILE
+	local GRUB_CONFIG_FILE GRUB_CONFIG_DIR GRUB_DESTINATION_DIR GRUB_LOG_FILE SPNR OPTIONS TARGET
 	GRUB_CONFIG_FILE="grub.cfg"
 	GRUB_CONFIG_DIR=""
 	GRUB_DESTINATION_DIR=""
 	GRUB_LOG_FILE=$TMP/grub.log
-	if [ "$CHECK_HD_OK" == "no" ]; then
-		check_available_disk
-		[ "$CHECK_HD_OK" == "no" ] && return
-	fi
-	if [ "$CHECK_PART_OK" == "no" ]; then
-		check_available_partition
-		[ "$CHECK_PART_OK" == "no" ] && return
-	fi
+
+	[ "$CHECK_HD_OK" == "no" ] && check_available_disk
+	[ "$CHECK_HD_OK" == "no" ] && return
+
+	[ "$CHECK_PART_OK" == "no" ] && check_available_partition
+	[ "$CHECK_PART_OK" == "no" ] && return
+
 	if [ -z $DISK ]; then
 		select_disk "$(gettext "Configure the boot of the PC")"
 		[ "$DISK" == "no" ] && return
@@ -1952,16 +1789,35 @@ setup_grub() {
 		select_partition "$(gettext "Configure the boot of the PC")"
 		[ "$PARTITION" == "no" ] && return
 	fi
-	FORMAT=$(print_file_system $PARTITION)
+	FORMAT="$(print_file_system $PARTITION)"
 	if [ "$FORMAT" == "no" ]; then
 		setup_format
 		[ "$FORMAT" == "no" ] && return
 	fi
-	# We saved the current MBR if no yet saved
-#	dd if=$DISK of=$TMP/MBR bs=512 count=1 2>/dev/null
+
+	# If not a new table of partition
+	#  IF not efi mode we saved the current MBR if no yet saved
+	if [ "$CHECK_PART_OK" != "new" ]; then
+		[ -d "$EFIVARS" ] || \
+		dd if=$DISK of=$TMP/MBR bs=512 count=1 2>/dev/null
+	fi
 	# Copy all the necessary files
 	mkdir $TMP/boot_partition
 	mount $PARTITION $TMP/boot_partition
+
+	if [ -d "$EFIVARS" ];then
+		[ "$(uname -m)" == "x86_64" ] && TARGET="--target=x86_64-efi"
+		[ "$(uname -m)" == "i686" ] && TARGET="--target=i386-efi"
+
+		OPTIONS=$(cat /proc/cmdline|sed "s@BOOT_IMAGE=/boot/kernel\ @@")
+		SPNR=$(echo $PARTITION|sed "s@^/dev/[a-z]*@@")
+		mountpoint /sys/firmware/efi/efivars > /dev/tty2 || mount -t efivarfs efivarfs /sys/firmware/efi/efivars || error "mount -t efivarfs efivarfs /sys/firmware/efi/efivars"
+		mkdir -p $TMP/boot_partition/boot/efi || error "mkdir -p $TMP/boot_partition/boot/efi"
+		mount "$EFI_SYS_PART" $TMP/boot_partition/boot/efi || error "mount $EFI_SYS_PART"
+		mkdir -p $TMP/boot_partition/boot/efi/EFI/ || error "mkdir -p $TMP/boot_partition/boot/efi/EFI"
+		rm -f $TMP/boot_partition/boot/efi/EFI/BOOT/$SPNR/* 2>/dev/null
+	fi
+
 	echo "$PARTITION" > $TMP/boot_part
 	if [ -d $TMP/boot_partition/boot ]; then
 		# Grat-OS is installed means we install GRUB after install
@@ -1969,15 +1825,19 @@ setup_grub() {
 	fi
 	GRUB_CONFIG_DIR="$TMP/boot_partition/${GRUB_DESTINATION_DIR}grub"
 	mkdir $GRUB_CONFIG_DIR 2> /dev/null
-#	if [ -f $GRUB_CONFIG_DIR/MBR.original ]; then
-#		dialog --title " !!! Oups !!!! " \
-#		--msgbox " $(gettext "You already have a copy of the original MBR, I will not make a backup of it") " \
-#		6 50
-#	else
-#		cp $TMP/MBR $GRUB_CONFIG_DIR/MBR.original
-#		dialog --title " $(gettext "Good to know") " \
-#		--msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your Grat-OS. It will then be possible to restore it if need") " 10 60
-#	fi
+	if [ ! -d "$EFIVARS" ];then
+		if [ -f $GRUB_CONFIG_DIR/MBR.original ]; then
+			dialog --title " !!! Oups !!!! " \
+			--msgbox " $(gettext "You already have a copy of the original MBR, I will not make a backup of it") " \
+			6 50
+		else
+			if [ -f $TMP/MBR ]; then
+				cp $TMP/MBR $GRUB_CONFIG_DIR/MBR.original
+				dialog --title " $(gettext "Good to know") " \
+				--msgbox " $(gettext "A copy of the original MBR is saved in the folder /boot/grub of your Grat-OS. It will then be possible to restore it if need") " 10 60
+			fi
+		fi
+	fi
 	if [ ! -f $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE ]; then
 		cat > $GRUB_CONFIG_DIR/$GRUB_CONFIG_FILE << "EOF"
 # Begin grub.cfg
@@ -2010,20 +1870,20 @@ EOF
 	fi
 	# Writing of NEW MBR
 	BOOT_FS="$(print_file_system $PARTITION)"
-	LANG=C /sbin/grub-install --recheck --force --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} ${DISK} > ${GRUB_LOG_FILE} 2>&1
+	LANG=C /sbin/grub-install --recheck --force $TARGET --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} ${DISK} > ${GRUB_LOG_FILE} 2>&1
 	if ! (grep finished ${GRUB_LOG_FILE} > /dev/null); then
-		echo "/sbin/grub-install --recheck --force --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} [`echo $DISK`]" >> ${GRUB_LOG_FILE}
+		echo "/sbin/grub-install --recheck --force $TARGET --boot-directory=$TMP/boot_partition/${GRUB_DESTINATION_DIR} [`echo $DISK`]" >> ${GRUB_LOG_FILE}
 		mount >> ${GRUB_LOG_FILE}
-		echo "DISK=${DISK}" >> ${GRUB_LOG_FILE}
-echo "GRUB_DESTINATION_DIR=${GRUB_DESTINATION_DIR}" >> ${GRUB_LOG_FILE}
-echo "GRUB_CONFIG_DIR=${GRUB_CONFIG_DIR}" >> ${GRUB_LOG_FILE}
-echo "GratOS_PART=${GratOS_PART}" >> ${GRUB_LOG_FILE}
-echo "BOOT_FS=${BOOT_FS}" >> ${GRUB_LOG_FILE}
-echo "GratOS_FS=${GratOS_FS}" >> ${GRUB_LOG_FILE}
-echo "PATH=$PATH" >> ${GRUB_LOG_FILE}
+		echo "DISK=${DISK}
+GRUB_DESTINATION_DIR=${GRUB_DESTINATION_DIR}
+GRUB_CONFIG_DIR=${GRUB_CONFIG_DIR}
+GratOS_PART=${GratOS_PART}
+BOOT_FS=${BOOT_FS}
+GratOS_FS=${GratOS_FS}
+PATH=$PATH" >> ${GRUB_LOG_FILE}
 		env >> ${GRUB_LOG_FILE}
-		# Restore MBR
-		dd if=$TMP/MBR of=$DISK bs=512 count=1 > 2/dev/null
+		# Restore MBR if exist
+		[ -f $TMP/MBR ] && dd if=$TMP/MBR of=$DISK bs=512 count=1 > 2/dev/null
 		dialog --title " $(gettext "Something went wrong probably the file system is not supported") " \
 		--msgbox "`cat ${GRUB_LOG_FILE}`" 30 70
 		umount $TMP/boot_partition
@@ -2120,6 +1980,7 @@ EOF
 		fi
 		MBR_ok
 	fi
+	[ -d "$EFIVARS" ] && umount "$EFI_SYS_PART"
 	umount $PARTITION
 }
 setup_reboot() {
@@ -2137,36 +1998,20 @@ setup_reboot() {
 	/sbin/reboot -f
 }
 setup_advanced_initrd() {
-	if [ -d "$EFIVARS" ]; then
-		dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
-		--colors --menu "    $(gettext "Advanced Menu")   "  0 0 0 \
-		"$(gettext "Help")" "$(gettext "How to do it") ? " \
-		"$(gettext "Keyboard")" "$(gettext "Configure the keyboard") ($(gettext "optional"))" \
-		"$(gettext "Partitioning")" "$(gettext "Create all your partitions") ($(gettext "optional"))" \
-		"$(gettext "Format")" "$(gettext "Format a partition") ($(gettext "optional"))" \
-		"$(gettext "Install")" "$(gettext "Install Grat-OS")" \
-		"$(gettext "Clock")" "$(gettext "Date and time settings") ($(gettext "optional"))" \
-		"$(gettext "Console")" "$(gettext "Open a console")" \
-		"$(gettext "Erase")" "$(gettext "Erase") Grat-OS" \
-		"$(gettext "Restart")" "$(gettext "Reboot the PC")" \
-		"$(gettext "Main")" "$(gettext "Main Menu")" \
-		2>$TMP/choix
-	else
-		dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
-		--colors --menu "    $(gettext "Main Menu")   "  0 0 0 \
-		"$(gettext "Help")" "$(gettext "How to do it") ? " \
-		"$(gettext "Keyboard")" "$(gettext "Configure the keyboard") ($(gettext "optional"))" \
-		"$(gettext "Partitioning")" "$(gettext "Create all your partitions") ($(gettext "optional"))" \
-		"$(gettext "Format")" "$(gettext "Format a partition") ($(gettext "optional"))" \
-		"$(gettext "Boot Bios")" "$(gettext "Configure the boot of the PC") ($(gettext "optional")) ($(gettext "skilled"))" \
-		"$(gettext "Install")" "$(gettext "Install Grat-OS")" \
-		"$(gettext "Clock")" "$(gettext "Date and time settings") ($(gettext "optional"))" \
-		"$(gettext "Console")" "$(gettext "Open a console")" \
-		"$(gettext "Erase")" "$(gettext "Erase") Grat-OS" \
-		"$(gettext "Restart")" "$(gettext "Reboot the PC")" \
-		"$(gettext "Main")" "$(gettext "Main Menu")" \
-		2>$TMP/choix
-	fi
+	dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
+	--colors --menu "    $(gettext "Advanced Menu")   "  0 0 0 \
+	"$(gettext "Help")" "$(gettext "How to do it") ? " \
+	"$(gettext "Keyboard")" "$(gettext "Configure the keyboard") ($(gettext "optional"))" \
+	"$(gettext "Partitioning")" "$(gettext "Create all your partitions") ($(gettext "optional"))" \
+	"$(gettext "Boot")" "$(gettext "Configure the boot of the PC") ($(gettext "optional")) ($(gettext "skilled"))" \
+	"$(gettext "Format")" "$(gettext "Format a partition") ($(gettext "optional"))" \
+	"$(gettext "Install")" "$(gettext "Install Grat-OS")" \
+	"$(gettext "Clock")" "$(gettext "Date and time settings") ($(gettext "optional"))" \
+	"$(gettext "Console")" "$(gettext "Open a console")" \
+	"$(gettext "Erase")" "$(gettext "Erase") Grat-OS" \
+	"$(gettext "Restart")" "$(gettext "Reboot the PC")" \
+	"$(gettext "Main")" "$(gettext "Main Menu")" \
+	2>$TMP/choix
 	retval=$?
 	choice=$(cat $TMP/choix)
 	case $retval in
@@ -2183,8 +2028,6 @@ setup_advanced_initrd() {
 				fi
 				;;
 			"$(gettext "Install")")
-				echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION" > /dev/tty2
-				[ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
 				setup_install
 				;;
 			"$(gettext "Partitioning")")
@@ -2195,10 +2038,14 @@ setup_advanced_initrd() {
 				[ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
 				setup_format
 				;;
-			"$(gettext "Boot Bios")")
+			"$(gettext "Boot")")
 				echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION" > /dev/tty2
 				[ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
-				setup_grub
+				if [ -d "$EFIVARS" ]; then
+					setup_grub "efi"
+				else
+					setup_grub
+				fi
 				;;
 			"$(gettext "Keyboard")")
 				setup_keymap
@@ -2238,6 +2085,7 @@ setup_advanced_initrd() {
 setup_initrd() {
 	dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
 	--colors --menu "    $(gettext "Main Menu")   "  0 0 0 \
+	"$(gettext "Help")" "$(gettext "How to do it") ? " \
 	"$(gettext "Install")" "$(gettext "Install Grat-OS")" \
 	"$(gettext "Advanced")" "$(gettext "Advanced Menu")" \
 	2>$TMP/choix
@@ -2257,8 +2105,6 @@ setup_initrd() {
 				fi
 				;;
 			"$(gettext "Install")")
-				echo "CHECK_SINGLE_PARTITION=$CHECK_SINGLE_PARTITION" > /dev/tty2
-				[ "$CHECK_SINGLE_PARTITION" == "no" ] && unset PARTITION
 				setup_install
 				;;
 		esac
@@ -2273,19 +2119,22 @@ setup_initrd() {
 
 }
 check_esp() {
-	local FORMAT FIRST_DISK
+	local FORMAT
 	unset EFI_SYS_PART
-	FIRST_DISK=`for i in $DISK_LIST;do echo $i;break;done`
-	for VAR in `blkid $FIRST_DISK -o export`
+	for i in $DISK_LIST
 	do
-		local $VAR
+		for VAR in $(blkid $i -o export)
+		do
+			local $VAR
+		done
+		EFI_SYS_PART="`(LANGUAGE=C fdisk $i -l -o device,type|grep EFI|cut -d " " -f1)`"
+		[ "$PTTYPE" == "gpt" ] && break
 	done
 	if [ "$PTTYPE" != "gpt" ]; then
 		dialog --title "   Hmmmm   " \
 		--msgbox "    $(gettext "GPT partition table not found")" 6 60
 	else
-		EFI_SYS_PART="`(LANGUAGE=C fdisk ${FIRST_DISK} -l -o device,type|grep EFI|cut -d " " -f1)`"
-
+		echo "EFI_SYS_PART=$EFI_SYS_PART (${LINENO})" > /dev/tty2
 		if [ -z "${EFI_SYS_PART}" ];then
 			dialog --title "   Hmmmm   " \
 			--msgbox "    $(gettext "EFI partition not found")" 6 60
@@ -2295,6 +2144,7 @@ check_esp() {
 setup_esp() {
 	local FORMAT
 	check_esp
+	echo "EFI_SYS_PART: $EFI_SYS_PART (${LINENO})" > /dev/tty2
 	if [ ! -z $EFI_SYS_PART ]; then
 		FORMAT="$(print_file_system $EFI_SYS_PART)"
 		if [ "$FORMAT" != "vfat" ]; then
@@ -2321,19 +2171,20 @@ $(gettext "Are you sure you want to continue ?")" 7 60
 }
 check_swap() {
 	unset SWAP_LIST
-	SWAP_LIST="$(LANGUAGE=C fdisk -l -o device,type|grep swap|cut -d ' ' -f1)"
+	SWAP_LIST="`(LANGUAGE=C fdisk -l -o device,type|grep swap|cut -d " " -f1)`"
 	if [ -z "${SWAP_LIST}" ];then
 		dialog --title "   Hmmmm   " \
 	--msgbox "    $(gettext "Swap partition not found")" 6 60
 	fi
 }
 setup_swap() {
-for i in ${SWAP_LIST}
-do
-	$SETUP_LOG "setup-grat-os" "swap partition $i added in /etc/fstab"
-	echo "$i swap     swap       pri=1             0     0" >> /etc/fstab
-	[ $(print_file_system $i) == "swap" ] || mkswap $i 2>1 > /dev/null
-done
+	for i in ${SWAP_LIST}
+	do
+		$SETUP_LOG "setup-grat-os" "swap partition $i added in /etc/fstab"
+		echo "$i swap     swap       pri=1             0     0" >> /etc/fstab
+		[ $(print_file_system $i) == "swap" ] || mkswap $i 2>1 > /dev/null
+		/usr/sbin/swapon -v  $i &> /dev/tty2
+	done
 }
 config_all() {
 	echo "config the system"
@@ -2469,11 +2320,11 @@ check_all () {
 		fi
 		[ -r ${LOCALE} ] || SETUP_CONFIG_LANGUAGE="yes"
 	fi
-	if [ ! -r ${CONSOLE} ];then
+	if [ ! -r ${VCONSOLE} ];then
 		SETUP_CONFIG_KEYBOARD="yes"
 		RV=$((RV+1))
 	fi
-	if [ -z ${NETWORK} ];then
+	if [ ! -r ${NETWORK} ];then
 		SETUP_CONFIG_NETWORK="yes"
 		RV=$((RV+2))
 	fi
@@ -2506,11 +2357,7 @@ top_loop() {
 			dialog --title "   $(gettext "Welcome to the Grat-OS installer")   " \
 				--msgbox "    $(gettext "You can remove the ISO media now.")" 6 60
 		fi
-		if [ -d "$EFIVARS" ]; then
-			setup_help_efi
-		else
-			setup_help
-		fi
+		check_available_disk
 		while [ "$SETUP_INSTALL" = "no" ];do
 				[ "$SETUP_CONFIG_LANGUAGE" = "yes" ] && LANG=fr_FR.utf8 setup_language
 				[ "$SETUP_INSTALL" = "no" ] && setup_initrd
@@ -2539,8 +2386,9 @@ check_root () {
 	fi
 }
 main () {
+	TMP="$(mktemp -d)"
 	parse_options "$@"
-	TMP=$(mktemp -d)
+
 	if [ "$SETUP_INITRD" == "yes" ]; then
 		SETUP_CONFIG_LANGUAGE="yes"
 		SETUP_INSTALL="no"
@@ -2582,9 +2430,9 @@ SETUP_LOG="setup-grat-os-log"
 CARDS="/etc/cards.conf"
 XORGKB="/etc/X11/xorg.conf.d/20-keyboard.conf"
 WAYLKB="/etc/profile.d/keyboard.sh"
-CONSOLE="/etc/vconsole.conf"
-LOCALE="/etc/locale.conf"
-PROFILELOCALE="/etc/profile.d/i18n.sh"
+VCONSOLE="/etc/vconsole.conf"
+LOCALE="/etc/profile.d/i18n.sh"
+LOCALECONF="/etc/locale.conf"
 LOCALTIME="/etc/localtime"
 ZONEINFO="/usr/share/zoneinfo/"
 NETWORK="$(ls /etc/systemd/network/* 2>/dev/null|head -1)"
@@ -2604,6 +2452,7 @@ SETUP_CONFIG_WIFI="no"
 CHECK_HD_OK="no"
 CHECK_PART_OK="no"
 CHECK_SINGLE_PARTITION="no"
+CHECK_SINGLE_DISK="no"
 
 SETUP_LXDM_CONFFILE="/etc/lxdm/lxdm.conf"
 
