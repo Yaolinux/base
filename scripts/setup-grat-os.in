@@ -1916,9 +1916,9 @@ PATH=$PATH" >> ${GRUB_LOG_FILE}
 		#
 		# The $TMP/boot file contains the Grat-OS partition
 		#
-		GratOS_PART="`cat $TMP/boot`"
+		Grat²="`cat $TMP/boot`"
 		BOOT_FS="`print_file_system $PARTITION`"
-		GratOS_FS="`print_file_system $Grat-OS_PART`"
+		GratOS_FS="`print_file_system $GratOS_PART`"
 		echo "menuentry \"Grat-OS LTS ${SETUP_ARCH} ${GratOS_FS} on ${GratOS_PART}\" {" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo " linux /${GRUB_DESTINATION_DIR}kernel-lts root=${GratOS_PART} ro quiet verbose=no" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
 		echo "#  initrd /${GRUB_DESTINATION_DIR}initrd-lts" >> ${GRUB_CONFIG_DIR}/${GRUB_CONFIG_FILE}
