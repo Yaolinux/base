@@ -1515,7 +1515,7 @@ setup_format() {
 	esac
 	FORMAT="$(print_file_system $PARTITION)"
 }
-erase_grat-os() {
+erase_gratos() {
 	local DIR REAL
 	cd ${1}/boot
 	if [ -d ${2}/home ];then
@@ -1536,31 +1536,35 @@ erase_grat-os() {
   dialog --title "$(gettext "Erase") Grat-OS" --gauge "$(gettext "Please wait") ..." 6 50
   $SETUP_LOG "setup-grat-os" "Erase Grat-OS on ${PARTITION} done"
 }
-install_grat-os() {
-	local DIR REAL FILE VERSNAME EXT
+install_gratos() {
+	local DIR REAL FILE
 	setup_swap
 	touch /var/log/install.log
 
 	[ -d "$EFIVARS" ] && setup_esp
 
 	cd ${1}/boot
+  MAX=$(ls *squashfs|wc -l)
+  N=0
+
 	if [ -d ${2}/home ];then
 		mv ${2}/{home,.home}
 	fi
 
-	(for DIR in opt bin etc lib lib64 root run sbin usr var
+  for i in *squashfs
 	do
-		[ -d ${2}/$DIR ] && rm -rf ${2}/$DIR &> /dev/tty2
+    DIR=$(echo $i|cut -d "." -f1)
+    unsquashfs -f -n -d ${2}/${DIR} ${i} >/dev/null
+    REAL=$(calc $N/$MAX *100)
+    PCT=${REAL%.*}
+    echo "$PCT"
+    N=$((N+1))
 	done
 
-    echo "1"
+  rm -rfv ${2}/boot &> /dev/tty3
+  chmod 750 ${2}/root &> /dev/tty3
+  mkdir ${2}/boot &> /dev/tty3
 
-	/sbin/unsquash-nutyx -q -f -d ${2} NuTyX.squashfs) |
-	dialog --title " $(gettext "Install NuTyX") " --gauge "$(gettext "Please wait") ..." 6 50
-
-	rm -rfv ${2}/boot &> /dev/tty3
-	chmod -v 750 ${2}/root &> /dev/tty3
-	mkdir -v ${2}/boot &> /dev/tty3
 	echo "$PARTITION   /    $FORMAT  defaults     0    0" >> /etc/fstab
 	if [ -d "$EFIVARS" ]; then
 		mkdir -p ${2}/boot/efi
@@ -1641,9 +1645,9 @@ setup_erase() {
 	mkdir -p $MF
 	mount $PARTITION $MF || error "$(gettext "mounting") $PARTITION"
 	if [ -d /media/cdrom/boot ]; then
-		erase_grat-os "/media/cdrom" "$MF"
+		erase_gratos "/media/cdrom" "$MF"
 	else
-		erase_grat-os "/" "$MF"
+		erase_gratos "/" "$MF"
 	fi
 	umount $PARTITION
 }
@@ -1703,11 +1707,11 @@ CHECK_PART_OK=$CHECK_PART_OK (${LINENO})" > /dev/tty2
 	mount $PARTITION $MF || error "$(gettext "mounting") $PARTITION"
 	if [ -d /media/cdrom/boot ]; then
 		# Installing from ISO
-		install_grat-os "/media/cdrom/" "$MF"
+		install_gratos "/media/cdrom/" "$MF"
 	else
 		# Installing from Maintenance this means
 		# TODO the initrd has to be rebuild at configuration time
-		install_grat-os "/" "$MF"
+		install_gratos "/" "$MF"
 	fi
 	umount $PARTITION
 	SETUP_INSTALL="yes"
