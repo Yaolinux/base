@@ -1,15 +1,10 @@
 #!/usr/bin/env bash
 
-# gettext initialization
-#
 export TEXTDOMAIN='setup-grat-os'
 export TEXTDOMAINDIR='/usr/share/locale'
 . gettext.sh
 . /lib/lsb/init-functions
 
-#
-# Basics functions
-#
 info() {
 	echo -e  " ====> $1"
 }
@@ -212,6 +207,8 @@ setup_user()
 			rm -d /home
 			setup_password
 			SETUP_CONFIG_USER="no"
+      #if you choose to define a root password => you won't use sudo
+      cards remove sudo -f
 			return
 		else
 			if [ "$RESULT" != "user" ] &&  [ "$RESULT" != "" ];then
@@ -2469,10 +2466,6 @@ readonly COMMAND="$0"
 readonly SETUP_ARCH="$(uname -m)"
 readonly VERSION="#VERSION#"
 
-DIALOG_OK=0
-DIALOG_CANCEL=1
-DIALOG_HELP=2
-
 WPA_TOOL="$(which wpa_passphrase)"
 IWCONFIG="$(which iwconfig)"
 
@@ -2507,8 +2500,6 @@ CHECK_HD_OK="no"
 CHECK_PART_OK="no"
 CHECK_SINGLE_PARTITION="no"
 CHECK_SINGLE_DISK="no"
-
-SETUP_LXDM_CONFFILE="/etc/lxdm/lxdm.conf"
 
 main "$@"
 
