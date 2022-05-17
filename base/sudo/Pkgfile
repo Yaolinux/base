@@ -7,7 +7,7 @@ makedepends=(pam)
 
 name=sudo
 version=1.9.10
-release=2
+release=5
 
 source=($url/sudo/dist/$name-$version.tar.gz)
 

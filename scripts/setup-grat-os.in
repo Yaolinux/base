@@ -208,7 +208,7 @@ setup_user()
 			setup_password
 			SETUP_CONFIG_USER="no"
       #if you choose to define a root password => you won't use sudo
-      cards remove sudo -f
+      cards remove sudo -a
 			return
 		else
 			if [ "$RESULT" != "user" ] &&  [ "$RESULT" != "" ];then
