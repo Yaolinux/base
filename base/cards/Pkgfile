@@ -26,7 +26,7 @@ PKGMK_GROUPS=(devel doc man)
 
 name=cards
 version=2.5.0
-release=2
+release=3
 
 #patchname="$name-$version-consolidate-$release.patch"
 
