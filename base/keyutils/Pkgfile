@@ -5,6 +5,7 @@ packager="Grat-OS Team"
 
 name=keyutils
 version=1.6.3
+release=2
 
 source=(https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/keyutils-$version.tar.gz)
 
@@ -14,6 +15,11 @@ unset MAKEFLAGS
 
 cd $name-$version
 
-make
-make DESTDIR=$PKG install
+make CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
+make DESTDIR="$PKG" USRLIBDIR='/usr/lib' install
+
+#Move the .pc file to the correct place
+mkdir -p $PKG/usr/lib/pkgconfig
+mv $PKG/lib/pkgconfig/libkeyutils.pc $PKG/usr/lib/pkgconfig/libkeyutils.pc
+rm -r $PKG/lib/pkgconfig
 }
